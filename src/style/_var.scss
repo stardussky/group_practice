@@ -1,0 +1,64 @@
+$primary: #67d2de;
+$danger: #E15562;
+$white: #ffffff;
+$dark: #666666;
+
+$baseFont: 14px;
+$baseLine: 10px;
+$lineLevel: 1.2;
+$fontLevel: 2px;
+
+@function font($level: 0){
+  @return $baseFont + round($level * $fontLevel);
+}
+@function line($size){
+  @return ceil($size * $lineLevel / $baseLine) * $baseLine;
+}
+@mixin font($level: 0, $lineHeight: null){
+  $size: font($level);
+  $line: line($size);
+  letter-spacing: $size / 5;
+  font-size: $size;
+  @if($lineHeight){
+    line-height: $lineHeight;
+  }@else {
+    line-height: $line;
+  }
+}
+@mixin container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  width: 70%;
+  height: 70vh;
+  min-height: 450px;
+  background-color: rgba($white, .3);
+}
+@mixin btnReset {
+  background-color: transparent;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+@mixin positionCenter($type: null){
+  position: absolute;
+  @if($type == 'x'){
+    left: 50%;
+    transform: translateX(-50%);
+  }@else if($type == 'y'){
+    top: 50%;
+    transform: translateY(-50%);
+  }@else{
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+@mixin media($screenSize) {
+  @media screen and (max-width: $screenSize) {
+    @content;
+  }
+}
