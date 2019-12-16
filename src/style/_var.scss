@@ -1,7 +1,8 @@
-$primary: #67d2de;
-$danger: #E15562;
+$primary: #68d2de;
+$danger: #EB7A77;
 $white: #ffffff;
 $dark: #666666;
+$shadow: rgba(#000000, .1);
 
 $baseFont: 14px;
 $baseLine: 10px;
@@ -35,6 +36,8 @@ $fontLevel: 2px;
   width: 70%;
   height: 70vh;
   min-height: 450px;
+  border-radius: 20px;
+  overflow: hidden;
   background-color: rgba($white, .3);
 }
 @mixin btnReset {

@@ -10,6 +10,7 @@
   border-radius: 30px;
   position: relative;
   padding: 5px 10px;
+  z-index: 1;
   &::before, &::after{
     content: '';
     @include positionCenter;

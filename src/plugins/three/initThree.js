@@ -93,6 +93,12 @@ export function init (refs, vm) {
       vm.$router.push({ path: currentObj.name })
     }
   })
+  refs.threeJs.addEventListener('touchstart', function (e) {
+    let currentObj = getCurrentObj(e)
+    if (buttons.indexOf(currentObj.name) !== -1) {
+      vm.$router.push({ path: currentObj.name })
+    }
+  })
 
   // debugger
   statsUI = new stats.Stats()
@@ -151,8 +157,13 @@ function getCurrentObj (e) {
   let mouse = new THREE.Vector2()
   let raycaster = new THREE.Raycaster()
   let currentObj
-  mouse.x = (e.clientX / renderer.domElement.clientWidth) * 2 - 1
-  mouse.y = -(e.clientY / renderer.domElement.clientHeight) * 2 + 1
+  if(e.type === "touchstart"){
+    mouse.x = (e.targetTouches [0] .pageX / innerWidth) * 2 + -1;
+    mouse.y = -(e.targetTouches [0] .pageY / innerHeight) *  2 +1;
+  }else {
+    mouse.x = (e.clientX / renderer.domElement.clientWidth) * 2 - 1
+    mouse.y = -(e.clientY / renderer.domElement.clientHeight) * 2 + 1
+  }
   raycaster.setFromCamera(mouse, camera)
   let intersects = raycaster.intersectObjects(scene.children, true)
   if (intersects.length > 0) {

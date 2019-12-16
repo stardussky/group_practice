@@ -1,10 +1,16 @@
 <template>
-  <div class="projectManagement" />
+  <div class="projectManagement">
+    <CardContent />
+  </div>
 </template>
 
 <script>
+import CardContent from '@/components/PM/CardContent'
 export default {
-  name: 'ProjectManagement'
+  name: 'ProjectManagement',
+  components: {
+    CardContent
+  }
 }
 </script>
 
@@ -12,5 +18,7 @@ export default {
 @import '../style/_var';
 .projectManagement {
   @include container;
+  display: flex;
+  align-items: center;
 }
 </style>

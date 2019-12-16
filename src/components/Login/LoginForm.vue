@@ -156,8 +156,8 @@ export default {
   }
   .select_mode {
     position: absolute;
-    top: 20px;
-    right: 20px;
+    top: 15px;
+    right: 15px;
     z-index: 1;
     @include switchBtn;
   }
@@ -168,8 +168,12 @@ export default {
     justify-content: center;
     align-items: center;
     position: relative;
-    background-color: rgba($white, .1);
+    background-color: rgba($white, .65);
     padding: 0 10%;
+    >div {
+      width: 250px;
+      margin-top: 20px;
+    }
   }
   .submit{
     @include baseBtn;
@@ -190,7 +194,7 @@ export default {
 .flip-enter, .flip-leave-to{
   opacity: 0;
 }
-.flip-leave-active, .flip-enter-active{
+.flip-leave-active{
   position: absolute;
 }
 </style>

@@ -5,7 +5,7 @@
     tag="div"
     :rules="rules"
   >
-    <label>{{ field }}
+    <label>
       <input
         v-model="inputValue"
         :type="type"
@@ -13,6 +13,7 @@
         :placeholder="placeholder"
         autocomplete="off"
       >
+      <p>{{ field }}</p>
       <span :class="{invalid: errors.length}" />
     </label>
     <p class="error">
@@ -74,7 +75,6 @@ export default {
   height: 70px;
   margin: auto;
   ::-webkit-input-placeholder{
-    @include font;
     color: $white;
     text-align: center;
     opacity: 0;
@@ -82,23 +82,39 @@ export default {
   }
   >label {
     display: block;
+    height: 40px;
     position: relative;
     @include font(1);
-    color: $white;
-    padding: 0 5px;
+    z-index: 1;
+    cursor: pointer;
     >input{
       width: 100%;
       @include btnReset;
-      color: $white;
       @include font;
+      color: $dark;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      padding: 0 5px;
       &:focus{
+        color: $white;
         &::-webkit-input-placeholder{
           opacity: 1;
         }
-        +span {
+        +p {
+          color: $white;
+        }
+        ~span {
           height: 100%;
         }
       }
+    }
+    >p {
+      position: absolute;
+      top: 0;
+      left: 0;
+      padding: 0 5px;
+      color: $dark;
     }
     >span{
       display: inline-block;

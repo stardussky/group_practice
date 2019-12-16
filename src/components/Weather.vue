@@ -20,13 +20,15 @@ export default {
   position: fixed;
   bottom: 30px;
   left: 40px;
-  display: flex;
   > img {
     width: 60px;
+    vertical-align: middle;
   }
   > div {
+    display: inline-block;
     color: $white;
     margin-left: 10px;
+    vertical-align: middle;
     > p:nth-of-type(1) {
       font-weight: 400;
       @include font(5);
