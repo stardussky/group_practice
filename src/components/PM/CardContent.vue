@@ -3,7 +3,13 @@
     <div class="card_head">
       代辦事項
     </div>
-    <TodoCard />
+    <div class="card_body">
+      <TodoCard />
+      <TodoCard />
+      <TodoCard />
+      <TodoCard />
+      <TodoCard />
+    </div>
   </div>
 </template>
 
@@ -34,6 +40,17 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+  .card_body {
+    height: calc(100% - 50px);
+    overflow-y: auto;
+    &::-webkit-scrollbar {
+      width: 5px;
+    }
+    &::-webkit-scrollbar-thumb {
+      border-radius: 5px;
+      background-color: $white;
+    }
   }
 }
 </style>

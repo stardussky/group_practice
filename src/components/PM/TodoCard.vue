@@ -58,16 +58,24 @@ export default {
   display: flex;
   align-items: center;
   box-shadow: 1px 1px 3px $shadow;
-  >div:nth-of-type(2){
-    width: 70px;
-    height: 65.8px;
-    position: relative;
+  position: relative;
+  >div {
+    z-index: 1;
+    &:nth-of-type(2) {
+      position: relative;
+      width: 70px;
+      height: 65.8px;
+    }
   }
   .pm_color {
+    position: absolute;
+    top: 10px;
+    left: 10px;
     width: 30px;
     height: 5px;
     background-color: $danger;
     border-radius: 20px;
+    transition: all .3s;
   }
   .todo_title {
     width: 180px;
@@ -75,7 +83,7 @@ export default {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    margin: 5px 0;
+    margin: 10px 0 5px;
   }
   .todo_date, .todo_done {
     img{
@@ -117,6 +125,17 @@ export default {
     position: absolute;
     right: 0;
     bottom: 0;
+  }
+  &:hover {
+    .pm_color {
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      border-radius: 10px;
+      opacity: .7;
+      z-index: -1;
+    }
   }
 }
 

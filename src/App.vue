@@ -13,5 +13,6 @@
 }
 body, html {
   font-family: 'Montserrat', 'Noto Sans TC', sans-serif;
+  overflow-x: hidden;
 }
 </style>

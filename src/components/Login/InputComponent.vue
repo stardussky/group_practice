@@ -106,6 +106,7 @@ export default {
         }
         ~span {
           height: 100%;
+          transform:scaleY(1);
         }
       }
     }
@@ -122,10 +123,12 @@ export default {
       left: 0;
       bottom: 0;
       width: 100%;
-      height: 1px;
+      height: 2px;
       background-color: $primary;
+      border-radius: 5px;
       z-index: -1;
       transition: height .3s, background-color .5s;
+      transform:scaleY(0.5);
       &.invalid {
         background-color: $danger;
       }
