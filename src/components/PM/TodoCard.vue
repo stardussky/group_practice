@@ -86,13 +86,10 @@ export default {
     margin: 10px 0 5px;
   }
   .todo_date, .todo_done {
-    img{
-      vertical-align: middle;
-    }
+    display: flex;
+    align-items: center;
     p {
       @include font;
-      display: inline-block;
-      vertical-align: middle;
       margin-left: 5px;
     }
   }
@@ -100,26 +97,9 @@ export default {
     position: absolute;
     top: 0;
     right: 0;
-    width: 30px;
-    height: 30px;
-    cursor: pointer;
-    img{
-      @include positionCenter;
-      transition: opacity .3s;
-      &:nth-of-type(2) {
-        opacity: 0;
-      }
-    }
-    &:hover {
-      img{
-        &:nth-of-type(1) {
-        opacity: 0;
-        }
-        &:nth-of-type(2) {
-          opacity: 1;
-        }
-      }
-    }
+    width: 20px;
+    height: 20px;
+    @include hoverImg;
   }
   .todo_done {
     position: absolute;

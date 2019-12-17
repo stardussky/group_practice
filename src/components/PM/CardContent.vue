@@ -24,22 +24,16 @@ export default {
 </script>
 
 <style lang='scss'>
-@import '@/style/_var';
+@import '@/style/_card';
 .cardContent {
   width: 300px;
   height: 90%;
   border-radius: 20px;
   background-color: rgba($white, .5);
   overflow-x: hidden;
+  margin: 0 10px;
   .card_head {
-    width: 100%;
-    height: 50px;
-    background-color: $primary;
-    color: $white;
-    @include font(2);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    @include cardHead;
   }
   .card_body {
     height: calc(100% - 50px);
