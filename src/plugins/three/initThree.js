@@ -36,6 +36,7 @@ export function init (refs, vm) {
   cameraControl.enableDamping = true
   cameraControl.dampingFactor = 0.01
   cameraControl.autoRotate = true
+  cameraControl.autoRotateSpeed = 1
   cameraControl.minDistance = 250
   cameraControl.maxDistance = 600
 
@@ -48,7 +49,8 @@ export function init (refs, vm) {
   loader.load(
     './model/model.glb',
     (gltf) => {
-      gltf.scene.position.set(0, -150, 0);
+      gltf.scene.position.set(0, -200, 0);
+      gltf.scene.scale.set(1.5, 1.5, 1.5);
       scene.add(gltf.scene)
     },
     (xhr) => {
