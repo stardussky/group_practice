@@ -5,16 +5,12 @@
     </div>
     <div class="card_body">
       <TodoCard />
-      <TodoCard />
-      <TodoCard />
-      <TodoCard />
-      <TodoCard />
     </div>
   </div>
 </template>
 
 <script>
-import TodoCard from './TodoCard'
+import TodoCard from './module/TodoCard'
 export default {
   name: 'CardContent',
   components: {
@@ -38,13 +34,6 @@ export default {
   .card_body {
     height: calc(100% - 50px);
     overflow-y: auto;
-    &::-webkit-scrollbar {
-      width: 5px;
-    }
-    &::-webkit-scrollbar-thumb {
-      border-radius: 5px;
-      background-color: $white;
-    }
   }
 }
 </style>

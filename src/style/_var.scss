@@ -27,6 +27,11 @@ $fontLevel: 2px;
     line-height: $line;
   }
 }
+@mixin media($screenSize) {
+  @media screen and (max-width: $screenSize) {
+    @content;
+  }
+}
 @mixin container {
   position: fixed;
   top: 0;
@@ -40,12 +45,24 @@ $fontLevel: 2px;
   border-radius: 20px;
   overflow: hidden;
   background-color: rgba($white, .3);
+  @include media(479px){
+    width: calc(100% - 20px);
+  }
 }
 @mixin btnReset {
+  font-family: 'Montserrat', 'Noto Sans TC', sans-serif;
   background-color: transparent;
   outline: none;
   border: none;
   cursor: pointer;
+}
+@mixin inputReset{
+  font-family: 'Montserrat', 'Noto Sans TC', sans-serif;
+  @include font(1);
+  outline: none;
+  background-color: transparent;
+  color: $dark;
+  padding: 5px;
 }
 @mixin positionCenter($type: null){
   position: absolute;
@@ -81,8 +98,10 @@ $fontLevel: 2px;
     }
   }
 }
-@mixin media($screenSize) {
-  @media screen and (max-width: $screenSize) {
-    @content;
+@mixin clearfix {
+  &::after {
+    content: '';
+    display: block;
+    clear: both;
   }
 }

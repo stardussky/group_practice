@@ -1,6 +1,6 @@
 /* eslint-disable */
 import * as THREE from 'three'
-import { OBJLoader, MTLLoader } from 'three-obj-mtl-loader'
+import GLTFLoader from 'three-gltf-loader'
 import { CSS2DRenderer } from 'three-css2drender'
 import stats from 'three-stats'
 import { Particle, RainDrop } from './particleSystem'
@@ -39,22 +39,25 @@ export function init (refs, vm) {
   cameraControl.minDistance = 250
   cameraControl.maxDistance = 600
 
-  const globalLight = new THREE.AmbientLight(0xffffff, 0.95)
+  const globalLight = new THREE.AmbientLight(0xffffff, 0.85)
   const directionalLight = new THREE.DirectionalLight(0xffffff, 0.2)
   directionalLight.position.set(500, 400, 0)
   scene.add(globalLight, directionalLight)
 
-  new MTLLoader().load('./model/low-poly-mill.mtl', mtl => {
-    mtl.preload()
-    new OBJLoader()
-      .setMaterials(mtl)
-      .load('./model/low-poly-mill.obj', obj => {
-        obj.position.set(0, -150, 0)
-        obj.rotation.y = Math.PI * -0.8
-        obj.scale.set(1.3, 1.3, 1.3)
-        scene.add(obj)
-      })
-  })
+  const loader = new GLTFLoader()
+  loader.load(
+    './model/model.glb',
+    (gltf) => {
+      gltf.scene.position.set(0, -150, 0);
+      scene.add(gltf.scene)
+    },
+    (xhr) => {
+      // console.log(`${(xhr.loaded / xhr.total * 100)}% loaded`)
+    },
+    (error) => {
+      console.error('An error happened', error)
+    }
+  )
 
   // eventListener
   const buttons = []
@@ -157,10 +160,10 @@ function getCurrentObj (e) {
   let mouse = new THREE.Vector2()
   let raycaster = new THREE.Raycaster()
   let currentObj
-  if(e.type === "touchstart"){
-    mouse.x = (e.targetTouches [0] .pageX / innerWidth) * 2 + -1;
-    mouse.y = -(e.targetTouches [0] .pageY / innerHeight) *  2 +1;
-  }else {
+  if (e.type === 'touchstart') {
+    mouse.x = (e.targetTouches[0].pageX / innerWidth) * 2 + -1
+    mouse.y = -(e.targetTouches[0].pageY / innerHeight) * 2 + 1
+  } else {
     mouse.x = (e.clientX / renderer.domElement.clientWidth) * 2 - 1
     mouse.y = -(e.clientY / renderer.domElement.clientHeight) * 2 + 1
   }

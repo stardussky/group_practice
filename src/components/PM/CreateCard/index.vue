@@ -1,19 +1,10 @@
 <template>
   <div class="createCard">
     <div class="card_head">
-      <div class="edit_card">
-        <img
-          src="@/assets/icon/edit.svg"
-          alt="edit"
-          width="30"
-        >
-        <img
-          src="@/assets/icon/edit_on.svg"
-          alt="edit"
-          width="30"
-        >
-      </div>
-      <p>事情A</p>
+      <input
+        type="text"
+        value="事情A"
+      >
     </div>
     <div class="card_body">
       <InviteComponent />
@@ -34,28 +25,44 @@
               type="text"
               placeholder="加點內容吧~"
             >
-            <img
-              src="@/assets/icon/plus.svg"
-              alt="add"
-              width="20"
-            >
+            <div>
+              <img
+                src="@/assets/icon/edit.svg"
+                alt="add"
+                width="20"
+              >
+              <img
+                src="@/assets/icon/edit_on.svg"
+                alt="add"
+                width="20"
+              >
+            </div>
           </div>
         </div>
       </div>
+      <FileContent />
     </div>
   </div>
 </template>
 
 <script>
-import InviteComponent from './InviteComponent'
-import DateComponent from './DateComponent'
-import TodoContent from './TodoContent'
+import InviteComponent from './module/InviteComponent'
+import DateComponent from './module/DateComponent'
+import FileContent from './module/FileContent'
+import TodoContent from './module/TodoContent'
+import {} from '@vue/composition-api'
 export default {
   name: 'CreateCard',
   components: {
     InviteComponent,
     DateComponent,
+    FileContent,
     TodoContent
+  },
+  setup () {
+    return {
+
+    }
   }
 }
 </script>
@@ -72,13 +79,15 @@ export default {
   .card_head {
     @include cardHead;
     position: relative;
-  }
-  .edit_card{
-    @include positionCenter(x);
-    @include hoverImg;
-    left: 30px;
-    width: 30px;
-    height: 30px;
+    >input {
+      font-family: 'Montserrat', 'Noto Sans TC', sans-serif;
+      color: $white;
+      background-color: $primary;
+      border: none;
+      outline: none;
+      text-align: center;
+      @include font(1);
+    }
   }
   .card_body {
     padding: 10px 20px;
@@ -114,11 +123,12 @@ export default {
         text-align: center;
       }
     }
-    >img {
-      position: absolute;
-      top: 0;
+    >div {
+      width: 20px;
+      height: 20px;
+      @include positionCenter(y);
+      @include hoverImg;
       right: 0;
-      cursor: pointer;
     }
   }
 }

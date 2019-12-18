@@ -74,6 +74,17 @@ export default {
 <style lang="scss">
 @import '@/style/_navbarButton';
   .home {
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    ::-webkit-scrollbar-thumb {
+      border-radius: 5px;
+      background-color: $white;
+    }
+    ::-webkit-scrollbar-track {
+      margin: 15px;
+    }
     .logo {
       cursor: pointer;
       position: fixed;

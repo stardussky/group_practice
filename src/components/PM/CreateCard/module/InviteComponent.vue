@@ -66,6 +66,7 @@ export default {
     position: relative;
     outline: none;
     vertical-align: middle;
+    background-color: $white;
     @include hoverImg;
     transition: border-color .3s;
     &:hover {
