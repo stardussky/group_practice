@@ -26,6 +26,7 @@
       <input
         type="text"
         placeholder="增加項目"
+        :style="{backgroundColor: color}"
       >
       <img
         src="@/assets/icon/plus_w.svg"
@@ -45,7 +46,8 @@ export default {
     return {
       status
     }
-  }
+  },
+  inject: ['color']
 
 }
 </script>
@@ -74,7 +76,6 @@ export default {
       width: 50%;
       @include btnReset;
       @include font;
-      background-color: $primary;
       color: $white;
       border-radius: 5px;
       padding: 5px 25px 5px 5px;

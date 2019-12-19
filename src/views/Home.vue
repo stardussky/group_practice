@@ -1,14 +1,35 @@
 <template>
   <div class="home">
     <Three :weather="weather" />
-    <transition name="slider">
-      <keep-alive exclude="Login">
-        <component
-          :is="view"
-          v-if="view !== 'Home'"
-          :view="view"
-        />
-      </keep-alive>
+    <transition name="fade">
+      <div
+        v-if="path !== '/'"
+        class="container"
+      >
+        <div class="header">
+          <div @click="previous">
+            <img
+              src="@/assets/icon/left-curve-arrow.svg"
+              alt="back"
+              width="30"
+            >
+            <img
+              src="@/assets/icon/left-curve-arrow_on.svg"
+              alt="back"
+              width="30"
+            >
+          </div>
+          <p>{{ pathInfo.title }}</p>
+        </div>
+        <div class="body">
+          <transition
+            name="slider"
+            mode="out-in"
+          >
+            <router-view />
+          </transition>
+        </div>
+      </div>
     </transition>
     <NavbarComponent />
     <router-link
@@ -24,9 +45,8 @@
     <Weather />
     <transition name="fade">
       <ProgressBar
-        v-if="view !== 'Home'"
-        key="progressBar"
-        :view="view"
+        v-if="path !== '/'"
+        :path-name="pathInfo.name"
       />
     </transition>
   </div>
@@ -38,9 +58,7 @@ import NavbarComponent from '../components/NavbarComponent'
 import Setting from '../components/Setting'
 import Weather from '../components/Weather'
 import ProgressBar from '../components/ProgressBar'
-import ProjectManagement from '../views/ProjectManagement'
-import Login from '../views/Login'
-import { ref } from '@vue/composition-api'
+import { ref, watch } from '@vue/composition-api'
 export default {
   name: 'Home',
   components: {
@@ -48,24 +66,24 @@ export default {
     NavbarComponent,
     Setting,
     Weather,
-    ProgressBar,
-    ProjectManagement,
-    Login
+    ProgressBar
   },
-  setup () {
+  setup (props, { root }) {
     const weather = ref('day')
-    const view = ref(null)
+    const path = ref(null)
+    const pathInfo = ref(null)
+    const previous = () => {
+      root.$router.go(-1)
+    }
+    watch(() => root.$route, (to) => {
+      path.value = to.path
+      pathInfo.value = to.meta
+    })
     return {
       weather,
-      view
-    }
-  },
-  watch: {
-    $route: {
-      immediate: true,
-      handler (to) {
-        this.view = to.name
-      }
+      path,
+      pathInfo,
+      previous
     }
   }
 }
@@ -85,17 +103,19 @@ export default {
     ::-webkit-scrollbar-track {
       margin: 15px;
     }
+    .container {
+      @include container;
+    }
     .logo {
       cursor: pointer;
       position: fixed;
       top: 40px;
       left: 40px;
-      width: 25vw;
-      max-width: 150px;
-      min-width: 80px;
+      width: 150px;
     }
     @include media(479px){
       .logo {
+        width: 85px;
         top: 20px;
         left: 10px;
       }
@@ -105,14 +125,7 @@ export default {
   .fade-enter-active, .fade-leave-active{
     transition: all 1s;
   }
-  .slider-enter, .slider-leave-to,
   .fade-enter, .fade-leave-to{
     opacity: 0;
-  }
-  .slider-enter{
-    left: 150% !important;
-  }
-  .slider-leave-to{
-    left: -100% !important;
   }
 </style>

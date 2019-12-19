@@ -11,9 +11,9 @@ const textureLoader = new THREE.TextureLoader()
 let scene, renderer, labelRenderer, camera, cameraControl, width, height, aspect, animation
 let rendererStatus, skyBox, particle
 let statsUI
-const dayTimeTextures = ['mat_ft.png', 'mat_bk.png', 'mat_up.png', 'mat_dn.png', 'mat_rt.png', 'mat_lf.png']
-const nightTimeTextures = ['mat_ft_n.png', 'mat_bk_n.png', 'mat_up_n.png', 'mat_dn_n.png', 'mat_rt_n.png', 'mat_lf_n.png']
-const rainTimeTextures = ['mat_ft_r.png', 'mat_bk_r.png', 'mat_up_r.png', 'mat_dn_r.png', 'mat_rt_r.png', 'mat_lf_r.png']
+const dayTimeTextures = ['mat_ft.jpg', 'mat_bk.jpg', 'mat_up.jpg', 'mat_dn.jpg', 'mat_rt.jpg', 'mat_lf.jpg']
+const nightTimeTextures = ['mat_ft_n.jpg', 'mat_bk_n.jpg', 'mat_up_n.jpg', 'mat_dn_n.jpg', 'mat_rt_n.jpg', 'mat_lf_n.jpg']
+const rainTimeTextures = ['mat_ft_r.jpg', 'mat_bk_r.jpg', 'mat_up_r.jpg', 'mat_dn_r.jpg', 'mat_rt_r.jpg', 'mat_lf_r.jpg']
 export function init (refs, vm) {
   scene = new THREE.Scene()
   renderer = new THREE.WebGLRenderer({
@@ -106,8 +106,8 @@ export function init (refs, vm) {
   })
 
   // debugger
-  statsUI = new stats.Stats()
-  refs.stats.append(statsUI.domElement)
+  // statsUI = new stats.Stats()
+  // refs.stats.append(statsUI.domElement)
   // var directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight);
   // scene.add(directionalLightHelper);
   // var axesHelper = new THREE.AxesHelper(5);
@@ -189,6 +189,6 @@ function render () {
   animation = requestAnimationFrame(render)
 
   // debugger
-  statsUI.update()
+  // statsUI.update()
 }
 export { animation }

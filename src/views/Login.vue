@@ -20,7 +20,8 @@ export default {
 <style lang="scss" scoped>
 @import '../style/_var';
 .login {
-  @include container;
+  height: 100%;
+  width: 100%;
   display: flex;
 }
 </style>

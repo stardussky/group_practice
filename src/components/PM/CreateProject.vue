@@ -30,24 +30,47 @@
 import { ref, computed } from '@vue/composition-api'
 export default {
   name: 'CreateProject',
+  props: {
+    id: {
+      type: Number,
+      required: true
+    }
+  },
   setup (props, { emit }) {
-    const index = ref(0)
     const colors = ref(['#68d2de', '#EB7A77', '#86C166'])
     const name = ref(null)
     const selectColor = ref(null)
     const project = computed(() => {
-      return { id: index.value, name: name.value, color: selectColor.value }
+      return {
+        id: props.id + 1,
+        info: {
+          title: name.value,
+          color: selectColor.value
+        },
+        list: [
+          {
+            status: '待辦事項',
+            todo: []
+          },
+          {
+            status: '進行中',
+            todo: []
+          },
+          {
+            status: '已完成',
+            todo: []
+          }
+        ]
+      }
     })
     const createProject = () => {
       if (name.value && selectColor.value) {
         emit('createProject', project.value)
         name.value = null
         selectColor.value = null
-        index.value++
       }
     }
     return {
-      project,
       colors,
       name,
       selectColor,
@@ -61,7 +84,7 @@ export default {
 @import '@/style/_var';
 .createProject {
   @include clearfix;
-  width: 300px;
+  min-width: 300px;
   background-color: rgba($white, .8);
   border-radius: 20px;
   padding: 15px;

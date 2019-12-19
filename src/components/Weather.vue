@@ -38,18 +38,18 @@ export default {
     }
   }
   @include media(479px){
-    top: 80px;
+    top: 45px;
     bottom: auto;
     left: 10px;
     > img {
-      width: 40px;
+      width: 30px;
     }
     > div {
       > p:nth-of-type(1) {
-        @include font;
+        @include font(-.875);
       }
       > p:nth-of-type(2) {
-        @include font;
+        @include font(-.875);
       }
     }
   }

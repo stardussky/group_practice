@@ -26,7 +26,7 @@
           </div>
         </li>
       </ul>
-      <label>
+      <label :style="{backgroundColor: color}">
         <p>上傳附件</p>
         <input type="file">
       </label>
@@ -36,7 +36,8 @@
 
 <script>
 export default {
-  name: 'FileContent'
+  name: 'FileContent',
+  inject: ['color']
 }
 </script>
 
@@ -77,7 +78,6 @@ export default {
     >label {
       display: inline-block;
       @include font;
-      background-color: $primary;
       color: $white;
       border-radius: 5px;
       padding: 5px;

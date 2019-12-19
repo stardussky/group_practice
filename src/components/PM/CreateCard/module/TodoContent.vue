@@ -18,7 +18,7 @@
     <div class="progerss">
       <p>50%</p>
       <div class="bar">
-        <span />
+        <span :style="{backgroundColor: color}" />
       </div>
     </div>
     <ul class="content">
@@ -33,7 +33,8 @@ export default {
   name: 'TodoContent',
   components: {
     ContentList
-  }
+  },
+  inject: ['color']
 }
 </script>
 
@@ -70,7 +71,6 @@ export default {
         width: 50%;
         height: 100%;
         border-radius: 5px;
-        background-color: $primary;
       }
     }
   }

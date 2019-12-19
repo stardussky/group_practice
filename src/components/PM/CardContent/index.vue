@@ -1,10 +1,16 @@
 <template>
   <div class="cardContent">
-    <div class="card_head">
-      代辦事項
+    <div
+      class="card_head"
+      :style="{backgroundColor:color}"
+    >
+      {{ list.status }}
     </div>
     <div class="card_body">
-      <TodoCard />
+      <TodoCard
+        v-for="todo in list.todo"
+        :key="todo.id"
+      />
     </div>
   </div>
 </template>
@@ -15,19 +21,26 @@ export default {
   name: 'CardContent',
   components: {
     TodoCard
-  }
+  },
+  props: {
+    list: {
+      type: Object,
+      required: true
+    }
+  },
+  inject: ['color']
 }
 </script>
 
 <style lang='scss'>
 @import '@/style/_card';
 .cardContent {
-  width: 300px;
-  height: 90%;
+  min-width: 300px;
+  height: 100%;
   border-radius: 20px;
-  background-color: rgba($white, .5);
+  background-color: rgba($white, .65);
   overflow-x: hidden;
-  margin: 0 10px;
+  margin-right: 10px;
   .card_head {
     @include cardHead;
   }

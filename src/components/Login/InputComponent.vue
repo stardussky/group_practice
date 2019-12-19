@@ -73,7 +73,6 @@ export default {
 .inputComponent {
   width: 250px;
   height: 70px;
-  margin: auto;
   ::-webkit-input-placeholder{
     color: $white;
     text-align: center;
@@ -138,9 +137,6 @@ export default {
     color: $danger;
     font-weight: 700;
     @include font;
-  }
-  @include media(479px){
-    width: 100%;
   }
 }
 </style>

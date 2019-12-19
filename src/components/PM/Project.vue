@@ -1,13 +1,10 @@
 <template>
-  <div
-    class="project"
-    @click="nextStep"
-  >
+  <div class="project">
     <div
       class="header"
-      :style="{backgroundColor: project.color}"
+      :style="{backgroundColor:project.color}"
     />
-    <p>{{ project.name }}</p>
+    <p>{{ project.title }}</p>
   </div>
 </template>
 
@@ -16,21 +13,14 @@ import {} from '@vue/composition-api'
 export default {
   name: 'Project',
   props: {
-    step: {
-      type: String,
-      required: true
-    },
     project: {
       type: Object,
       required: true
     }
   },
   setup (props, { emit }) {
-    const nextStep = () => {
-      emit('update:step', '2')
-    }
     return {
-      nextStep
+
     }
   }
 }
@@ -40,7 +30,7 @@ export default {
 @import '@/style/_var';
 .project {
   display: inline-block;
-  width: 300px;
+  min-width: 300px;
   height: 150px;
   background-color: rgba($white, .8);
   border-radius: 20px;

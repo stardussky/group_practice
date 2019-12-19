@@ -1,6 +1,9 @@
 <template>
   <div class="createCard">
-    <div class="card_head">
+    <div
+      class="card_head"
+      :style="{backgroundColor:color}"
+    >
       <input
         type="text"
         value="事情A"
@@ -50,7 +53,7 @@ import InviteComponent from './module/InviteComponent'
 import DateComponent from './module/DateComponent'
 import FileContent from './module/FileContent'
 import TodoContent from './module/TodoContent'
-import {} from '@vue/composition-api'
+import { ref, computed } from '@vue/composition-api'
 export default {
   name: 'CreateCard',
   components: {
@@ -59,9 +62,37 @@ export default {
     FileContent,
     TodoContent
   },
+  inject: ['color'],
   setup () {
+    const cardTitle = ref('待辦項目')
+    const date = ref(new Date())
+    const todoCard = computed(() => {
+      return {
+        status: false,
+        cardTitle: cardTitle.value,
+        member: [],
+        daedline: date.value,
+        content: [
+          {
+            title: '',
+            list: [
+              {
+                status: false,
+                todo: ''
+              }
+            ]
+          }
+        ],
+        files: [
+          {
+            name: '',
+            url: ''
+          }
+        ]
+      }
+    })
     return {
-
+      todoCard
     }
   }
 }
@@ -70,23 +101,22 @@ export default {
 <style lang='scss'>
 @import '@/style/_card';
 .createCard {
-  width: 400px;
-  height: 90%;
+  min-width: 400px;
   border-radius: 20px;
   background-color: $white;
   overflow-x: hidden;
-  margin: 0 10px;
+  margin-right: 10px;
   .card_head {
     @include cardHead;
     position: relative;
     >input {
       font-family: 'Montserrat', 'Noto Sans TC', sans-serif;
       color: $white;
-      background-color: $primary;
+      background-color: inherit;
       border: none;
       outline: none;
       text-align: center;
-      @include font(1);
+      @include font(2);
     }
   }
   .card_body {

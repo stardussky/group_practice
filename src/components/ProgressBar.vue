@@ -1,11 +1,11 @@
 <template>
   <ul class="progressBar">
     <li
-      v-for="(page, index) in list"
+      v-for="page in list"
       :key="page.id"
-      @click="nowPage = page.id"
+      @click="changePage(page.id)"
     >
-      <p :class="{active: pageIndex === index}">
+      <p :class="{active: page.id === pathName}">
         {{ page.name.split('|')[0] }}<br>{{ page.name.split('|')[1] }}
       </p>
     </li>
@@ -21,22 +21,12 @@ import { ref, computed, onMounted, onUnmounted } from '@vue/composition-api'
 export default {
   name: 'ProgressBar',
   props: {
-    view: {
+    pathName: {
       type: String,
       required: true
     }
   },
-  computed: {
-    nowPage: {
-      get () {
-        return this.view
-      },
-      set (val) {
-        this.$router.push({ name: val })
-      }
-    }
-  },
-  setup (props) {
+  setup (props, { root }) {
     const list = ref([
       {
         id: 'Home',
@@ -60,16 +50,19 @@ export default {
       }
     ])
     const width = ref(innerWidth)
-    const pageIndex = computed(() => {
-      return list.value.map(info => {
-        return info.id
-      }).indexOf(props.view)
+    const viewIndex = computed(() => {
+      return list.value.map(page => {
+        return page.id
+      }).indexOf(props.pathName)
     })
     const progressBar = computed(() => {
-      let progress = (pageIndex.value + 1) * 100 / list.value.length
+      let progress = (viewIndex.value + 1) * 100 / list.value.length
       return width.value < 1024 ? { height: `${progress}%` }
         : { width: `${progress}%` }
     })
+    const changePage = (page) => {
+      root.$router.push({ name: page })
+    }
     const resizeHandler = () => {
       width.value = innerWidth
     }
@@ -81,10 +74,11 @@ export default {
     })
     return {
       list,
-      pageIndex,
+      changePage,
       progressBar
     }
   }
+
 }
 </script>
 

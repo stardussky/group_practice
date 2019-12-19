@@ -1,58 +1,49 @@
 <template>
   <div class="pmView">
     <div>
-      <CreateProject @createProject="setProject" />
+      <CreateProject
+        :id="projects.length"
+        @createProject="CREATE_PROJECT"
+      />
     </div>
-    <div class="project_area">
-      <transition-group
-        name="slider"
-        tag="div"
-      >
-        <Project
-          v-for="project in projects"
-          :key="project.id"
-          :project="project"
-          :step.sync="nowStep"
-        />
-      </transition-group>
-    </div>
+    <transition-group
+      name="slider"
+      tag="div"
+    >
+      <Project
+        v-for="project in projects"
+        :key="project.id"
+        :project="project.info"
+        @click.native="enterProject(project.id)"
+      />
+    </transition-group>
   </div>
 </template>
 
 <script>
 import CreateProject from '@/components/PM/CreateProject'
 import Project from '@/components/PM/Project'
-import { ref, computed } from '@vue/composition-api'
+import {} from '@vue/composition-api'
+import { mapState, mapActions } from 'vuex'
 export default {
   name: 'PMView',
   components: {
     CreateProject,
     Project
   },
-  props: {
-    step: {
-      type: String,
-      required: true
+  setup (props, { root }) {
+    const enterProject = (id) => {
+      root.$router.push({ name: 'Project', params: { id: id } })
+    }
+    return {
+      enterProject
     }
   },
-  setup (props, { emit }) {
-    const projects = ref([])
-    const setProject = (project) => {
-      projects.value.push(project)
-    }
-    const nowStep = computed({
-      get () {
-        return props.step
-      },
-      set (val) {
-        emit('update:step', val)
-      }
-    })
-    return {
-      projects,
-      setProject,
-      nowStep
-    }
+  computed: {
+    ...mapState('pmStore', ['projects'])
+  },
+  methods: {
+    ...mapActions('pmStore', ['CREATE_PROJECT'])
   }
 }
 </script>
@@ -62,11 +53,6 @@ export default {
 .pmView {
   display: flex;
   height: 100%;
-  .project_area {
-    min-width: 650px;
-    height: inherit;
-    overflow-y: auto;
-  }
 }
 .slider-enter, .slider-leave-to{
   opacity: 0;

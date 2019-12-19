@@ -172,7 +172,6 @@ export default {
     padding: 0 10%;
     >div {
       width: 250px;
-      margin-top: 20px;
     }
   }
   .submit{

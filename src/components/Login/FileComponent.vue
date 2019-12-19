@@ -44,7 +44,10 @@ export default {
   },
   setup (props, { emit }) {
     const changeShot = (e) => {
-      reader.readAsDataURL(e.target.files[0])
+      let file = e.target.files[0]
+      if (file) {
+        reader.readAsDataURL(file)
+      }
     }
     const shotUrl = computed({
       get () {
@@ -75,7 +78,6 @@ export default {
 @import '@/style/_formButton';
 .fileComponent {
   width: 250px;
-  margin: auto;
   .preview {
     width: 10vw;
     max-width: 100px;
@@ -92,8 +94,9 @@ export default {
     position: relative;
     margin-bottom: 10px;
     >img {
-      width: 70%;
+      width: 100%;
       object-fit: cover;
+      border-radius: 50%;
     }
   }
   .headshot {
