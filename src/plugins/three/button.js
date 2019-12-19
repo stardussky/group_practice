@@ -29,6 +29,7 @@ class CircleButton {
     }
     let font = this.id
     font.style.color = this.fontColor
+    font.style.textShadow = '1px 1px 1px #333'
     this.fontLabel = new CSS2DObject(font)
     this.fontLabel.position.set(this.x, this.y + 20, this.z)
 

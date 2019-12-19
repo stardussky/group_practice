@@ -49,8 +49,7 @@ export function init (refs, vm) {
   loader.load(
     './model/model.glb',
     (gltf) => {
-      gltf.scene.position.set(0, -200, 0);
-      gltf.scene.scale.set(1.5, 1.5, 1.5);
+      gltf.scene.position.set(0, -100, 0);
       scene.add(gltf.scene)
     },
     (xhr) => {
@@ -67,10 +66,10 @@ export function init (refs, vm) {
     if (refs[key].className === 'button')buttons.push(refs[key].dataset.path)
   }
   let tempObj
-  const pmBtn = new CircleButton(150, 30, 0, refs.projectManagement)
-  const clockBtn = new CircleButton(100, 30, 100, refs.clock)
-  const shopBtn = new CircleButton(50, 30, 50, refs.shop)
-  const loginBtn = new CircleButton(-50, 30, 0, refs.login)
+  const pmBtn = new CircleButton(0, 30, 0, refs.projectManagement)
+  const clockBtn = new CircleButton(90, 30, -100, refs.clock)
+  const shopBtn = new CircleButton(0, -100, 50, refs.shop)
+  const loginBtn = new CircleButton(20, 160, 130, refs.login)
   scene.add(
     pmBtn.button, pmBtn.fontLabel,
     clockBtn.button, clockBtn.fontLabel,

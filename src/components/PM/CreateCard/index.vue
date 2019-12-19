@@ -102,6 +102,7 @@ export default {
 @import '@/style/_card';
 .createCard {
   min-width: 400px;
+  height: 100%;
   border-radius: 20px;
   background-color: $white;
   overflow-x: hidden;
@@ -120,7 +121,9 @@ export default {
     }
   }
   .card_body {
+    height: calc(100% - 50px);
     padding: 10px 20px;
+    overflow-y: auto;
   }
   .listContent {
     >.content {
