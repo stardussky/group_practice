@@ -11,12 +11,10 @@
             <img
               src="@/assets/icon/left-curve-arrow.svg"
               alt="back"
-              width="30"
             >
             <img
               src="@/assets/icon/left-curve-arrow_on.svg"
               alt="back"
-              width="30"
             >
           </div>
           <p>{{ pathInfo.title }}</p>
@@ -90,7 +88,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import '@/style/_navbarButton';
   .home {
     ::-webkit-scrollbar {
       width: 5px;

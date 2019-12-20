@@ -1,6 +1,6 @@
 <template>
   <div class="cardView">
-    <CreateCard />
+    <CreateCard :id="project.id" />
     <CardContent
       v-for="list in project.list"
       :key="list.status"
@@ -32,7 +32,6 @@ export default {
 </script>
 
 <style lang='scss'>
-@import '@/style/_var';
 .cardView{
   height: 100%;
   display: flex;

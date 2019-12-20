@@ -16,12 +16,10 @@
             <img
               src="@/assets/icon/delete.svg"
               alt="delete"
-              width="20"
             >
             <img
               src="@/assets/icon/delete_on.svg"
               alt="delete"
-              width="20"
             >
           </div>
         </li>
@@ -42,7 +40,6 @@ export default {
 </script>
 
 <style lang='scss'>
-@import '@/style/_var';
 .fileContent {
   .title {
     display: flex;
@@ -63,9 +60,7 @@ export default {
       li {
         position: relative;
         div{
-          width: 20px;
-          height: 20px;
-          @include hoverImg;
+          @include hoverImg(20px);
           @include positionCenter(y);
           right: 0;
         }

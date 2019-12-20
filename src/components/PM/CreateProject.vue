@@ -37,7 +37,7 @@ export default {
     }
   },
   setup (props, { emit }) {
-    const colors = ref(['#68d2de', '#EB7A77', '#86C166'])
+    const colors = ref(['#68d2de', '#a6c1ee', '#EB7A77', '#86C166', '#666666'])
     const name = ref(null)
     const selectColor = ref(null)
     const project = computed(() => {
@@ -81,7 +81,6 @@ export default {
 </script>
 
 <style lang='scss'>
-@import '@/style/_var';
 .createProject {
   @include clearfix;
   min-width: 300px;

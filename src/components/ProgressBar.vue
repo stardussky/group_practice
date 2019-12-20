@@ -83,7 +83,6 @@ export default {
 </script>
 
 <style lang='scss'>
-@import '../style/_var';
 .progressBar {
   width: 40%;
   display: flex;

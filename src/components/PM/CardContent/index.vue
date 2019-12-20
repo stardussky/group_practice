@@ -33,7 +33,6 @@ export default {
 </script>
 
 <style lang='scss'>
-@import '@/style/_card';
 .cardContent {
   min-width: 300px;
   height: 100%;

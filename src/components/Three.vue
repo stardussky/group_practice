@@ -80,13 +80,13 @@ export default {
 </script>
 
 <style lang="scss">
-@import '@/style/_var';
 #threeJs {
-  height: 100vh;
   position: absolute;
   top: 0;
   left: 0;
   z-index: -1;
+  height: 100%;
+  overflow: hidden;
   .button {
     pointer-events: none;
     @include font(1);

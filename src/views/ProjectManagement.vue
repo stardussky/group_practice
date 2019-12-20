@@ -15,12 +15,11 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-@import '../style/_var';
+<style lang="scss">
 .projectManagement {
   height: 100%;
   overflow: auto;
-  padding: 0 10px 10px 10px;
+  padding: 10px;
 }
 .slider-enter-active, .slider-leave-active{
   transition: all .3s;

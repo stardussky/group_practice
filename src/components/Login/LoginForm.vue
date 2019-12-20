@@ -145,7 +145,6 @@ export default {
 </script>
 
 <style lang='scss'>
-@import '@/style/_formButton';
 .loginFrom {
   width: 50%;
   height: 100%;
@@ -170,6 +169,7 @@ export default {
     position: relative;
     background-color: rgba($white, .65);
     padding: 0 10%;
+    margin-top: 10px;
     >div {
       width: 250px;
     }
@@ -179,11 +179,14 @@ export default {
   }
   @include media(1023px){
     width: 100%;
+    .form_field{
+      margin-top: 0;
+    }
   }
   @include media(479px){
     .select_mode{
-      right: 50%;
-      transform: translateX(50%);
+      top: 0;
+      right: 5px;
     }
   }
 }

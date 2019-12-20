@@ -17,8 +17,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-@import '../style/_var';
+<style lang="scss">
 .login {
   height: 100%;
   width: 100%;

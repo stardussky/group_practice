@@ -19,12 +19,10 @@
         <img
           src="@/assets/icon/delete.svg"
           alt="delete"
-          width="20"
         >
         <img
           src="@/assets/icon/delete_on.svg"
           alt="delete"
-          width="20"
         >
       </div>
       <div class="todo_done">
@@ -46,7 +44,6 @@ export default {
 </script>
 
 <style lang='scss'>
-@import '@/style/_var';
 .todoCard {
   width: 90%;
   height: 85px;
@@ -97,9 +94,7 @@ export default {
     position: absolute;
     top: 0;
     right: 0;
-    width: 20px;
-    height: 20px;
-    @include hoverImg;
+    @include hoverImg(20px);
   }
   .todo_done {
     position: absolute;

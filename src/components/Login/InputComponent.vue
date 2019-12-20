@@ -69,7 +69,6 @@ export default {
 </script>
 
 <style lang='scss'>
-@import '@/style/_var';
 .inputComponent {
   width: 250px;
   height: 70px;
@@ -137,6 +136,9 @@ export default {
     color: $danger;
     font-weight: 700;
     @include font;
+  }
+  @include media(479px){
+    height: 60px;
   }
 }
 </style>

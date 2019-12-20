@@ -56,7 +56,6 @@ export default {
 </script>
 
 <style lang='scss'>
-@import '@/style/_var';
 .dateComponent {
   .title {
     display: flex;

@@ -1,8 +1,10 @@
-$primary: #68c8de;
+$primary: #8acede;
+$secondary: #a6c1ee;
 $danger: #EB7A77;
 $success: #86C166;
 $white: #ffffff;
 $dark: #666666;
+$gray: #999999;
 $shadow: rgba(#000000, .1);
 
 $baseFont: 14px;
@@ -10,123 +12,6 @@ $baseLine: 10px;
 $lineLevel: 1.2;
 $fontLevel: 2px;
 
-@function font($level: 0){
-  @return $baseFont + round($level * $fontLevel);
-}
-@function line($size){
-  @return ceil($size * $lineLevel / $baseLine) * $baseLine;
-}
-@mixin font($level: 0, $lineHeight: null){
-  $size: font($level);
-  $line: line($size);
-  letter-spacing: $size / 5;
-  font-size: $size;
-  @if($lineHeight){
-    line-height: $lineHeight;
-  }@else {
-    line-height: $line;
-  }
-}
-@mixin media($screenSize) {
-  @media screen and (max-width: $screenSize) {
-    @content;
-  }
-}
-@mixin positionCenter($type: null){
-  position: absolute;
-  @if($type == 'x'){
-    left: 50%;
-    transform: translateX(-50%);
-  }@else if($type == 'y'){
-    top: 50%;
-    transform: translateY(-50%);
-  }@else{
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-}
-@mixin btnReset {
-  font-family: 'Montserrat', 'Noto Sans TC', sans-serif;
-  background-color: transparent;
-  outline: none;
-  border: none;
-  cursor: pointer;
-}
-@mixin inputReset{
-  font-family: 'Montserrat', 'Noto Sans TC', sans-serif;
-  @include font(1);
-  outline: none;
-  background-color: transparent;
-  color: $dark;
-  padding: 5px;
-}
-@mixin hoverImg {
-  cursor: pointer;
-  img{
-    @include positionCenter;
-    transition: opacity .3s;
-    &:nth-of-type(2) {
-      opacity: 0;
-    }
-  }
-  &:hover {
-    img{
-      &:nth-of-type(1) {
-      opacity: 0;
-      }
-      &:nth-of-type(2) {
-        opacity: 1;
-      }
-    }
-  }
-}
-@mixin container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin: auto;
-  width: 70%;
-  height: 70vh;
-  min-height: 550px;
-  border-radius: 20px;
-  overflow: hidden;
-  background-color: rgba($white, .3);
-  >.header {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 50px;
-    background-color: rgba($white, .65);
-    position: relative;
-    padding-left: 60px;
-    @include font(2, 50px);
-    >div {
-      @include positionCenter(y);
-      @include hoverImg;
-      left: 10px;
-      width: 30px;
-      height: 30px;
-    }
-  }
-  >.body {
-    width: 100%;
-    height: calc(100% - 50px);
-    padding-top: 10px;
-  }
-  @include media(479px){
-    min-width: 320px;
-    min-height: 400px;
-    width: calc(100% - 20px);
-  }
-}
-@mixin clearfix {
-  &::after {
-    content: '';
-    display: block;
-    clear: both;
-  }
-}
+
+
+

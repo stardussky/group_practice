@@ -1,5 +1,3 @@
-@import './var';
-
 @mixin baseBtn($width: auto){
   @include btnReset;
   @include font;
@@ -36,6 +34,10 @@
       height: 150%;
       opacity: 0;
     }
+  }
+  @include media(479px){
+    @include font(-.875);
+    min-height: 30px;
   }
 }
 
@@ -80,6 +82,12 @@
       &::before{
         width: 100%;
       }
+    }
+  }
+  @include media(479px){
+    >button {
+      @include font(-.875);
+      min-height: 30px;
     }
   }
 }

@@ -16,6 +16,10 @@ export default () => {
       },
       getProject (state, id) {
         state.index = id - 1
+      },
+      pushTodoCard (state, { id, todo }) {
+        // state.projects[id - 1].list[0].todo.push(todo)
+        console.log(todo)
       }
     },
     actions: {
@@ -28,6 +32,13 @@ export default () => {
       GET_PROJECT ({ commit }, id) {
         return new Promise(resolve => {
           commit('getProject', id)
+          resolve()
+        })
+      },
+      PUSH_TODO_CARD ({ commit }, { id, card }) {
+        return new Promise(resolve => {
+          console.log(card)
+          // commit('pushTodoCard', { id, card })
           resolve()
         })
       }

@@ -1,4 +1,3 @@
-@import './var';
 @mixin buttonActive($isHamburger: false) {
   & {
     @if ($isHamburger) {

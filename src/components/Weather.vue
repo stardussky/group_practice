@@ -15,7 +15,6 @@ export default {
 </script>
 
 <style lang='scss'>
-@import '../style/_var';
 .weather {
   position: fixed;
   bottom: 30px;

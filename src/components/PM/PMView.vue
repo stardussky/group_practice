@@ -49,7 +49,6 @@ export default {
 </script>
 
 <style lang='scss'>
-@import '@/style/_var';
 .pmView {
   display: flex;
   height: 100%;

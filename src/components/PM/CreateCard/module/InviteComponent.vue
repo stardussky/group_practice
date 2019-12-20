@@ -14,12 +14,10 @@
         <img
           src="@/assets/icon/plus.svg"
           alt="add"
-          width="20"
         >
         <img
           src="@/assets/icon/plus_on.svg"
           alt="add"
-          width="20"
         >
       </button>
     </div>
@@ -33,7 +31,6 @@ export default {
 </script>
 
 <style lang='scss'>
-@import '@/style/_var';
 .inviteComponent {
   .title {
     display: flex;
@@ -59,15 +56,13 @@ export default {
     margin: 5px;
   }
   .invite {
-    width: 30px;
-    height: 30px;
     border-radius: 50%;
     border: 2px solid $dark;
     position: relative;
     outline: none;
     vertical-align: middle;
     background-color: $white;
-    @include hoverImg;
+    @include hoverImg(30px);
     transition: border-color .3s;
     &:hover {
       border-color: $primary;

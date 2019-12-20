@@ -5,8 +5,8 @@
       :style="{backgroundColor:color}"
     >
       <input
+        v-model="cardTitle"
         type="text"
-        value="事情A"
       >
     </div>
     <div class="card_body">
@@ -22,28 +22,41 @@
           <p>內容</p>
         </div>
         <div class="content">
-          <TodoContent />
+          <TodoContent
+            v-for="content in todoContentList"
+            :key="content.id"
+            :content="content"
+            @enterContentList="pushContentList"
+            @changeStatus="changeStatus"
+            @deleteTodoContent="deleteTodoContent"
+          />
           <div class="add_todo">
             <input
+              v-model="todoTitle"
               type="text"
               placeholder="加點內容吧~"
+              @keydown.enter="enterTodoContent"
             >
             <div>
               <img
                 src="@/assets/icon/edit.svg"
                 alt="add"
-                width="20"
               >
               <img
                 src="@/assets/icon/edit_on.svg"
                 alt="add"
-                width="20"
               >
             </div>
           </div>
         </div>
       </div>
       <FileContent />
+    </div>
+    <div
+      class="card_footer"
+      :style="{backgroundColor:color}"
+    >
+      新增
     </div>
   </div>
 </template>
@@ -53,7 +66,8 @@ import InviteComponent from './module/InviteComponent'
 import DateComponent from './module/DateComponent'
 import FileContent from './module/FileContent'
 import TodoContent from './module/TodoContent'
-import { ref, computed } from '@vue/composition-api'
+import { ref } from '@vue/composition-api'
+import { mapActions } from 'vuex'
 export default {
   name: 'CreateCard',
   components: {
@@ -63,43 +77,49 @@ export default {
     TodoContent
   },
   inject: ['color'],
+  props: {
+    id: {
+      type: Number,
+      required: true
+    }
+  },
   setup () {
     const cardTitle = ref('待辦項目')
-    const date = ref(new Date())
-    const todoCard = computed(() => {
-      return {
-        status: false,
-        cardTitle: cardTitle.value,
-        member: [],
-        daedline: date.value,
-        content: [
-          {
-            title: '',
-            list: [
-              {
-                status: false,
-                todo: ''
-              }
-            ]
-          }
-        ],
-        files: [
-          {
-            name: '',
-            url: ''
-          }
-        ]
+    const todoTitle = ref(null)
+    const todoContentList = ref([])
+    const enterTodoContent = () => {
+      if (todoTitle) {
+        todoContentList.value.push({
+          id: todoContentList.value.length,
+          title: todoTitle.value,
+          lists: []
+        })
+        todoTitle.value = null
       }
-    })
-    return {
-      todoCard
     }
+    const pushContentList = ({ id, list }) => todoContentList.value[id].lists.push(list)
+    const changeStatus = ({ id, status }) => {
+      todoContentList.value[id].lists[status.id].status = status.status
+    }
+    const deleteTodoContent = (id) => todoContentList.value.splice(id, 1)
+
+    return {
+      cardTitle,
+      todoTitle,
+      todoContentList,
+      enterTodoContent,
+      pushContentList,
+      deleteTodoContent,
+      changeStatus
+    }
+  },
+  methods: {
+    ...mapActions('pmStore', ['PUSH_TODO_CARD'])
   }
 }
 </script>
 
 <style lang='scss'>
-@import '@/style/_card';
 .createCard {
   min-width: 400px;
   height: 100%;
@@ -107,6 +127,8 @@ export default {
   background-color: $white;
   overflow-x: hidden;
   margin-right: 10px;
+  position: relative;
+  padding-bottom: 50px;
   .card_head {
     @include cardHead;
     position: relative;
@@ -157,12 +179,13 @@ export default {
       }
     }
     >div {
-      width: 20px;
-      height: 20px;
       @include positionCenter(y);
-      @include hoverImg;
+      @include hoverImg(20px);
       right: 0;
     }
+  }
+  .card_footer {
+    @include cardFooter
   }
 }
 </style>

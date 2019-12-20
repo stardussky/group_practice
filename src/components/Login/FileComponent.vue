@@ -75,7 +75,6 @@ export default {
 </script>
 
 <style lang='scss'>
-@import '@/style/_formButton';
 .fileComponent {
   width: 250px;
   .preview {
@@ -118,6 +117,15 @@ export default {
   }
   @include media(479px){
     width: 100%;
+    .preview{
+      min-width: 60px;
+      min-height: 60px;
+    }
+    .headshot {
+      label {
+        width: 30px;
+      }
+    }
   }
 }
 </style>

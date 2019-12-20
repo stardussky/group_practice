@@ -1,0 +1,17 @@
+@function font($level: 0){
+  @return $baseFont + round($level * $fontLevel);
+}
+@function line($size){
+  @return ceil($size * $lineLevel / $baseLine) * $baseLine;
+}
+@mixin font($level: 0, $lineHeight: null){
+  $size: font($level);
+  $line: line($size);
+  letter-spacing: $size / 5;
+  font-size: $size;
+  @if($lineHeight){
+    line-height: $lineHeight;
+  }@else {
+    line-height: $line;
+  }
+}

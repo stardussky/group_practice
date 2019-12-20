@@ -20,6 +20,7 @@ export function init (refs, vm) {
     antialias: true
   })
   renderer.setSize(width, height)
+  renderer.setPixelRatio(devicePixelRatio)
   renderer.setClearColor(0x000000, 1)
   labelRenderer = new CSS2DRenderer()
   labelRenderer.setSize(width, height)

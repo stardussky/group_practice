@@ -27,7 +27,6 @@ export default {
 </script>
 
 <style lang='scss'>
-@import '@/style/_var';
 .project {
   display: inline-block;
   min-width: 300px;

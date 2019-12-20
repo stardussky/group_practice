@@ -87,7 +87,6 @@ export default {
 </script>
 
 <style lang='scss'>
-@import '@/style/_navbarButton';
 .navbarComponent {
   position: fixed;
   top: 30px;
