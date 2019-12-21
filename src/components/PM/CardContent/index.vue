@@ -12,6 +12,7 @@
         :key="todo.id"
         :color="color"
         :todo="todo"
+        @click.native="EDIT_TODO_CARD({step, cardId: todo.id})"
       />
     </div>
   </div>
@@ -19,6 +20,7 @@
 
 <script>
 import TodoCard from './module/TodoCard'
+import { mapActions } from 'vuex'
 export default {
   name: 'CardContent',
   components: {
@@ -36,7 +38,14 @@ export default {
     color: {
       type: String,
       required: true
+    },
+    step: {
+      type: Number,
+      required: true
     }
+  },
+  methods: {
+    ...mapActions('pmStore', ['EDIT_TODO_CARD'])
   }
 }
 </script>

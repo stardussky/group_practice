@@ -1,5 +1,5 @@
 <template>
-  <div class="createCard">
+  <div class="editCard">
     <div
       class="card_head"
       :style="{backgroundColor:color}"
@@ -9,7 +9,7 @@
         type="text"
       >
       <img
-        src="@/assets/icon/edit_on.svg"
+        src="@/assets/icon/edit_w.svg"
         alt="edit"
         width="20"
       >
@@ -66,22 +66,23 @@
     <div
       class="card_footer"
       :style="{backgroundColor:color}"
-      @click="PUSH_TODO_CARD(cardContent)"
+      @click="EDIT_DONE(cardContent)"
     >
-      新增
+      編輯完成
     </div>
   </div>
 </template>
 
 <script>
-import InviteComponent from './module/InviteComponent'
-import DateComponent from './module/DateComponent'
-import FileContent from './module/FileContent'
-import TodoContent from './module/TodoContent'
-import { ref, computed } from '@vue/composition-api'
+import InviteComponent from './base/InviteComponent'
+import DateComponent from './base/DateComponent'
+import FileContent from './base/FileContent'
+import TodoContent from './base/TodoContent'
+import card from '@/composition/card'
+import { ref, computed, watch } from '@vue/composition-api'
 import { mapActions } from 'vuex'
 export default {
-  name: 'CreateCard',
+  name: 'EditCard',
   components: {
     InviteComponent,
     DateComponent,
@@ -93,35 +94,24 @@ export default {
       type: Number,
       required: true
     },
-    todoId: {
-      type: Number,
-      required: true
-    },
     color: {
       type: String,
+      required: true
+    },
+    editCard: {
+      type: Object,
       required: true
     }
   },
   setup (props) {
-    const cardTitle = ref('待辦項目')
-    const todoTitle = ref(null)
-    const todoContentList = ref([])
-    const fileContent = ref([])
-    const pushTodoContent = () => {
-      if (todoTitle) {
-        todoContentList.value.push({
-          id: todoContentList.value.length,
-          title: todoTitle.value,
-          lists: []
-        })
-        todoTitle.value = null
-      }
-    }
+    const { todoTitle, todoContentList, fileContent, pushTodoContent, pushContentList, pushFile, changeStatus, deleteTodoContent, deleteFile } = card()
+    const cardTitle = ref(null)
     const cardContent = computed(() => {
       return {
         projectId: props.projectId,
+        step: props.editCard.editInfo.step,
         card: {
-          id: props.todoId,
+          id: props.editCard.editInfo.cardId,
           title: cardTitle.value,
           status: false,
           content: todoContentList.value,
@@ -129,13 +119,12 @@ export default {
         }
       }
     })
-    const pushContentList = ({ id, list }) => todoContentList.value[id].lists.push(list)
-    const pushFile = (file) => fileContent.value.push(file)
-    const changeStatus = ({ id, status }) => {
-      todoContentList.value[id].lists[status.id].status = status.status
-    }
-    const deleteTodoContent = (id) => todoContentList.value.splice(id, 1)
-    const deleteFile = (id) => fileContent.value.splice(id, 1)
+    watch(() => props.editCard.card, (val) => {
+      let edit = JSON.parse(JSON.stringify(val))
+      cardTitle.value = edit.title
+      todoContentList.value = edit.content
+      fileContent.value = edit.files
+    })
     return {
       cardTitle,
       todoTitle,
@@ -151,11 +140,13 @@ export default {
     }
   },
   methods: {
-    ...mapActions('pmStore', ['PUSH_TODO_CARD'])
+    ...mapActions('pmStore', ['EDIT_DONE'])
   }
 }
 </script>
 
 <style lang='scss'>
-  @import './_style';
+  .editCard{
+    @import './base/_style';
+  }
 </style>

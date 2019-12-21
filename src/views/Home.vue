@@ -118,11 +118,7 @@ export default {
       }
     }
   }
-  .slider-enter-active, .slider-leave-active,
-  .fade-enter-active, .fade-leave-active{
+  .slider-enter-active, .slider-leave-active{
     transition: all 1s;
-  }
-  .fade-enter, .fade-leave-to{
-    opacity: 0;
   }
 </style>

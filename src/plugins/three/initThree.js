@@ -109,8 +109,8 @@ export function init (refs, vm) {
   })
 
   // debugger
-  // statsUI = new stats.Stats()
-  // refs.stats.append(statsUI.domElement)
+  statsUI = new stats.Stats()
+  refs.stats.append(statsUI.domElement)
   // var directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight);
   // scene.add(directionalLightHelper);
   // var axesHelper = new THREE.AxesHelper(5);
@@ -192,6 +192,6 @@ function render () {
   animation = requestAnimationFrame(render)
 
   // debugger
-  // statsUI.update()
+  statsUI.update()
 }
 export { animation }
