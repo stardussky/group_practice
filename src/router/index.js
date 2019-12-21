@@ -63,7 +63,7 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   if (to.meta.auth) {
     store.dispatch('pmStore/GET_PROJECT', to.params.id)
-    if (!store.getters['pmStore/project']) return next('pm')
+    if (!store.getters['pmStore/project']) return next('/')
     next()
   }
   next()

@@ -8,6 +8,11 @@
         v-model="cardTitle"
         type="text"
       >
+      <img
+        src="@/assets/icon/edit_on.svg"
+        alt="edit"
+        width="20"
+      >
     </div>
     <div class="card_body">
       <InviteComponent />
@@ -26,6 +31,7 @@
             v-for="content in todoContentList"
             :key="content.id"
             :content="content"
+            :color="color"
             @enterContentList="pushContentList"
             @changeStatus="changeStatus"
             @deleteTodoContent="deleteTodoContent"
@@ -35,7 +41,7 @@
               v-model="todoTitle"
               type="text"
               placeholder="加點內容吧~"
-              @keydown.enter="enterTodoContent"
+              @keydown.enter="pushTodoContent"
             >
             <div>
               <img
@@ -50,11 +56,17 @@
           </div>
         </div>
       </div>
-      <FileContent />
+      <FileContent
+        :file-content="fileContent"
+        :color="color"
+        @pushFile="pushFile"
+        @deleteFile="deleteFile"
+      />
     </div>
     <div
       class="card_footer"
       :style="{backgroundColor:color}"
+      @click="PUSH_TODO_CARD(cardContent)"
     >
       新增
     </div>
@@ -66,7 +78,7 @@ import InviteComponent from './module/InviteComponent'
 import DateComponent from './module/DateComponent'
 import FileContent from './module/FileContent'
 import TodoContent from './module/TodoContent'
-import { ref } from '@vue/composition-api'
+import { ref, computed } from '@vue/composition-api'
 import { mapActions } from 'vuex'
 export default {
   name: 'CreateCard',
@@ -76,18 +88,26 @@ export default {
     FileContent,
     TodoContent
   },
-  inject: ['color'],
   props: {
-    id: {
+    projectId: {
       type: Number,
+      required: true
+    },
+    todoId: {
+      type: Number,
+      required: true
+    },
+    color: {
+      type: String,
       required: true
     }
   },
-  setup () {
+  setup (props) {
     const cardTitle = ref('待辦項目')
     const todoTitle = ref(null)
     const todoContentList = ref([])
-    const enterTodoContent = () => {
+    const fileContent = ref([])
+    const pushTodoContent = () => {
       if (todoTitle) {
         todoContentList.value.push({
           id: todoContentList.value.length,
@@ -97,20 +117,37 @@ export default {
         todoTitle.value = null
       }
     }
+    const cardContent = computed(() => {
+      return {
+        projectId: props.projectId,
+        card: {
+          id: props.todoId,
+          title: cardTitle.value,
+          status: false,
+          content: todoContentList.value,
+          files: fileContent.value
+        }
+      }
+    })
     const pushContentList = ({ id, list }) => todoContentList.value[id].lists.push(list)
+    const pushFile = (file) => fileContent.value.push(file)
     const changeStatus = ({ id, status }) => {
       todoContentList.value[id].lists[status.id].status = status.status
     }
     const deleteTodoContent = (id) => todoContentList.value.splice(id, 1)
-
+    const deleteFile = (id) => fileContent.value.splice(id, 1)
     return {
       cardTitle,
       todoTitle,
       todoContentList,
-      enterTodoContent,
+      fileContent,
+      pushTodoContent,
       pushContentList,
+      pushFile,
       deleteTodoContent,
-      changeStatus
+      deleteFile,
+      changeStatus,
+      cardContent
     }
   },
   methods: {
@@ -120,72 +157,5 @@ export default {
 </script>
 
 <style lang='scss'>
-.createCard {
-  min-width: 400px;
-  height: 100%;
-  border-radius: 20px;
-  background-color: $white;
-  overflow-x: hidden;
-  margin-right: 10px;
-  position: relative;
-  padding-bottom: 50px;
-  .card_head {
-    @include cardHead;
-    position: relative;
-    >input {
-      font-family: 'Montserrat', 'Noto Sans TC', sans-serif;
-      color: $white;
-      background-color: inherit;
-      border: none;
-      outline: none;
-      text-align: center;
-      @include font(2);
-    }
-  }
-  .card_body {
-    height: calc(100% - 50px);
-    padding: 10px 20px;
-    overflow-y: auto;
-  }
-  .listContent {
-    >.content {
-      padding-left: 25px;
-    }
-    >.title {
-      display: flex;
-      align-items: center;
-      margin: 5px 0;
-      p{
-        @include font(1);
-        margin-left: 5px;
-      }
-    }
-  }
-  .add_todo {
-    position: relative;
-    margin-top: 10px;
-    >input {
-      width: 100%;
-      @include btnReset;
-      @include font(1);
-      color: $dark;
-      height: 30px;
-      border-bottom: 1px solid $dark;
-      padding: 0 30px 0 5px;
-      &::-webkit-input-placeholder{
-        @include font;
-        color: $dark;
-        text-align: center;
-      }
-    }
-    >div {
-      @include positionCenter(y);
-      @include hoverImg(20px);
-      right: 0;
-    }
-  }
-  .card_footer {
-    @include cardFooter
-  }
-}
+  @import './_style';
 </style>

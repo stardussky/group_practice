@@ -55,10 +55,13 @@ export default {
   components: {
     ContentList
   },
-  inject: ['color'],
   props: {
     content: {
       type: Object,
+      required: true
+    },
+    color: {
+      type: String,
       required: true
     }
   },
@@ -107,7 +110,7 @@ export default {
     position: relative;
     >div {
       @include positionCenter(y);
-      @include hoverImg(20px);
+      @include hoverImg(30px);
       right: 0;
     }
   }

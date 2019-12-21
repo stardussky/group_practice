@@ -3,8 +3,8 @@
   height: $size;
   cursor: pointer;
   img{
-    width: $size;
-    height: $size;
+    width: $size*.7;
+    height: $size*.7;
     @include positionCenter;
     transition: opacity .3s;
     &:nth-of-type(2) {

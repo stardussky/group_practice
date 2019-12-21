@@ -2,6 +2,7 @@
 import * as THREE from 'three'
 import GLTFLoader from 'three-gltf-loader'
 import { CSS2DRenderer } from 'three-css2drender'
+import transformModel from './transformModel'
 import stats from 'three-stats'
 import { Particle, RainDrop } from './particleSystem'
 import { CircleButton } from './button'
@@ -32,13 +33,13 @@ export function init (refs, vm) {
   refs.threeJs.appendChild(renderer.domElement)
 
   camera = new THREE.PerspectiveCamera(45, aspect, 1, 5000)
-  camera.position.set(0, 250, 800)
+  camera.position.set(0, 400, 800)
   cameraControl = new OrbitControls(camera, labelRenderer.domElement)
   cameraControl.enableDamping = true
-  cameraControl.dampingFactor = 0.01
+  cameraControl.dampingFactor = 0.005
   cameraControl.autoRotate = true
   cameraControl.autoRotateSpeed = 1
-  cameraControl.minDistance = 250
+  cameraControl.minDistance = 400
   cameraControl.maxDistance = 600
 
   const globalLight = new THREE.AmbientLight(0xffffff, 0.85)
@@ -50,8 +51,10 @@ export function init (refs, vm) {
   loader.load(
     './model/model.glb',
     (gltf) => {
-      gltf.scene.position.set(0, -100, 0);
-      scene.add(gltf.scene)
+      let mesh = transformModel(gltf.scene)
+      mesh.position.y = -80
+      mesh.rotation.x = Math.PI * 0.5
+      scene.add(mesh)
     },
     (xhr) => {
       // console.log(`${(xhr.loaded / xhr.total * 100)}% loaded`)
@@ -69,8 +72,8 @@ export function init (refs, vm) {
   let tempObj
   const pmBtn = new CircleButton(0, 30, 0, refs.projectManagement)
   const clockBtn = new CircleButton(90, 30, -100, refs.clock)
-  const shopBtn = new CircleButton(0, -100, 50, refs.shop)
-  const loginBtn = new CircleButton(20, 160, 130, refs.login)
+  const shopBtn = new CircleButton(-35, -80, -40, refs.shop)
+  const loginBtn = new CircleButton(20, 180, 130, refs.login)
   scene.add(
     pmBtn.button, pmBtn.fontLabel,
     clockBtn.button, clockBtn.fontLabel,

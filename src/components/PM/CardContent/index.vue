@@ -10,6 +10,8 @@
       <TodoCard
         v-for="todo in list.todo"
         :key="todo.id"
+        :color="color"
+        :todo="todo"
       />
     </div>
   </div>
@@ -23,12 +25,19 @@ export default {
     TodoCard
   },
   props: {
+    projectId: {
+      type: Number,
+      required: true
+    },
     list: {
       type: Object,
       required: true
+    },
+    color: {
+      type: String,
+      required: true
     }
-  },
-  inject: ['color']
+  }
 }
 </script>
 

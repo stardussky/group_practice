@@ -10,9 +10,15 @@
     </div>
     <div class="files">
       <ul>
-        <li>
-          <a href="#">XXX</a>
-          <div>
+        <li
+          v-for="list in fileContent"
+          :key="list.id"
+        >
+          <a
+            :href="list.src"
+            :download="list.name"
+          >{{ list.name }}</a>
+          <div @click="deleteFile(list.id)">
             <img
               src="@/assets/icon/delete.svg"
               alt="delete"
@@ -26,16 +32,55 @@
       </ul>
       <label :style="{backgroundColor: color}">
         <p>上傳附件</p>
-        <input type="file">
+        <input
+          ref="fileInput"
+          type="file"
+          @change="changeFile"
+        >
       </label>
     </div>
   </div>
 </template>
 
 <script>
+import { onMounted, onUnmounted } from '@vue/composition-api'
+import fileReader from '@/composition/fileReader'
 export default {
   name: 'FileContent',
-  inject: ['color']
+  props: {
+    fileContent: {
+      type: Array,
+      required: true
+    },
+    color: {
+      type: String,
+      required: true
+    }
+  },
+  setup (props, { refs, emit }) {
+    const { file, reader, changeFile } = fileReader()
+    const fileHandler = (e) => {
+      emit('pushFile', {
+        id: props.fileContent.length,
+        name: file.value.name,
+        src: e.target.result
+      })
+      refs.fileInput.type = 'text'
+      refs.fileInput.type = 'file'
+    }
+    const deleteFile = (id) => emit('deleteFile', id)
+
+    onMounted(() => {
+      reader.addEventListener('load', fileHandler)
+    })
+    onUnmounted(() => {
+      reader.removeEventListener('load', fileHandler)
+    })
+    return {
+      changeFile,
+      deleteFile
+    }
+  }
 }
 </script>
 
@@ -59,8 +104,9 @@ export default {
       @include font(1);
       li {
         position: relative;
+        margin-bottom: 5px;
         div{
-          @include hoverImg(20px);
+          @include hoverImg(30px);
           @include positionCenter(y);
           right: 0;
         }

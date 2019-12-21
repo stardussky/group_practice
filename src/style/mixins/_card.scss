@@ -6,6 +6,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  >input {
+    width: 320px;
+    margin-right: 10px;
+  }
 }
 @mixin cardFooter(){
     position: absolute;
@@ -18,4 +22,6 @@
     background-color: black;
     text-align: center;
     cursor: pointer;
+    &:hover {
+    }
 }

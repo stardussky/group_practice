@@ -42,7 +42,7 @@ export default {
     const selectColor = ref(null)
     const project = computed(() => {
       return {
-        id: props.id + 1,
+        id: props.id,
         info: {
           title: name.value,
           color: selectColor.value

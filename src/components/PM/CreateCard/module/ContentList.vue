@@ -43,8 +43,7 @@ export default {
     return {
       changeStatus
     }
-  },
-  inject: ['color']
+  }
 }
 </script>
 

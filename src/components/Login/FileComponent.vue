@@ -15,7 +15,7 @@
           <input
             :type="type"
             :name="name"
-            @change="changeShot"
+            @change="changeFile"
           >
         </label>
       </div>
@@ -25,7 +25,7 @@
 
 <script>
 import { computed, onMounted, onUnmounted } from '@vue/composition-api'
-const reader = new FileReader()
+import fileReader from '@/composition/fileReader'
 export default {
   name: 'FileComponent',
   props: {
@@ -43,12 +43,7 @@ export default {
     }
   },
   setup (props, { emit }) {
-    const changeShot = (e) => {
-      let file = e.target.files[0]
-      if (file) {
-        reader.readAsDataURL(file)
-      }
-    }
+    const { reader, changeFile } = fileReader()
     const shotUrl = computed({
       get () {
         return props.value
@@ -67,7 +62,7 @@ export default {
       reader.removeEventListener('load', fileHandler)
     })
     return {
-      changeShot,
+      changeFile,
       shotUrl
     }
   }

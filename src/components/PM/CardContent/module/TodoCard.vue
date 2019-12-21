@@ -1,10 +1,13 @@
 <template>
   <div class="todoCard">
-    <div>
-      <div class="pm_color" />
-      <p class="todo_title">
-        事項A事項A事項A事項A事項A事項A事項A事項A
-      </p>
+    <div
+      class="pm_color"
+      :style="{backgroundColor: color}"
+    />
+    <div class="todo_title">
+      <p>{{ todo.title }}</p>
+    </div>
+    <div class="todo_info">
       <div class="todo_date">
         <img
           src="@/assets/icon/calendar.svg"
@@ -13,33 +16,47 @@
         >
         <p>2019/12/31</p>
       </div>
-    </div>
-    <div>
-      <div class="todo_delete">
-        <img
-          src="@/assets/icon/delete.svg"
-          alt="delete"
-        >
-        <img
-          src="@/assets/icon/delete_on.svg"
-          alt="delete"
-        >
-      </div>
       <div class="todo_done">
         <img
           src="@/assets/icon/checked_d.svg"
           alt="checked"
           width="20"
         >
-        <p>0/6</p>
+        <p>{{ schedule }}</p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { computed } from '@vue/composition-api'
 export default {
-  name: 'TodoCard'
+  name: 'TodoCard',
+  props: {
+    todo: {
+      type: Object,
+      required: true
+    },
+    color: {
+      type: String,
+      required: true
+    }
+  },
+  setup (props) {
+    const schedule = computed(() => {
+      let done = props.todo.content.map(content => {
+        return content.lists.filter(list => {
+          return list.status
+        })
+      }).reduce((prev, arr) => prev + arr.length, 0)
+      let all = props.todo.content.reduce((prev, arr) => prev + arr.lists.length, 0)
+
+      return `${done}/${all}`
+    })
+    return {
+      schedule
+    }
+  }
 }
 </script>
 
@@ -52,17 +69,11 @@ export default {
   border-radius: 10px;
   padding: 10px;
   cursor: pointer;
-  display: flex;
-  align-items: center;
   box-shadow: 1px 1px 3px $shadow;
   position: relative;
+  z-index: 1;
   >div {
-    z-index: 1;
-    &:nth-of-type(2) {
-      position: relative;
-      width: 70px;
-      height: 65.8px;
-    }
+    width: 100%;
   }
   .pm_color {
     position: absolute;
@@ -70,17 +81,23 @@ export default {
     left: 10px;
     width: 30px;
     height: 5px;
-    background-color: $danger;
     border-radius: 20px;
     transition: all .3s;
+    z-index: -1;
   }
   .todo_title {
-    width: 180px;
     @include font(2);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
     margin: 10px 0 5px;
+    >p{
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+  .todo_info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
   .todo_date, .todo_done {
     display: flex;
@@ -90,17 +107,6 @@ export default {
       margin-left: 5px;
     }
   }
-  .todo_delete {
-    position: absolute;
-    top: 0;
-    right: 0;
-    @include hoverImg(20px);
-  }
-  .todo_done {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-  }
   &:hover {
     .pm_color {
       width: 100%;
@@ -109,9 +115,7 @@ export default {
       left: 0;
       border-radius: 10px;
       opacity: .7;
-      z-index: -1;
     }
   }
 }
-
 </style>

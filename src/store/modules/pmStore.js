@@ -15,11 +15,10 @@ export default () => {
         state.projects.push(data)
       },
       getProject (state, id) {
-        state.index = id - 1
+        state.index = id
       },
-      pushTodoCard (state, { id, todo }) {
-        // state.projects[id - 1].list[0].todo.push(todo)
-        console.log(todo)
+      pushTodoCard (state, { projectId, card }) {
+        state.projects[projectId].list[0].todo.push(card)
       }
     },
     actions: {
@@ -35,10 +34,9 @@ export default () => {
           resolve()
         })
       },
-      PUSH_TODO_CARD ({ commit }, { id, card }) {
+      PUSH_TODO_CARD ({ commit }, payload) {
         return new Promise(resolve => {
-          console.log(card)
-          // commit('pushTodoCard', { id, card })
+          commit('pushTodoCard', payload)
           resolve()
         })
       }

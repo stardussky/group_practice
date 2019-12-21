@@ -1,0 +1,68 @@
+.createCard {
+  min-width: 400px;
+  height: 100%;
+  border-radius: 20px;
+  background-color: $white;
+  overflow-x: hidden;
+  margin-right: 10px;
+  position: relative;
+  padding-bottom: 50px;
+  .card_head {
+    @include cardHead;
+    position: relative;
+    >input {
+      font-family: 'Montserrat', 'Noto Sans TC', sans-serif;
+      color: $white;
+      background-color: inherit;
+      border: none;
+      outline: none;
+      text-align: center;
+      @include font(2);
+    }
+  }
+  .card_body {
+    height: calc(100% - 50px);
+    padding: 10px 20px;
+    overflow-y: auto;
+  }
+  .listContent {
+    >.content {
+      padding-left: 25px;
+    }
+    >.title {
+      display: flex;
+      align-items: center;
+      margin: 5px 0;
+      p{
+        @include font(1);
+        margin-left: 5px;
+      }
+    }
+  }
+  .add_todo {
+    position: relative;
+    margin-top: 10px;
+    >input {
+      width: 100%;
+      @include btnReset;
+      @include font(1);
+      color: $dark;
+      height: 30px;
+      border-bottom: 1px solid $dark;
+      padding: 0 30px 0 5px;
+      &::-webkit-input-placeholder{
+        @include font;
+        color: $dark;
+        text-align: center;
+      }
+    }
+    >div {
+      @include positionCenter(y);
+      @include hoverImg(30px);
+      right: 0;
+    }
+  }
+  .card_footer {
+    @include cardFooter
+  }
+}

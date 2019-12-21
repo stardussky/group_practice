@@ -1,10 +1,16 @@
 <template>
   <div class="cardView">
-    <CreateCard :id="project.id" />
+    <CreateCard
+      :project-id="project.id"
+      :todo-id="project.list[0].todo.length"
+      :color="project.info.color"
+    />
     <CardContent
       v-for="list in project.list"
       :key="list.status"
+      :project-id="project.id"
       :list="list"
+      :color="project.info.color"
     />
   </div>
 </template>
@@ -18,11 +24,6 @@ export default {
   components: {
     CardContent,
     CreateCard
-  },
-  provide () {
-    return {
-      color: this.project.info.color
-    }
   },
   computed: {
     ...mapState('pmStore', ['projects']),
