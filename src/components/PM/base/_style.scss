@@ -9,16 +9,6 @@
   padding-bottom: 50px;
   .card_head {
     @include cardHead;
-    position: relative;
-    >input {
-      font-family: 'Montserrat', 'Noto Sans TC', sans-serif;
-      color: $white;
-      background-color: inherit;
-      border: none;
-      outline: none;
-      text-align: center;
-      @include font(2);
-    }
   }
   .card_body {
     height: calc(100% - 50px);
@@ -64,5 +54,13 @@
   }
   .card_footer {
     @include cardFooter
+  }
+  @include media(479px){
+    min-width: 300px;
+    padding-bottom: 30px;
+    .card_body {
+      height: calc(100% - 30px);
+      padding: 10px;
+    }
   }
 }

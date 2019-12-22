@@ -14,7 +14,7 @@
           alt="calendar"
           width="20"
         >
-        <p>2019/12/31</p>
+        <p>{{ todo.deadLine }}</p>
       </div>
       <div class="todo_done">
         <img

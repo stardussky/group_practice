@@ -16,7 +16,11 @@
     </div>
     <div class="card_body">
       <InviteComponent />
-      <DateComponent />
+      <DateComponent
+        v-model="deadLine"
+        :dead-line="deadLine"
+        :date-status.sync="dateStatus"
+      />
       <div class="listContent">
         <div class="title">
           <img
@@ -104,7 +108,7 @@ export default {
     }
   },
   setup (props) {
-    const { todoTitle, todoContentList, fileContent, pushTodoContent, pushContentList, pushFile, changeStatus, deleteTodoContent, deleteFile } = card()
+    const { dateStatus, deadLine, todoTitle, todoContentList, fileContent, pushTodoContent, pushContentList, pushFile, changeStatus, deleteTodoContent, deleteFile } = card()
     const cardTitle = ref('待辦項目')
     const cardContent = computed(() => {
       return {
@@ -112,7 +116,8 @@ export default {
         card: {
           id: props.todoId,
           title: cardTitle.value,
-          status: false,
+          status: dateStatus.value,
+          deadLine: deadLine.value,
           content: todoContentList.value,
           files: fileContent.value
         }
@@ -125,6 +130,8 @@ export default {
     }
     return {
       cardTitle,
+      deadLine,
+      dateStatus,
       todoTitle,
       todoContentList,
       fileContent,

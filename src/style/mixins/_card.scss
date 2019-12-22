@@ -1,14 +1,31 @@
 @mixin cardHead(){
   width: 100%;
   height: 50px;
-  color: $white;
   @include font(2);
+  color: $white;
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
+  border-radius: 20px 20px 0 0 ;
   >input {
+    @include font(2);
     width: 320px;
     margin-right: 10px;
+    font-family: 'Montserrat', 'Noto Sans TC', sans-serif;
+    color: $white;
+    background-color: inherit;
+    border: none;
+    outline: none;
+    text-align: center;
+  }
+  @include media(479px){
+    height: 30px;
+    @include font(1);
+    >input {
+      width: 235px;
+      @include font(1);
+    }
   }
 }
 @mixin cardFooter(){
@@ -24,7 +41,12 @@
     cursor: pointer;
     opacity: .6;
     transition: opacity .3s;
+    border-radius: 0 0 20px 20px;
     &:hover {
       opacity: 1;
+    }
+    @include media(479px){
+      height: 30px;
+      @include font(1, 30px);
     }
 }

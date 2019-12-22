@@ -60,7 +60,6 @@ export default {
   height: 100%;
   border-radius: 20px;
   background-color: rgba($white, .65);
-  overflow-x: hidden;
   margin-right: 10px;
   .card_head {
     @include cardHead;

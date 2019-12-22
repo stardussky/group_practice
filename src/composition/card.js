@@ -1,6 +1,8 @@
 import { ref } from '@vue/composition-api'
 export default () => {
   const todoTitle = ref(null)
+  const deadLine = ref('未設定')
+  const dateStatus = ref(false)
   const todoContentList = ref([])
   const fileContent = ref([])
   const pushTodoContent = () => {
@@ -22,6 +24,8 @@ export default () => {
   const deleteFile = (id) => fileContent.value.splice(id, 1)
   return {
     todoTitle,
+    deadLine,
+    dateStatus,
     todoContentList,
     fileContent,
     pushTodoContent,

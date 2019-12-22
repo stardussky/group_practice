@@ -43,6 +43,13 @@ export default {
   computed: {
     ...mapState('pmStore', ['isEdit']),
     ...mapGetters('pmStore', ['project', 'editCardTarget'])
+  },
+  beforeRouteLeave (to, from, next) {
+    if (this.isEdit) {
+      if (confirm('編輯尚未儲存，是否離開')) next()
+    } else {
+      next()
+    }
   }
 }
 </script>

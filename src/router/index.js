@@ -43,6 +43,18 @@ const routes = [
         ]
       },
       {
+        path: 'clock',
+        name: 'Clock',
+        component: () => import(/* webpackChunkName: "Clock" */ '../views/Clock.vue'),
+        meta: { name: 'Clock', title: '番茄鐘' }
+      },
+      {
+        path: 'shop',
+        name: 'Shop',
+        component: () => import(/* webpackChunkName: "Shop" */ '../views/Shop.vue'),
+        meta: { name: 'Shop', title: '商城' }
+      },
+      {
         path: 'login',
         name: 'Login',
         component: () => import(/* webpackChunkName: "Login" */ '../views/Login.vue'),

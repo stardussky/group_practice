@@ -62,10 +62,16 @@ export default {
     outline: none;
     vertical-align: middle;
     background-color: $white;
-    @include hoverImg(30px);
+    @include hoverImg(25px);
     transition: border-color .3s;
     &:hover {
       border-color: $primary;
+    }
+  }
+  @include media(479px){
+    .member {
+      width: 30px;
+      height: 30px;
     }
   }
 }

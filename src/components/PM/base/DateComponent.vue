@@ -28,8 +28,11 @@
       </div>
       <div>
         <date-picker
-          v-model="date"
+          v-model="dateValue"
           type="datetime"
+          value-type="YYYY-MM-DD hh:mm"
+          format="YYYY-MM-DD hh:mm"
+          :show-second="false"
         >
           <template v-slot:icon-calendar>
             <img
@@ -50,17 +53,42 @@
 
 <script>
 import DatePicker from 'vue2-datepicker'
-import { ref } from '@vue/composition-api'
+import { computed } from '@vue/composition-api'
 export default {
   name: 'DateComponent',
   components: {
     DatePicker
   },
-  setup () {
-    const status = ref(false)
-    const date = ref(new Date())
+  props: {
+    deadLine: {
+      type: String,
+      required: true
+    },
+    dateStatus: {
+      type: Boolean,
+      required: true
+    }
+  },
+  setup (props, { emit }) {
+    const dateValue = computed({
+      get () {
+        return props.deadLine
+      },
+      set (val) {
+        val = val || '未設定'
+        emit('input', val)
+      }
+    })
+    const status = computed({
+      get () {
+        return props.dateStatus
+      },
+      set (val) {
+        emit('update:dateStatus', val)
+      }
+    })
     return {
-      date,
+      dateValue,
       status
     }
   }
@@ -104,6 +132,11 @@ $input-hover-border-color: $gray;
       &.done {
         background-color: $success;
       }
+    }
+  }
+  @include media(479px){
+    .mx-datepicker{
+      width: 130px;
     }
   }
 }

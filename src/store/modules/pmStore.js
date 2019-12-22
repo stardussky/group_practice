@@ -12,9 +12,11 @@ export default () => {
         return state.projects[state.index]
       },
       editCardTarget (state, getters) {
-        return {
-          editInfo: state.editInfo,
-          card: getters.project.list[state.editInfo.step].todo[state.editInfo.cardId]
+        if (state.isEdit) {
+          return {
+            editInfo: state.editInfo,
+            card: getters.project.list[state.editInfo.step].todo[state.editInfo.cardId]
+          }
         }
       }
     },
