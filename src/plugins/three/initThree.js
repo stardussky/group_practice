@@ -54,6 +54,7 @@ export function init (refs, vm) {
       let mesh = transformModel(gltf.scene)
       mesh.position.y = -80
       mesh.rotation.x = Math.PI * 0.5
+      mesh.rotation.z = Math.PI * -0.8
       scene.add(mesh)
     },
     (xhr) => {
@@ -70,10 +71,10 @@ export function init (refs, vm) {
     if (refs[key].className === 'button')buttons.push(refs[key].dataset.path)
   }
   let tempObj
-  const pmBtn = new CircleButton(0, 30, 0, refs.projectManagement)
+  const pmBtn = new CircleButton(0, 50, 0, refs.projectManagement)
   const clockBtn = new CircleButton(90, 30, -100, refs.clock)
-  const shopBtn = new CircleButton(-35, -80, -40, refs.shop)
-  const loginBtn = new CircleButton(20, 180, 130, refs.login)
+  const shopBtn = new CircleButton(0, -80, 50, refs.shop)
+  const loginBtn = new CircleButton(60, 180, -110, refs.login)
   scene.add(
     pmBtn.button, pmBtn.fontLabel,
     clockBtn.button, clockBtn.fontLabel,

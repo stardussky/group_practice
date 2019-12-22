@@ -6,7 +6,11 @@
     >
       {{ list.status }}
     </div>
-    <div class="card_body">
+    <transition-group
+      class="card_body"
+      name="slider"
+      tag="div"
+    >
       <TodoCard
         v-for="todo in list.todo"
         :key="todo.id"
@@ -14,7 +18,7 @@
         :todo="todo"
         @click.native="EDIT_TODO_CARD({step, cardId: todo.id})"
       />
-    </div>
+    </transition-group>
   </div>
 </template>
 

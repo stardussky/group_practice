@@ -26,13 +26,19 @@
           width="20"
         >
       </div>
-      <div class="date">
-        <p>2019/12/31</p>
-        <img
-          src="@/assets/icon/down-arrow.svg"
-          alt="down"
-          width="15"
+      <div>
+        <date-picker
+          v-model="date"
+          type="datetime"
         >
+          <template v-slot:icon-calendar>
+            <img
+              src="@/assets/icon/calendar.svg"
+              alt="calendar"
+              width="15"
+            >
+          </template>
+        </date-picker>
         <span
           class="status"
           :class="{done: status}"
@@ -43,12 +49,18 @@
 </template>
 
 <script>
+import DatePicker from 'vue2-datepicker'
 import { ref } from '@vue/composition-api'
 export default {
   name: 'DateComponent',
+  components: {
+    DatePicker
+  },
   setup () {
     const status = ref(false)
+    const date = ref(new Date())
     return {
+      date,
       status
     }
   }
@@ -56,6 +68,13 @@ export default {
 </script>
 
 <style lang='scss'>
+$default-color: $dark;
+$primary-color: $primary;
+$input-hover-border-color: $gray;
+.mx-datepicker-main {
+  border-radius: 10px;
+}
+@import '~vue2-datepicker/scss/index.scss';
 .dateComponent {
   .title {
     display: flex;
@@ -72,26 +91,13 @@ export default {
     padding: 5px 25px;
     .checked {
       cursor: pointer;
-    }
-    p {
-      margin: 0 5px;
-    }
-    .date {
-      display: flex;
-      align-items: center;
-      @include font;
-      cursor: pointer;
-      >p{
-        transition: color .3s;
-        &:hover {
-          color: $primary;
-        }
-      }
+      margin-right: 5px;
     }
     .status {
+      @include font;
       border-radius: 5px;
       background-color: $danger;
-      padding: 0 5px;
+      padding: 2.5px 5px;
       color: $white;
       margin-left: 5px;
       transition: background-color .3s;

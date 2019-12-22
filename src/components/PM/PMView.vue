@@ -53,11 +53,4 @@ export default {
   display: flex;
   height: 100%;
 }
-.slider-enter, .slider-leave-to{
-  opacity: 0;
-  transform: translateX(-10%);
-}
-.slider-enter-active, .slider-leave-active{
-  transition: all .3s;
-}
 </style>

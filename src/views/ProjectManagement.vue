@@ -21,7 +21,4 @@ export default {
   overflow: auto;
   padding: 10px;
 }
-.slider-enter-active, .slider-leave-active{
-  transition: all .3s;
-}
 </style>

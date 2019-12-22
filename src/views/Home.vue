@@ -118,7 +118,4 @@ export default {
       }
     }
   }
-  .slider-enter-active, .slider-leave-active{
-    transition: all 1s;
-  }
 </style>

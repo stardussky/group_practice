@@ -29,7 +29,7 @@ export default {
 <style lang='scss'>
 .project {
   display: inline-block;
-  min-width: 300px;
+  width: 300px;
   height: 150px;
   background-color: rgba($white, .8);
   border-radius: 20px;
@@ -58,6 +58,7 @@ export default {
     @include font(2);
     padding: 0 10px;
     margin-top: 20px;
+    word-break: break-word;
   }
 }
 </style>

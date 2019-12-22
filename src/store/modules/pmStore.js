@@ -36,7 +36,7 @@ export default () => {
       },
       editDone (state, { projectId, step, card }) {
         state.isEdit = false
-        state.projects[projectId].list[step].todo[card.id] = card
+        state.projects[projectId].list[step].todo.splice(card.id, 1, card)
       }
     },
     actions: {
