@@ -1,10 +1,48 @@
 <template>
   <div class="clockFace">
-    <div class="wrapper">
-      <div class="left" />
-      <div class="right none" />
-    </div>
-    <div class="content" />
+    <svg
+      id="svg"
+      width="30vw"
+      height="30vw"
+      viewPort="0 0 155 155"
+      version="1.1"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <defs>
+        <linearGradient
+          id="gradient"
+          x1="0"
+          x2="0"
+          y1="0"
+          y2="1"
+        >
+          <stop offset="0%" />
+          <stop offset="100%" />
+        </linearGradient>
+      </defs>
+      <circle
+        r="40%"
+        cx="50%"
+        cy="50%"
+      />
+      <circle
+        id="bar"
+        r="40%"
+        cx="50%"
+        cy="50%"
+      />
+      <circle
+        id="outside"
+        r="45%"
+        cx="50%"
+        cy="50%"
+      />
+      <text
+        id="timer"
+        x="50%"
+        y="50%"
+      >25:00</text>
+    </svg>
   </div>
 </template>
 
@@ -15,53 +53,48 @@ export default {
 </script>
 
 <style lang='scss'>
-  $clockSize: 30vw;
-  $borderWidth: 15px;
   .clockFace {
-    width: $clockSize;
-    height: $clockSize;
+    width: 50%;
+    height: 100%;
     position: relative;
-    border-radius: 50%;
-    background-color: $white;
-    .wrapper, .left, .right{
-      width: $clockSize;
-      height: $clockSize;
-      position: absolute;
-      border-radius: 50%;
-    }
-    .wrapper {
-      border: $borderWidth solid $white;
-      clip: rect(0, $clockSize, $clockSize, $clockSize/2);
-      &.auto {
-        clip: auto;
+    display: flex;
+    justify-content: center;
+    #svg {
+      max-width: 350px;
+      max-height: 350px;
+      circle {
+        stroke-linecap: round;
+        fill: transparent;
+        stroke: $white;
+        stroke-width: 4px;
+        stroke-dasharray: 1000;
+        stroke-dashoffset: 0;
+        transition: stroke-dashoffset 1s linear;
       }
-      .left, .right {
-        top: -$borderWidth;
-        left: -$borderWidth;
-        // border: $borderWidth solid $danger;
-        // background-image: linear-gradient(to right, $primary, $danger);
-      }
-      .left {
-        clip: rect(0, $clockSize/2, $clockSize, 0);
-        transform: rotate(0deg);
-        background-image: linear-gradient(to right, $primary, $danger);
-      }
-      .right {
-        clip: rect(0, $clockSize, $clockSize, $clockSize/2);
-        transform: rotate(0deg);
-        background-image: linear-gradient(to left, $primary, $danger);
-        &.none {
-          width: 0;
+      #gradient {
+        stop {
+          &:nth-of-type(1){
+            stop-color: $secondary;
+          }
+          &:nth-of-type(2){
+            stop-color: $third;
+          }
         }
       }
-    }
-    .content {
-      @include positionCenter;
-      // width: calc(#{$clockSize} - #{$borderWidth});
-      // height: calc(#{$clockSize} - #{$borderWidth});
-      background-color: $dark;
-      border-radius: 50%;
+      #bar {
+        stroke: url(#gradient);
+        stroke-dashoffset: 400;
+      }
+      #outside {
+        stroke-width: 1px;
+      }
+      #timer {
+        dominant-baseline:middle;
+        text-anchor:middle;
+        @include font(8);
+        fill: $white;
+        transition: all 1s;
+      }
     }
   }
-
 </style>

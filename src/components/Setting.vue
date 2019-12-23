@@ -137,9 +137,11 @@ export default {
       }
     }
   }
-  @include media(479px) {
+  @include media(1023px){
     bottom: 10px;
     right: 10px;
+  }
+  @include media(479px) {
     .setting_list {
       left: -210px;
     }

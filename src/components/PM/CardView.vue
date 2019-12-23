@@ -7,7 +7,6 @@
       <CreateCard
         v-if="!isEdit"
         :project-id="project.id"
-        :todo-id="project.list[0].todo.length"
         :color="project.info.color"
       />
       <EditCard

@@ -36,10 +36,24 @@ export default {
       @include font(2);
     }
   }
+  @include media(1023px){
+    bottom: 10px;
+    left: 10px;
+    > img {
+      width: 40px;
+    }
+    > div {
+      > p:nth-of-type(1) {
+        @include font;
+      }
+      > p:nth-of-type(2) {
+        @include font;
+      }
+    }
+  }
   @include media(479px){
     top: 45px;
     bottom: auto;
-    left: 10px;
     > img {
       width: 30px;
     }

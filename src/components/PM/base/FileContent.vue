@@ -11,14 +11,14 @@
     <div class="files">
       <ul>
         <li
-          v-for="list in fileContent"
+          v-for="(list, index) in fileContent"
           :key="list.id"
         >
           <a
             :href="list.src"
             :download="list.name"
           >{{ list.name }}</a>
-          <div @click="deleteFile(list.id)">
+          <div @click="deleteFile(index)">
             <img
               src="@/assets/icon/delete.svg"
               alt="delete"
@@ -61,14 +61,14 @@ export default {
     const { file, reader, changeFile } = fileReader()
     const fileHandler = (e) => {
       emit('pushFile', {
-        id: props.fileContent.length,
+        id: Math.random() + '',
         name: file.value.name,
         src: e.target.result
       })
       refs.fileInput.type = 'text'
       refs.fileInput.type = 'file'
     }
-    const deleteFile = (id) => emit('deleteFile', id)
+    const deleteFile = (index) => emit('deleteFile', index)
 
     onMounted(() => {
       reader.addEventListener('load', fileHandler)
@@ -92,11 +92,11 @@ export default {
     margin: 5px 0;
     p{
       @include font(1);
-      margin-left: 5px;
+      margin-left: 10px;
     }
   }
   .files {
-    padding: 5px 0 0 20px;
+    padding: 5px 0 5px 30px;
     ul{
       color: $dark;
       list-style-position: inside;

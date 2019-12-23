@@ -3,19 +3,24 @@ export default () => {
     namespaced: true,
     state: {
       projects: [],
-      index: null,
+      id: null,
       isEdit: false,
       editInfo: null
     },
     getters: {
-      project (state) {
-        return state.projects[state.index]
+      projectIndex (state) {
+        if (state.id) {
+          return state.projects.findIndex(project => project.id === state.id)
+        }
+      },
+      project (state, getters) {
+        return state.projects[getters.projectIndex]
       },
       editCardTarget (state, getters) {
         if (state.isEdit) {
           return {
             editInfo: state.editInfo,
-            card: getters.project.list[state.editInfo.step].todo[state.editInfo.cardId]
+            card: getters.project.list[state.editInfo.step].todo[state.editInfo.index]
           }
         }
       }
@@ -26,19 +31,19 @@ export default () => {
       },
       getProject (state, id) {
         state.isEdit = false
-        state.index = id
+        state.id = id
       },
-      pushTodoCard (state, { projectId, card }) {
-        // state.projects[projectId].list[0].todo.push(JSON.parse(JSON.stringify(card)))
-        state.projects[projectId].list[0].todo.push(card)
+      pushTodoCard (state, { getters, card }) {
+        state.projects[getters.projectIndex].list[0].todo.push(card)
+        // state.projects.find(project => project.id === projectId).list[0].todo.push(JSON.parse(JSON.stringify(card)))
       },
       editTodoCard (state, payload) {
         state.isEdit = true
         state.editInfo = payload
       },
-      editDone (state, { projectId, step, card }) {
+      editDone (state, { getters, payload }) {
         state.isEdit = false
-        state.projects[projectId].list[step].todo.splice(card.id, 1, card)
+        state.projects[getters.projectIndex].list[payload.step].todo.splice(state.editInfo.index, 1, payload.card)
       }
     },
     actions: {
@@ -54,9 +59,9 @@ export default () => {
           resolve()
         })
       },
-      PUSH_TODO_CARD ({ commit }, payload) {
+      PUSH_TODO_CARD ({ commit, getters }, card) {
         return new Promise(resolve => {
-          commit('pushTodoCard', payload)
+          commit('pushTodoCard', { getters, card })
           resolve()
         })
       },
@@ -66,9 +71,9 @@ export default () => {
           resolve()
         })
       },
-      EDIT_DONE ({ commit }, payload) {
+      EDIT_DONE ({ commit, getters }, payload) {
         return new Promise(resolve => {
-          commit('editDone', payload)
+          commit('editDone', { getters, payload })
           resolve()
         })
       }

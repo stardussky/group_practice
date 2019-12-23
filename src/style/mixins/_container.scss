@@ -28,7 +28,7 @@
   }
   @include media(479px){
     min-width: 320px;
-    min-height: 400px;
+    min-height: 380px;
     height: 60vh;
     width: calc(100% - 20px);
     >.header {

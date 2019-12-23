@@ -145,9 +145,11 @@ export default {
       }
     }
   }
-  @include media(479px){
+  @include media(1023px){
     top: 10px;
     right: 10px;
+  }
+  @include media(479px){
     &:hover{
       >.mask {
         width: 60px;

@@ -22,41 +22,31 @@
         :date-status.sync="dateStatus"
       />
       <div class="listContent">
-        <div class="title">
-          <img
-            src="@/assets/icon/copy-content.svg"
-            alt="content"
-            width="20"
+        <TodoContent
+          v-for="(content, index) in todoContentList"
+          :key="content.id"
+          :content="content"
+          :color="color"
+          @enterContentList="pushContentList"
+          @changeStatus="changeStatus($event, index)"
+          @deleteTodoContent="deleteTodoContent(index)"
+        />
+        <div class="add_todo">
+          <input
+            v-model="todoTitle"
+            type="text"
+            placeholder="加點內容吧~"
+            @keydown.enter="pushTodoContent"
           >
-          <p>內容</p>
-        </div>
-        <div class="content">
-          <TodoContent
-            v-for="content in todoContentList"
-            :key="content.id"
-            :content="content"
-            :color="color"
-            @enterContentList="pushContentList"
-            @changeStatus="changeStatus"
-            @deleteTodoContent="deleteTodoContent"
-          />
-          <div class="add_todo">
-            <input
-              v-model="todoTitle"
-              type="text"
-              placeholder="加點內容吧~"
-              @keydown.enter="pushTodoContent"
+          <div>
+            <img
+              src="@/assets/icon/edit.svg"
+              alt="add"
             >
-            <div>
-              <img
-                src="@/assets/icon/edit.svg"
-                alt="add"
-              >
-              <img
-                src="@/assets/icon/edit_on.svg"
-                alt="add"
-              >
-            </div>
+            <img
+              src="@/assets/icon/edit_on.svg"
+              alt="add"
+            >
           </div>
         </div>
       </div>
@@ -95,7 +85,7 @@ export default {
   },
   props: {
     projectId: {
-      type: Number,
+      type: String,
       required: true
     },
     color: {
@@ -112,10 +102,9 @@ export default {
     const cardTitle = ref(null)
     const cardContent = computed(() => {
       return {
-        projectId: props.projectId,
         step: props.editCard.editInfo.step,
         card: {
-          id: props.editCard.editInfo.cardId,
+          id: props.editCard.card.id,
           title: cardTitle.value,
           status: dateStatus.value,
           deadLine: deadLine.value,

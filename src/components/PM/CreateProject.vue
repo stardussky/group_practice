@@ -30,19 +30,13 @@
 import { ref, computed } from '@vue/composition-api'
 export default {
   name: 'CreateProject',
-  props: {
-    id: {
-      type: Number,
-      required: true
-    }
-  },
   setup (props, { emit }) {
     const colors = ref(['#68d2de', '#a6c1ee', '#EB7A77', '#86C166', '#666666'])
     const name = ref(null)
     const selectColor = ref(null)
     const project = computed(() => {
       return {
-        id: props.id,
+        id: Math.random() + '',
         info: {
           title: name.value,
           color: selectColor.value
@@ -128,11 +122,15 @@ export default {
   >button {
     @include btnReset;
     @include font(1);
-    background-color: $primary;
+    background-color: rgba($primary, .5);
     color: $white;
     padding: 5px;
     border-radius: 5px;
     float: right;
+    transition: background-color .3s;
+    &:hover{
+      background-color: rgba($primary, 1);
+    }
   }
 }
 </style>

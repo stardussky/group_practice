@@ -66,7 +66,7 @@ export default {
   height: 85px;
   background-color: $white;
   margin: 10px auto;
-  border-radius: 10px;
+  border-radius: 0 0 10px 10px;
   padding: 10px;
   cursor: pointer;
   box-shadow: 1px 1px 3px $shadow;
@@ -77,11 +77,10 @@ export default {
   }
   .pm_color {
     position: absolute;
-    top: 10px;
-    left: 10px;
-    width: 30px;
-    height: 5px;
-    border-radius: 20px;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 3px;
     transition: all .3s;
     z-index: -1;
   }
@@ -109,12 +108,9 @@ export default {
   }
   &:hover {
     .pm_color {
-      width: 100%;
       height: 100%;
-      top: 0;
-      left: 0;
-      border-radius: 10px;
-      opacity: .7;
+      border-radius: 0 0 10px 10px;
+      opacity: .6;
     }
   }
 }

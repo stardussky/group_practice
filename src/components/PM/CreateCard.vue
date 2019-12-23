@@ -22,41 +22,31 @@
         :date-status.sync="dateStatus"
       />
       <div class="listContent">
-        <div class="title">
-          <img
-            src="@/assets/icon/copy-content.svg"
-            alt="content"
-            width="20"
+        <TodoContent
+          v-for="(content, index) in todoContentList"
+          :key="content.id"
+          :content="content"
+          :color="color"
+          @enterContentList="pushContentList"
+          @changeStatus="changeStatus($event, index)"
+          @deleteTodoContent="deleteTodoContent(index)"
+        />
+        <div class="add_todo">
+          <input
+            v-model="todoTitle"
+            type="text"
+            placeholder="加點內容吧~"
+            @keydown.enter="pushTodoContent"
           >
-          <p>內容</p>
-        </div>
-        <div class="content">
-          <TodoContent
-            v-for="content in todoContentList"
-            :key="content.id"
-            :content="content"
-            :color="color"
-            @enterContentList="pushContentList"
-            @changeStatus="changeStatus"
-            @deleteTodoContent="deleteTodoContent"
-          />
-          <div class="add_todo">
-            <input
-              v-model="todoTitle"
-              type="text"
-              placeholder="加點內容吧~"
-              @keydown.enter="pushTodoContent"
+          <div>
+            <img
+              src="@/assets/icon/edit.svg"
+              alt="add"
             >
-            <div>
-              <img
-                src="@/assets/icon/edit.svg"
-                alt="add"
-              >
-              <img
-                src="@/assets/icon/edit_on.svg"
-                alt="add"
-              >
-            </div>
+            <img
+              src="@/assets/icon/edit_on.svg"
+              alt="add"
+            >
           </div>
         </div>
       </div>
@@ -95,11 +85,7 @@ export default {
   },
   props: {
     projectId: {
-      type: Number,
-      required: true
-    },
-    todoId: {
-      type: Number,
+      type: String,
       required: true
     },
     color: {
@@ -112,15 +98,12 @@ export default {
     const cardTitle = ref('待辦項目')
     const cardContent = computed(() => {
       return {
-        projectId: props.projectId,
-        card: {
-          id: props.todoId,
-          title: cardTitle.value,
-          status: dateStatus.value,
-          deadLine: deadLine.value,
-          content: todoContentList.value,
-          files: fileContent.value
-        }
+        id: Math.random() + '',
+        title: cardTitle.value,
+        status: dateStatus.value,
+        deadLine: deadLine.value,
+        content: todoContentList.value,
+        files: fileContent.value
       }
     })
     const resetCard = () => {

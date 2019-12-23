@@ -12,11 +12,11 @@
       tag="div"
     >
       <TodoCard
-        v-for="todo in list.todo"
+        v-for="(todo, index) in list.todo"
         :key="todo.id"
         :color="color"
         :todo="todo"
-        @click.native="EDIT_TODO_CARD({step, cardId: todo.id})"
+        @click.native="EDIT_TODO_CARD({step, index})"
       />
     </transition-group>
   </div>
@@ -32,7 +32,7 @@ export default {
   },
   props: {
     projectId: {
-      type: Number,
+      type: String,
       required: true
     },
     list: {

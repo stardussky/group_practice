@@ -2,7 +2,6 @@
   <div class="pmView">
     <div>
       <CreateProject
-        :id="projects.length"
         @createProject="CREATE_PROJECT"
       />
     </div>

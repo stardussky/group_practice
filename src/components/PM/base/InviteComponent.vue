@@ -38,11 +38,11 @@ export default {
     margin: 5px 0;
     p{
       @include font(1);
-      margin-left: 5px;
+      margin-left: 10px;
     }
   }
   .members {
-    padding-left: 20px;
+    padding-left: 25px;
   }
   .member {
     display: inline-block;

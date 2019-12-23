@@ -1,5 +1,8 @@
 <template>
-  <ul class="progressBar">
+  <ul
+    class="progressBar"
+    :class="progressBar.class"
+  >
     <li
       v-for="page in list"
       :key="page.id"
@@ -11,7 +14,7 @@
     </li>
     <span
       class="liner"
-      :style="progressBar"
+      :style="progressBar.style"
     />
   </ul>
 </template>
@@ -57,8 +60,15 @@ export default {
     })
     const progressBar = computed(() => {
       let progress = (viewIndex.value + 1) * 100 / list.value.length
-      return width.value < 1024 ? { height: `${progress}%` }
-        : { width: `${progress}%` }
+      return width.value < 1024 && width.value > 479
+        ? {
+          class: 'vertical',
+          style: { height: `${progress}%` }
+        }
+        : {
+          class: 'level',
+          style: { width: `${progress}%` }
+        }
     })
     const changePage = (page) => {
       root.$router.push({ name: page })
@@ -78,7 +88,6 @@ export default {
       progressBar
     }
   }
-
 }
 </script>
 
@@ -110,39 +119,54 @@ export default {
     }
   }
   .liner{
-    height: 1px;
     position: absolute;
-    bottom: 0;
-    left: 0;
-    background-image: linear-gradient(to right, $primary, transparent);
-    transition: width .3s;
   }
-  @include media(1023px){
-    left: 40px;
-    bottom: 50%;
-    transform: translateY(50%);
-    width: auto;
-    height: 40vh;
-    min-height: 250px;
+  &.level {
+    .liner {
+      left: 0;
+      bottom: 0;
+      height: 1px;
+      background-image: linear-gradient(to right, $primary, transparent);
+      transition: width .3s;
+    }
+  }
+  &.vertical {
     flex-direction: column;
-    padding-bottom: 0;
-    padding-left: 5px;
+    .liner {
+      top: 0;
+      left: 0;
+      background-image: linear-gradient(to bottom, $primary, transparent);
+      width: 1px;
+      transition: height .3s;
+    }
     >li{
       min-width: auto;
     }
-    .liner{
-      width: 1px;
-      height: 100%;
-      top: 0;
-      bottom: auto;
-      background-image: linear-gradient(to bottom, $primary, transparent);
-      transition: height .3s;
+  }
+  @include media(1023px){
+    width: auto;
+    height: 40vh;
+    min-height: 250px;
+    left: 10px;
+    bottom: 50%;
+    transform: translateY(50%);
+    padding-bottom: 0;
+    padding-left: 5px;
+    >li{
+      @include font(-.875);
     }
   }
   @include media(479px){
-    left: 10px;
-    bottom: 10px;
+    width: calc(100% - 20px);
+    min-width: 300px;
+    height: auto;
+    min-height: auto;
+    bottom: 50px;
     transform: translateY(0);
+    padding-left: 0;
+    >li {
+      min-width: auto;
+    }
   }
 }
 </style>

@@ -110,11 +110,15 @@ export default {
       left: 40px;
       width: 150px;
     }
+    @include media(1023px){
+      .logo {
+        top: 20px;
+        left: 10px;
+      }
+    }
     @include media(479px){
       .logo {
         width: 85px;
-        top: 20px;
-        left: 10px;
       }
     }
   }

@@ -1,6 +1,11 @@
 <template>
   <div class="todoContent">
     <div class="title">
+      <img
+        src="@/assets/icon/content.svg"
+        alt="content"
+        width="20"
+      >
       <p>{{ content.title }}</p>
       <div @click="deleteTodoContent">
         <img
@@ -22,28 +27,30 @@
         <span :style="{backgroundColor: color, width: `${progerss}%`}" />
       </div>
     </div>
-    <ul class="content">
-      <ContentList
-        v-for="list in content.lists"
-        :key="list.id"
-        :list="list"
-        @changeStatus="changeStatus"
-      />
-    </ul>
-    <label>
-      <input
-        v-model="inputValue"
-        type="text"
-        placeholder="增加項目"
-        :style="{backgroundColor: color}"
-        @keydown.enter="enterContentList"
-      >
-      <img
-        src="@/assets/icon/plus_w.svg"
-        alt="plus"
-        width="15"
-      >
-    </label>
+    <div class="content">
+      <ul>
+        <ContentList
+          v-for="(list, index) in content.lists"
+          :key="list.id"
+          :list="list"
+          @changeStatus="changeStatus(index)"
+        />
+      </ul>
+      <label>
+        <input
+          v-model="inputValue"
+          type="text"
+          placeholder="增加項目"
+          :style="{backgroundColor: color}"
+          @keydown.enter="enterContentList"
+        >
+        <img
+          src="@/assets/icon/plus_w.svg"
+          alt="plus"
+          width="15"
+        >
+      </label>
+    </div>
   </div>
 </template>
 
@@ -72,7 +79,7 @@ export default {
         emit('enterContentList', {
           id: props.content.id,
           list: {
-            id: props.content.lists.length,
+            id: Math.random() + '',
             status: false,
             content: inputValue.value
           }
@@ -80,11 +87,8 @@ export default {
         inputValue.value = null
       }
     }
-    const changeStatus = (status) => emit('changeStatus', {
-      id: props.content.id,
-      status
-    })
-    const deleteTodoContent = () => emit('deleteTodoContent', props.content.id)
+    const changeStatus = (index) => emit('changeStatus', index)
+    const deleteTodoContent = () => emit('deleteTodoContent')
     const progerss = computed(() => {
       let done = props.content.lists.filter(list => {
         return list.status
@@ -105,17 +109,27 @@ export default {
 <style lang='scss'>
 .todoContent {
   padding: 5px 0;
+  border-bottom: 1px solid $shadow;
   .title {
     @include font(1);
+    display: flex;
+    align-items: center;
+    margin: 5px 0;
     position: relative;
+    p{
+      margin-left: 10px;
+      width: 85%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
     >div {
-      @include positionCenter(y);
-      @include hoverImg(30px);
+      position: absolute;
       right: 0;
+      @include hoverImg(30px);
     }
   }
   .progerss {
-    margin: 5px 0;
+    padding: 5px 0;
     display: flex;
     align-items: center;
     .bar {
@@ -136,28 +150,37 @@ export default {
     }
   }
   .content {
-    list-style: none;
-  }
-  >label{
-    position: relative;
-    input {
-      width: 50%;
-      @include btnReset;
-      @include font;
-      color: $white;
-      border-radius: 5px;
-      padding: 5px 25px 5px 5px;
-      margin: 5px 0;
-      transition: all .3s;
-      &::-webkit-input-placeholder{
+    padding-left: 30px;
+    >label{
+      position: relative;
+      input {
+        width: 30%;
+        @include btnReset;
+        @include font;
         color: $white;
-        text-align: center;
+        border-radius: 5px;
+        padding: 5px 25px 5px 5px;
+        margin: 5px 0;
+        transition: all .3s;
+        &::-webkit-input-placeholder{
+          color: $white;
+          text-align: center;
+        }
+      }
+      img {
+        @include positionCenter(y);
+        right: 5px;
+        cursor: pointer;
       }
     }
-    img {
-      @include positionCenter(y);
-      right: 5px;
-      cursor: pointer;
+  }
+  @include media(479px){
+    .content {
+      >label{
+        input {
+          width: 40%;
+        }
+      }
     }
   }
 }

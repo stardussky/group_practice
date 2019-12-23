@@ -104,19 +104,22 @@ $input-hover-border-color: $gray;
 }
 @import '~vue2-datepicker/scss/index.scss';
 .dateComponent {
+  .mx-datepicker{
+      width: 200px;
+    }
   .title {
     display: flex;
     align-items: center;
     margin: 5px 0;
     p{
       @include font(1);
-      margin-left: 5px;
+      margin-left: 10px;
     }
   }
   .date_status {
     display: flex;
     align-items: center;
-    padding: 5px 25px;
+    padding: 5px 30px;
     .checked {
       cursor: pointer;
       margin-right: 5px;
@@ -136,7 +139,7 @@ $input-hover-border-color: $gray;
   }
   @include media(479px){
     .mx-datepicker{
-      width: 130px;
+      width: 120px;
     }
   }
 }

@@ -35,10 +35,7 @@ export default {
     }
   },
   setup (props, { emit }) {
-    const changeStatus = () => emit('changeStatus', {
-      id: props.list.id,
-      status: !props.list.status
-    })
+    const changeStatus = () => emit('changeStatus')
 
     return {
       changeStatus
@@ -49,14 +46,16 @@ export default {
 
 <style lang='scss'>
 .contentList {
-  border-bottom: 1px solid $shadow;
+  list-style: none;
   cursor: pointer;
   >div{
     display: flex;
     align-items: center;
     @include font;
     p{
-      margin-left: 15px;
+      margin-left: 10px;
+      overflow: hidden;
+      text-overflow: ellipsis;
       &.done {
         text-decoration: line-through;
       }

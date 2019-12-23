@@ -6,22 +6,27 @@ export default () => {
   const todoContentList = ref([])
   const fileContent = ref([])
   const pushTodoContent = () => {
-    if (todoTitle) {
+    if (todoTitle.value) {
       todoContentList.value.push({
-        id: todoContentList.value.length,
+        id: Math.random() + '',
         title: todoTitle.value,
         lists: []
       })
       todoTitle.value = null
     }
   }
-  const pushContentList = ({ id, list }) => todoContentList.value[id].lists.push(list)
-  const pushFile = (file) => fileContent.value.push(file)
-  const changeStatus = ({ id, status }) => {
-    todoContentList.value[id].lists[status.id].status = status.status
+  const pushContentList = ({ id, list }) => {
+    todoContentList.value.find(list => {
+      return list.id === id
+    }).lists.push(list)
   }
-  const deleteTodoContent = (id) => todoContentList.value.splice(id, 1)
-  const deleteFile = (id) => fileContent.value.splice(id, 1)
+  const pushFile = (file) => fileContent.value.push(file)
+  const changeStatus = (listIndex, index) => {
+    let status = todoContentList.value[index].lists[listIndex].status
+    todoContentList.value[index].lists[listIndex].status = !status
+  }
+  const deleteTodoContent = (index) => todoContentList.value.splice(index, 1)
+  const deleteFile = (index) => fileContent.value.splice(index, 1)
   return {
     todoTitle,
     deadLine,
