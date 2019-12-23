@@ -18,10 +18,7 @@ export default () => {
       },
       editCardTarget (state, getters) {
         if (state.isEdit) {
-          return {
-            editInfo: state.editInfo,
-            card: getters.project.list[state.editInfo.step].todo[state.editInfo.index]
-          }
+          return getters.project.list[state.editInfo.step].todo[state.editInfo.index]
         }
       }
     },
@@ -41,9 +38,9 @@ export default () => {
         state.isEdit = true
         state.editInfo = payload
       },
-      editDone (state, { getters, payload }) {
+      editDone (state, { getters, card }) {
         state.isEdit = false
-        state.projects[getters.projectIndex].list[payload.step].todo.splice(state.editInfo.index, 1, payload.card)
+        state.projects[getters.projectIndex].list[state.editInfo.step].todo.splice(state.editInfo.index, 1, card)
       }
     },
     actions: {
@@ -71,9 +68,9 @@ export default () => {
           resolve()
         })
       },
-      EDIT_DONE ({ commit, getters }, payload) {
+      EDIT_DONE ({ commit, getters }, card) {
         return new Promise(resolve => {
-          commit('editDone', { getters, payload })
+          commit('editDone', { getters, card })
           resolve()
         })
       }

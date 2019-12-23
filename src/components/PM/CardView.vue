@@ -4,15 +4,16 @@
       name="fade"
       mode="out-in"
     >
-      <CreateCard
+      <!-- <CreateCard
         v-if="!isEdit"
         :project-id="project.id"
         :color="project.info.color"
-      />
+      /> -->
       <EditCard
-        v-else
+
         :project-id="project.id"
-        :edit-card="editCardTarget"
+        :is-edit="isEdit"
+        :edit-card="isEdit?editCardTarget:{}"
         :color="project.info.color"
       />
     </transition>
@@ -29,14 +30,14 @@
 
 <script>
 import CardContent from '@/components/PM/CardContent/index'
-import CreateCard from '@/components/PM/CreateCard'
+// import CreateCard from '@/components/PM/CreateCard'
 import EditCard from '@/components/PM/EditCard'
 import { mapState, mapGetters } from 'vuex'
 export default {
   name: 'CardView',
   components: {
     CardContent,
-    CreateCard,
+    // CreateCard,
     EditCard
   },
   computed: {

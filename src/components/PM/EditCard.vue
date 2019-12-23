@@ -60,9 +60,9 @@
     <div
       class="card_footer"
       :style="{backgroundColor:color}"
-      @click="EDIT_DONE(cardContent)"
+      @click="isEdit?EDIT_DONE(cardContent):pushTodoCard()"
     >
-      編輯完成
+      {{ isEdit?'編輯完成':'新增' }}
     </div>
   </div>
 </template>
@@ -92,6 +92,10 @@ export default {
       type: String,
       required: true
     },
+    isEdit: {
+      type: Boolean,
+      required: true
+    },
     editCard: {
       type: Object,
       required: true
@@ -99,27 +103,33 @@ export default {
   },
   setup (props) {
     const { dateStatus, deadLine, todoTitle, todoContentList, fileContent, pushTodoContent, pushContentList, pushFile, changeStatus, deleteTodoContent, deleteFile } = card()
-    const cardTitle = ref(null)
+    const cardTitle = ref(props.isEdit ? null : '代辦項目')
     const cardContent = computed(() => {
       return {
-        step: props.editCard.editInfo.step,
-        card: {
-          id: props.editCard.card.id,
-          title: cardTitle.value,
-          status: dateStatus.value,
-          deadLine: deadLine.value,
-          content: todoContentList.value,
-          files: fileContent.value
-        }
+        id: props.isEdit ? props.editCard.id : Math.random() + '',
+        title: cardTitle.value,
+        status: dateStatus.value,
+        deadLine: deadLine.value,
+        content: todoContentList.value,
+        files: fileContent.value
       }
     })
-    watch(() => props.editCard.card, (val) => {
-      let edit = JSON.parse(JSON.stringify(val))
-      cardTitle.value = edit.title
-      todoContentList.value = edit.content
-      fileContent.value = edit.files
-      dateStatus.value = edit.status
-      deadLine.value = edit.deadLine
+    const resetCard = () => {
+      cardTitle.value = '待辦項目'
+      todoContentList.value = []
+      fileContent.value = []
+    }
+    watch(() => props.editCard, (val) => {
+      if (props.isEdit) {
+        let edit = JSON.parse(JSON.stringify(val))
+        cardTitle.value = edit.title
+        todoContentList.value = edit.content
+        fileContent.value = edit.files
+        dateStatus.value = edit.status
+        deadLine.value = edit.deadLine
+      } else {
+        resetCard()
+      }
     })
     return {
       cardTitle,
@@ -134,11 +144,16 @@ export default {
       deleteTodoContent,
       deleteFile,
       changeStatus,
-      cardContent
+      cardContent,
+      resetCard
     }
   },
   methods: {
-    ...mapActions('pmStore', ['EDIT_DONE'])
+    ...mapActions('pmStore', ['PUSH_TODO_CARD', 'EDIT_DONE']),
+    pushTodoCard () {
+      this.PUSH_TODO_CARD(this.cardContent)
+      this.resetCard()
+    }
   }
 }
 </script>

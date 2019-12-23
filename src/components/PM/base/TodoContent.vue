@@ -132,6 +132,7 @@ export default {
     padding: 5px 0;
     display: flex;
     align-items: center;
+    @include font;
     .bar {
       width: 100%;
       height: 5px;
