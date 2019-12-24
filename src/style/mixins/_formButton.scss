@@ -1,42 +1,60 @@
-@mixin baseBtn($width: auto){
+@mixin baseBtn($width: auto, $height: auto, $radius: 30px) {
   @include btnReset;
   @include font;
   color: $white;
   width: $width;
+  height: $height;
   min-height: 40px;
   background-color: $primary;
-  border-radius: 30px;
+  border-radius: $radius;
   position: relative;
   padding: 5px 10px;
   z-index: 1;
-  &::before, &::after{
-    content: '';
+  &::before,
+  &::after {
+    content: "";
     @include positionCenter;
     background-color: $primary;
-    border-radius: 30px;
+    border-radius: $radius;
     z-index: -1;
   }
   &:hover {
-    &::before, &::after{
-      animation: animate 2s infinite;
+    &::before,
+    &::after {
+      @if($radius == 50%){
+        animation: animate_c 2s infinite;
+      }@else {
+        animation: animate 2s infinite;
+      }
     }
-    &::after{
+    &::after {
       animation-delay: 1s;
     }
   }
   @keyframes animate {
-    0%{
+    0% {
       width: 100%;
       height: 100%;
     }
     100% {
-      width: 130%;
+      width: 140%; 
       height: 150%;
       opacity: 0;
     }
   }
-  @include media(479px){
-    @include font(-.875);
+  @keyframes animate_c {
+    0% {
+      width: 100%;
+      height: 100%;
+    }
+    100% {
+      width: 150%; 
+      height: 150%;
+      opacity: 0;
+    }
+  }
+  @include media(479px) {
+    @include font(-0.875);
     min-height: 30px;
   }
 }

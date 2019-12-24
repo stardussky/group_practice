@@ -105,7 +105,7 @@ export default {
     }
     label {
       display: inline-flex;
-      @include baseBtn(40px);
+      @include baseBtn(40px, 40px, 50%);
       justify-content: center;
       align-items: center;
     }
@@ -119,6 +119,7 @@ export default {
     .headshot {
       label {
         width: 30px;
+        height: 30px;
       }
     }
   }

@@ -5,45 +5,67 @@
       <span />
     </div>
     <ul class="list">
-      <li />
+      <ClockList />
+      <ClockList />
+      <ClockList />
+      <ClockList />
     </ul>
   </div>
 </template>
 
 <script>
+import ClockList from './ClockList'
 export default {
-  name: 'ClockContentList'
+  name: 'ClockContentList',
+  components: {
+    ClockList
+  }
 }
 </script>
 
 <style lang='scss'>
 .clockContentList {
   width: 50%;
+  min-width: 250px;
+  max-width: 300px;
   height: 100%;
-  .title {
-    width: 100%;
-    height: 50px;
-    background-color: rgba($white, 1);
+  border-radius: 20px;
+  background-color: rgba($white, .65);
+  margin: 0 10px 10px 0;
+  >.title {
+    @include cardHead;
+    background-color: $white;
     color: $dark;
-    box-shadow: 1px 1px 3px $shadow;
-    @include font(1, 50px);
-    text-align: center;
-    border-radius: 0 0 5px 5px;
     position: relative;
     >span {
       position: absolute;
-      top: 0;
+      bottom: 0;
       left: 0;
       width: 100%;
-      height: 3px;
+      height: 1px;
       background-image: linear-gradient(to right, $primary, $third);
     }
   }
   .list {
-    width: 100%;
-    min-height: calc(100% - 50px);
-    background-color: rgba($white, .65);
+    height: calc(100% - 60px);
     list-style: none;
+    overflow-y: auto;
+  }
+  @include media(1280px){
+    height: calc(50% - 5px);
+  }
+  @include media(767px){
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    .list {
+      height: calc(100% - 50px);
+    }
+  }
+  @include media(479px){
+    .list {
+      height: calc(100% - 30px);
+    }
   }
 }
 </style>

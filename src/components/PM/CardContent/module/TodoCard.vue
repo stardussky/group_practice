@@ -1,8 +1,9 @@
 <template>
   <div class="todoCard">
     <div
-      class="pm_color"
+      class="card_color"
       :style="{backgroundColor: color}"
+      :class="{active: isEditTarget}"
     />
     <div class="todo_title">
       <p>{{ todo.title }}</p>
@@ -30,6 +31,7 @@
 
 <script>
 import { computed } from '@vue/composition-api'
+import { mapGetters } from 'vuex'
 export default {
   name: 'TodoCard',
   props: {
@@ -56,33 +58,23 @@ export default {
     return {
       schedule
     }
+  },
+  computed: {
+    ...mapGetters('pmStore', ['editCardTarget']),
+    isEditTarget () {
+      return this.editCardTarget ? this.editCardTarget.id === this.todo.id : false
+    }
   }
 }
 </script>
 
 <style lang='scss'>
 .todoCard {
-  width: 90%;
-  height: 85px;
-  background-color: $white;
-  margin: 10px auto;
-  border-radius: 0 0 10px 10px;
-  padding: 10px;
-  cursor: pointer;
-  box-shadow: 1px 1px 3px $shadow;
+  @include todoCard;
   position: relative;
   z-index: 1;
   >div {
     width: 100%;
-  }
-  .pm_color {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    width: 100%;
-    height: 3px;
-    transition: all .3s;
-    z-index: -1;
   }
   .todo_title {
     @include font(2);
@@ -104,13 +96,6 @@ export default {
     p {
       @include font;
       margin-left: 5px;
-    }
-  }
-  &:hover {
-    .pm_color {
-      height: 100%;
-      border-radius: 0 0 10px 10px;
-      opacity: .6;
     }
   }
 }

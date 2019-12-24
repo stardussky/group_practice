@@ -1,5 +1,5 @@
 <template>
-  <div class="editCard">
+  <div class="card">
     <div
       class="card_head"
       :style="{backgroundColor:color}"
@@ -68,15 +68,14 @@
 </template>
 
 <script>
-import InviteComponent from './base/InviteComponent'
-import DateComponent from './base/DateComponent'
-import FileContent from './base/FileContent'
-import TodoContent from './base/TodoContent'
+import InviteComponent from './module/InviteComponent'
+import DateComponent from './module/DateComponent'
+import FileContent from './module/FileContent'
+import TodoContent from './module/TodoContent'
 import card from '@/composition/card'
-import { ref, computed, watch } from '@vue/composition-api'
 import { mapActions } from 'vuex'
 export default {
-  name: 'EditCard',
+  name: 'Card',
   components: {
     InviteComponent,
     DateComponent,
@@ -102,35 +101,7 @@ export default {
     }
   },
   setup (props) {
-    const { dateStatus, deadLine, todoTitle, todoContentList, fileContent, pushTodoContent, pushContentList, pushFile, changeStatus, deleteTodoContent, deleteFile } = card()
-    const cardTitle = ref(props.isEdit ? null : '代辦項目')
-    const cardContent = computed(() => {
-      return {
-        id: props.isEdit ? props.editCard.id : Math.random() + '',
-        title: cardTitle.value,
-        status: dateStatus.value,
-        deadLine: deadLine.value,
-        content: todoContentList.value,
-        files: fileContent.value
-      }
-    })
-    const resetCard = () => {
-      cardTitle.value = '待辦項目'
-      todoContentList.value = []
-      fileContent.value = []
-    }
-    watch(() => props.editCard, (val) => {
-      if (props.isEdit) {
-        let edit = JSON.parse(JSON.stringify(val))
-        cardTitle.value = edit.title
-        todoContentList.value = edit.content
-        fileContent.value = edit.files
-        dateStatus.value = edit.status
-        deadLine.value = edit.deadLine
-      } else {
-        resetCard()
-      }
-    })
+    const { cardTitle, cardContent, resetCard, dateStatus, deadLine, todoTitle, todoContentList, fileContent, pushTodoContent, pushContentList, pushFile, changeStatus, deleteTodoContent, deleteFile } = card(props)
     return {
       cardTitle,
       deadLine,
@@ -159,7 +130,7 @@ export default {
 </script>
 
 <style lang='scss'>
-  .editCard{
-    @import './base/_style';
+  .card{
+    @import './_style';
   }
 </style>

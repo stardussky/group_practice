@@ -167,9 +167,8 @@ export default {
     justify-content: center;
     align-items: center;
     position: relative;
-    background-color: rgba($white, .65);
     padding: 0 10%;
-    margin-top: 10px;
+    border-radius: 0 0 20px 20px;
     >div {
       width: 250px;
     }

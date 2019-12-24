@@ -1,22 +1,11 @@
 <template>
   <div class="cardView">
-    <transition
-      name="fade"
-      mode="out-in"
-    >
-      <!-- <CreateCard
-        v-if="!isEdit"
-        :project-id="project.id"
-        :color="project.info.color"
-      /> -->
-      <EditCard
-
-        :project-id="project.id"
-        :is-edit="isEdit"
-        :edit-card="isEdit?editCardTarget:{}"
-        :color="project.info.color"
-      />
-    </transition>
+    <Card
+      :project-id="project.id"
+      :is-edit="isEdit"
+      :edit-card="isEdit?editCardTarget:{}"
+      :color="project.info.color"
+    />
     <CardContent
       v-for="(list, index) in project.list"
       :key="list.status"
@@ -30,15 +19,13 @@
 
 <script>
 import CardContent from '@/components/PM/CardContent/index'
-// import CreateCard from '@/components/PM/CreateCard'
-import EditCard from '@/components/PM/EditCard'
+import Card from '@/components/PM/Card/index'
 import { mapState, mapGetters } from 'vuex'
 export default {
   name: 'CardView',
   components: {
     CardContent,
-    // CreateCard,
-    EditCard
+    Card
   },
   computed: {
     ...mapState('pmStore', ['isEdit']),

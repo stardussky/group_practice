@@ -31,7 +31,7 @@ import { ref, computed } from '@vue/composition-api'
 export default {
   name: 'CreateProject',
   setup (props, { emit }) {
-    const colors = ref(['#68d2de', '#a6c1ee', '#EB7A77', '#86C166', '#666666'])
+    const colors = ref(['#68d2de', '#a6c1ee', '#FBC2EB', '#EB7A77', '#86C166', '#666666'])
     const name = ref(null)
     const selectColor = ref(null)
     const project = computed(() => {
@@ -83,6 +83,7 @@ export default {
   padding: 15px;
   box-shadow: 1px 1px 3px $shadow;
   @include font(1);
+  color: $dark;
   span {
     @include font;
   }
@@ -120,17 +121,8 @@ export default {
     }
   }
   >button {
-    @include btnReset;
-    @include font(1);
-    background-color: rgba($primary, .5);
-    color: $white;
-    padding: 5px;
-    border-radius: 5px;
+    @include baseBtn;
     float: right;
-    transition: background-color .3s;
-    &:hover{
-      background-color: rgba($primary, 1);
-    }
   }
 }
 </style>

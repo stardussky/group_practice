@@ -5,16 +5,16 @@
   min-height: 550px;
   border-radius: 20px;
   overflow: hidden;
-  background-color: rgba($white, .3);
+  background-image: linear-gradient(to bottom, rgba($white, .85), rgba($white, .75) 5%, rgba($white, .4) 70%, transparent);
   >.header {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 50px;
-    background-color: rgba($white, .65);
     position: relative;
     padding-left: 60px;
+    color: $dark;
     @include font(2, 50px);
     >div {
       @include positionCenter(y);

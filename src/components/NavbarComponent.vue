@@ -13,8 +13,8 @@
     <ul class="list">
       <li>
         <div class="navBtn">
-          <router-link
-            to="/"
+          <a
+            href="./program.html"
             class="navBtn_btn"
           >
             <p>專案管理</p>
@@ -24,13 +24,13 @@
                 width="20"
               >
             </div>
-          </router-link>
+          </a>
         </div>
       </li>
       <li>
         <div class="navBtn">
-          <router-link
-            to="/"
+          <a
+            href="./potato.html"
             class="navBtn_btn"
           >
             <p>番茄鐘</p>
@@ -40,13 +40,13 @@
                 width="20"
               >
             </div>
-          </router-link>
+          </a>
         </div>
       </li>
       <li>
         <div class="navBtn">
-          <router-link
-            to="/"
+          <a
+            href="./mall.html"
             class="navBtn_btn"
           >
             <p>商城</p>
@@ -56,13 +56,13 @@
                 width="20"
               >
             </div>
-          </router-link>
+          </a>
         </div>
       </li>
       <li>
         <div class="navBtn">
-          <router-link
-            to="/"
+          <a
+            href="./member.html"
             class="navBtn_btn"
           >
             <p>會員中心</p>
@@ -72,7 +72,7 @@
                 width="20"
               >
             </div>
-          </router-link>
+          </a>
         </div>
       </li>
     </ul>

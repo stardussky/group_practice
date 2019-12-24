@@ -54,14 +54,16 @@ export default {
 
 <style lang='scss'>
   .clockFace {
-    width: 50%;
+    width: 40%;
     height: 100%;
     position: relative;
     display: flex;
     justify-content: center;
     #svg {
       max-width: 350px;
+      min-width: 160px;
       max-height: 350px;
+      min-height: 160px;
       circle {
         stroke-linecap: round;
         fill: transparent;
@@ -74,7 +76,7 @@ export default {
       #gradient {
         stop {
           &:nth-of-type(1){
-            stop-color: $secondary;
+            stop-color: $primary;
           }
           &:nth-of-type(2){
             stop-color: $third;
@@ -92,8 +94,21 @@ export default {
         dominant-baseline:middle;
         text-anchor:middle;
         @include font(8);
-        fill: $white;
+        fill: $dark;
         transition: all 1s;
+      }
+    }
+    @include media(1280px){
+      width: 50%;
+    }
+    @include media(767px){
+      width: 100%;
+      height: 40%;
+      align-items: center;
+      #svg{
+        #timer {
+          @include font(5);
+        }
       }
     }
   }

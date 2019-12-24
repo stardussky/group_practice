@@ -1,6 +1,7 @@
 <template>
   <div class="clockContent">
-    <ClockContentList />
+    <ClockContentList class="pm" />
+    <ClockContentList class="self" />
   </div>
 </template>
 
@@ -16,8 +17,25 @@ export default {
 
 <style lang='scss'>
   .clockContent {
-    width: 50%;
+    width: 60%;
     height: 100%;
-    padding: 10px;
+    padding-top: 10px;
+    display: flex;
+    padding-bottom: 10px;
+    @include media(1280px){
+      width: 50%;
+      flex-direction: column;
+      align-items: center;
+    }
+    @include media(767px){
+      width: 100%;
+      height: 60%;
+      flex-direction: row;
+      align-items: flex-start;
+      padding-top: 0;
+      >.self {
+        display: none;
+      }
+    }
   }
 </style>

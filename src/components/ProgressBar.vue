@@ -161,7 +161,7 @@ export default {
     min-width: 300px;
     height: auto;
     min-height: auto;
-    bottom: 50px;
+    bottom: 55px;
     transform: translateY(0);
     padding-left: 0;
     >li {
