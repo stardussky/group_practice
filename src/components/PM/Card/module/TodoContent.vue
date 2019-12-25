@@ -167,6 +167,9 @@ export default {
           color: $white;
           text-align: center;
         }
+        &:focus {
+          width: 90%;
+        }
       }
       img {
         @include positionCenter(y);

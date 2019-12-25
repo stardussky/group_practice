@@ -2,7 +2,7 @@
   <li class="clockList">
     <div class="card_color" />
     <div class="title">
-      <p>123</p>
+      <p>{{ list.content }}</p>
     </div>
     <div class="info">
       <div class="timer">
@@ -16,15 +16,17 @@
       <div class="status">
         <div class="done">
           <img
+            v-if="list.status"
             src="@/assets/icon/checked_d.svg"
             alt="checked"
             width="17.5"
           >
-          <!-- <img
+          <img
+            v-else
             src="@/assets/icon/unchecked_d.svg"
             alt="checked"
             width="17.5"
-          > -->
+          >
         </div>
         <div class="cancel">
           <img
@@ -43,7 +45,13 @@
 
 <script>
 export default {
-  name: 'ClockList'
+  name: 'ClockList',
+  props: {
+    list: {
+      type: Object,
+      required: true
+    }
+  }
 }
 </script>
 

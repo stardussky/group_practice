@@ -1,18 +1,25 @@
 <template>
   <div class="login">
-    <LoginInfo />
-    <LoginForm />
+    <LoginTrack :mode.sync="mode" />
+    <LoginForm :mode.sync="mode" />
   </div>
 </template>
 
 <script>
 import LoginForm from '../components/Login/LoginForm'
-import LoginInfo from '../components/Login/LoginInfo'
+import LoginTrack from '../components/Login/LoginTrack'
+import { ref } from '@vue/composition-api'
 export default {
   name: 'Login',
   components: {
     LoginForm,
-    LoginInfo
+    LoginTrack
+  },
+  setup () {
+    const mode = ref(0)
+    return {
+      mode
+    }
   }
 }
 </script>
@@ -21,7 +28,6 @@ export default {
 .login {
   height: 100%;
   width: 100%;
-  display: flex;
-  padding-bottom: 10px;
+  position: relative;
 }
 </style>

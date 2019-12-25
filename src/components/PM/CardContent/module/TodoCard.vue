@@ -80,9 +80,12 @@ export default {
     @include font(2);
     margin: 10px 0 5px;
     >p{
-      white-space: nowrap;
+      word-wrap: break-word;
       overflow: hidden;
       text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 10;
     }
   }
   .todo_info {

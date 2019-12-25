@@ -86,7 +86,7 @@ export function init (refs, vm) {
     if (buttons.indexOf(currentObj.name) !== -1) {
       document.documentElement.style.cursor = 'pointer'
       let timeline = new TimelineMax()
-      timeline.to(currentObj.scale, 1, { x: 2, y: 2, z: 2 })
+      timeline.to(currentObj.scale, 1, { x: 1.5, y: 1.5, z: 1.5 })
       tempObj = currentObj
     } else {
       document.documentElement.style.cursor = 'auto'
@@ -116,7 +116,6 @@ export function init (refs, vm) {
   // scene.add(directionalLightHelper);
   // var axesHelper = new THREE.AxesHelper(5);
   // scene.add(axesHelper);
-
   render()
 }
 export function handleWindowResize () {

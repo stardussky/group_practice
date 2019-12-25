@@ -3,25 +3,27 @@
     v-slot="{passes}"
     tag="div"
     class="loginFrom"
+    :class="{mode: mode}"
   >
+    <div class="select_mode">
+      <button
+        type="button"
+        :class="{active: !mode}"
+        @click="changeMode = 0"
+      >
+        Sign Up
+      </button>
+      <button
+        type="button"
+        :class="{active: mode}"
+        @click="changeMode = 1"
+      >
+        Sign In
+      </button>
+    </div>
     <form @submit.prevent="passes(submit)">
-      <div class="select_mode">
-        <button
-          type="button"
-          :class="{active: mode === 0}"
-          @click="mode = 0"
-        >
-          Sign Up
-        </button>
-        <button
-          type="button"
-          :class="{active: mode === 1}"
-          @click="mode = 1"
-        >
-          Sign In
-        </button>
-      </div>
       <div class="form_field">
+        <h2>{{ mode ? 'Sign In' : 'Sign Up' }}</h2>
         <transition-group
           tag="div"
           name="flip"
@@ -59,8 +61,13 @@ export default {
     InputComponent,
     FileComponent
   },
-  setup () {
-    const mode = ref(0)
+  props: {
+    mode: {
+      type: Number,
+      required: true
+    }
+  },
+  setup (props, { emit }) {
     const formInfo = ref([
       {
         fields: [
@@ -122,21 +129,29 @@ export default {
         ]
       }
     ])
+    const changeMode = computed({
+      get () {
+        return props.mode
+      },
+      set (val) {
+        emit('update:mode', val)
+      }
+    })
     const userData = computed(() => {
-      return formInfo.value[mode.value].fields.reduce((prev, info) => {
+      return formInfo.value[props.mode].fields.reduce((prev, info) => {
         prev[info.name] = info.value
         return prev
       }, [])
     })
     const submit = () => {
       console.log('submit: ', userData.value)
-      formInfo.value[mode.value].fields.forEach(info => {
+      formInfo.value[props.mode].fields.forEach(info => {
         if (info.name === 'headshot')info.value = `${require('@/assets/icon/user.svg')}`
         else info.value = ''
       })
     }
     return {
-      mode,
+      changeMode,
       formInfo,
       submit
     }
@@ -147,23 +162,34 @@ export default {
 <style lang='scss'>
 .loginFrom {
   width: 50%;
-  height: 100%;
+  height: calc(100% - 10px);
+  background-color: $white;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  transition: left .5s;
+  border-radius: 0 0 20px 20px;
+  &.mode{
+    left: 50%;
+  }
   >form{
     width: 100%;
     height: 100%;
     position: relative;
   }
   .select_mode {
+    display: none;
     position: absolute;
     top: 15px;
     right: 15px;
     z-index: 1;
-    @include switchBtn;
   }
   .form_field {
     width: 100%;
     height: 100%;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     position: relative;
@@ -172,14 +198,28 @@ export default {
     >div {
       width: 250px;
     }
+    h2 {
+      @include font(3);
+      color: $dark;
+      margin-bottom: 20px;
+    }
   }
   .submit{
     @include baseBtn;
   }
   @include media(1023px){
     width: 100%;
+    &.mode{
+      left: auto;
+    }
     .form_field{
       margin-top: 0;
+      h2 {
+        display: none;
+      }
+    }
+    .select_mode {
+      @include switchBtn;
     }
   }
   @include media(479px){

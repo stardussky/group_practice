@@ -114,7 +114,6 @@ export default {
       left: 0;
       padding: 0 5px;
       color: $dark;
-      font-weight: 600;
     }
     >span{
       display: inline-block;

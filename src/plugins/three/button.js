@@ -3,13 +3,12 @@ import * as THREE from 'three'
 import { CSS2DObject } from 'three-css2drender'
 import { TweenMax } from 'gsap'
 class CircleButton {
-  constructor (x, y, z, id, color = 0x8acede, fontColor = '#fff') {
+  constructor (x, y, z, id, color = 0x8acede) {
     this.x = x
     this.y = y
     this.z = z
     this.id = id
     this.color = color
-    this.fontColor = fontColor
     this.opacity = []
     this.scale = []
     this.button = new THREE.Group()
@@ -26,10 +25,7 @@ class CircleButton {
       this.button.add(mesh)
       this.button.position.set(this.x, this.y, this.z)
     }
-    let font = this.id
-    font.style.color = this.fontColor
-    font.style.textShadow = '1px 1px 1px #333'
-    this.fontLabel = new CSS2DObject(font)
+    this.fontLabel = new CSS2DObject(this.id)
     this.fontLabel.position.set(this.x, this.y + 20, this.z)
 
     TweenMax.staggerTo(

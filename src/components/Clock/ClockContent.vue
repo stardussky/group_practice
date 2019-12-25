@@ -1,7 +1,11 @@
 <template>
   <div class="clockContent">
-    <ClockContentList class="pm" />
-    <ClockContentList class="self" />
+    <ClockContentList
+      v-for="data in clockList"
+      :key="data.id"
+      :class="data.id"
+      :info="data"
+    />
   </div>
 </template>
 
@@ -11,6 +15,12 @@ export default {
   name: 'ClockContent',
   components: {
     ClockContentList
+  },
+  props: {
+    clockList: {
+      type: Array,
+      required: true
+    }
   }
 }
 </script>

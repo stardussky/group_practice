@@ -54,16 +54,13 @@ export default {
 
 <style lang='scss'>
   .clockFace {
-    width: 40%;
-    height: 100%;
-    position: relative;
     display: flex;
     justify-content: center;
     #svg {
       max-width: 350px;
-      min-width: 160px;
+      min-width: 150px;
       max-height: 350px;
-      min-height: 160px;
+      min-height: 150px;
       circle {
         stroke-linecap: round;
         fill: transparent;
@@ -84,6 +81,7 @@ export default {
         }
       }
       #bar {
+        fill: rgba($white, .5);
         stroke: url(#gradient);
         stroke-dashoffset: 400;
       }
@@ -98,13 +96,10 @@ export default {
         transition: all 1s;
       }
     }
-    @include media(1280px){
-      width: 50%;
-    }
     @include media(767px){
-      width: 100%;
-      height: 40%;
+      height: 100%;
       align-items: center;
+      justify-content: flex-start;
       #svg{
         #timer {
           @include font(5);

@@ -1,14 +1,14 @@
 <template>
   <div class="clockContentList">
     <div class="title">
-      <p>專案管理</p>
-      <span />
+      <p>{{ info.name }}</p>
     </div>
     <ul class="list">
-      <ClockList />
-      <ClockList />
-      <ClockList />
-      <ClockList />
+      <ClockList
+        v-for="list in info.lists"
+        :key="list.id"
+        :list="list"
+      />
     </ul>
   </div>
 </template>
@@ -19,6 +19,12 @@ export default {
   name: 'ClockContentList',
   components: {
     ClockList
+  },
+  props: {
+    info: {
+      type: Object,
+      required: true
+    }
   }
 }
 </script>
@@ -37,14 +43,6 @@ export default {
     background-color: $white;
     color: $dark;
     position: relative;
-    >span {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 1px;
-      background-image: linear-gradient(to right, $primary, $third);
-    }
   }
   .list {
     height: calc(100% - 60px);
@@ -52,10 +50,10 @@ export default {
     overflow-y: auto;
   }
   @include media(1280px){
+    width: 100%;
     height: calc(50% - 5px);
   }
   @include media(767px){
-    width: 100%;
     height: 100%;
     margin: auto;
     .list {

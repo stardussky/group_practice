@@ -8,6 +8,7 @@
         ref="projectManagement"
         class="button"
         data-path="projectManagement"
+        @click="enterPage('projectManagement')"
       >
         專案管理
       </div>
@@ -15,6 +16,7 @@
         ref="clock"
         class="button"
         data-path="clock"
+        @click="enterPage('clock')"
       >
         番茄鐘
       </div>
@@ -22,6 +24,7 @@
         ref="shop"
         class="button"
         data-path="shop"
+        @click="enterPage('shop')"
       >
         商城
       </div>
@@ -29,6 +32,7 @@
         ref="login"
         class="button"
         data-path="login"
+        @click="enterPage('login')"
       >
         登入
       </div>
@@ -43,7 +47,6 @@
 <script>
 import { onMounted, onUnmounted } from '@vue/composition-api'
 import { init, handleWindowResize, changeRenderer, animation } from '../plugins/three/initThree'
-
 export default {
   name: 'Three',
   props: {
@@ -52,7 +55,8 @@ export default {
       required: true
     }
   },
-  setup (props) {
+  setup (props, { root }) {
+    const enterPage = (page) => root.$router.push({ path: page })
     onMounted(() => {
       changeRenderer(props.weather)
       handleWindowResize()
@@ -63,6 +67,7 @@ export default {
       cancelAnimationFrame(animation)
     })
     return {
+      enterPage
     }
   },
   watch: {
@@ -88,8 +93,10 @@ export default {
   height: 100%;
   overflow: hidden;
   .button {
-    pointer-events: none;
+    color: $white;
+    text-shadow: 1px 1px 1px $dark;
     @include font(1);
+    cursor: pointer;
   }
 }
 #stats {
