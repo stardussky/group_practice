@@ -103,7 +103,7 @@ export default {
     }
     @include media(479px){
       .select_list{
-        top: 0;
+        top: 5px;
         right: 5px;
       }
     }

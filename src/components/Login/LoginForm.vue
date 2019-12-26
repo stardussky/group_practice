@@ -170,6 +170,7 @@ export default {
   z-index: 1;
   transition: left .5s;
   border-radius: 0 0 20px 20px;
+  border-top: 3px solid $primary;
   &.mode{
     left: 50%;
   }
@@ -223,8 +224,9 @@ export default {
     }
   }
   @include media(479px){
+    border-width: 2px;
     .select_mode{
-      top: 0;
+      top: 5px;
       right: 5px;
     }
   }

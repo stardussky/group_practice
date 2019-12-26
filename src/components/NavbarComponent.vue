@@ -30,7 +30,7 @@
       <li>
         <div class="navBtn">
           <a
-            href="./potato.html"
+            href="./tomato.html"
             class="navBtn_btn"
           >
             <p>番茄鐘</p>

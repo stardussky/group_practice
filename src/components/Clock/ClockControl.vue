@@ -115,11 +115,15 @@ export default {
   }
   @include media(479px){
     position: absolute;
-    top: 35px;
+    top: 40px;
     right: 6px;
     .control {
       .play, .pause{
         margin: 0 5px;
+        img {
+          width: 20px;
+          height: 20px;
+        }
       }
     }
   }

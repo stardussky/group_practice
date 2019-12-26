@@ -2,9 +2,9 @@
   <div class="LoginTrack">
     <div class="mode sign_in">
       <div>
-        <h2>Don't have an account?</h2>
+        <h2>還沒有帳號嗎?</h2>
         <p>
-          Banjo tote bag bicycle rights, High Life sartorial cray craft beer whatever street art fap.
+          立即成為數百萬每日使用 職人口袋－Master Pocket 的用戶之一！
         </p>
         <button @click="changeMode = 0">
           Sign Up
@@ -13,9 +13,9 @@
     </div>
     <div class="mode sign_up">
       <div>
-        <h2>Have an account?</h2>
+        <h2>立即登入!</h2>
         <p>
-          Banjo tote bag bicycle rights, High Life sartorial cray craft beer whatever street art fap.
+          馬上登入開始使用 職人口袋－Master Pocket 吧!
         </p>
         <button @click="changeMode = 1">
           Sign In
