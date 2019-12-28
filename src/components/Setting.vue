@@ -105,7 +105,7 @@ export default {
   }
   .setting_list {
     @include positionCenter(y);
-    left: -220px;
+    left: -240px;
     list-style: none;
     display: flex;
     opacity: 0;
@@ -119,13 +119,12 @@ export default {
     > li {
       margin: 0 5px;
       cursor: pointer;
-      img {
-        vertical-align: middle;
-      }
+      display: flex;
+      align-items: center;
       p {
         color: $white;
-        display: inline-block;
         transition: color .3s;
+        margin-left: 5px;
         &.active{
           color: $primary;
         }
@@ -143,6 +142,11 @@ export default {
   }
   @include media(479px) {
     .setting_list {
+      > li {
+        p{
+          margin-left: 0;
+        }
+      }
       left: -210px;
     }
   }

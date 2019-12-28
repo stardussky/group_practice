@@ -12,7 +12,11 @@
       </button>
     </div>
     <div id="clock">
-      <ClockFace />
+      <ClockFace
+        :timer.sync="timer"
+        :is-start.sync="isStart"
+        :mode="mode"
+      />
       <ClockControl />
     </div>
     <ClockContent :clock-list="clockList" />
@@ -23,7 +27,7 @@
 import ClockFace from '@/components/Clock/ClockFace'
 import ClockControl from '@/components/Clock/ClockControl'
 import ClockContent from '@/components/Clock/ClockContent'
-import { ref } from '@vue/composition-api'
+import { ref, computed } from '@vue/composition-api'
 export default {
   name: 'Clock',
   components: {
@@ -58,8 +62,25 @@ export default {
         ]
       }
     ])
+    const workTimer = ref(1500)
+    const breakTimer = ref(300)
+    const isStart = ref(true)
+    const mode = ref(0)
+    const timer = computed({
+      get () {
+        return mode ? workTimer.value : breakTimer.value
+      },
+      set (val) {
+        mode ? workTimer.value = val : breakTimer.value = val
+      }
+    })
     return {
-      clockList
+      clockList,
+      workTimer,
+      breakTimer,
+      timer,
+      isStart,
+      mode
     }
   }
 }

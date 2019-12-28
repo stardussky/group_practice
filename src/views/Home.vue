@@ -24,7 +24,9 @@
             name="slider"
             mode="out-in"
           >
-            <router-view />
+            <keep-alive exclude="Login">
+              <router-view />
+            </keep-alive>
           </transition>
         </div>
       </div>

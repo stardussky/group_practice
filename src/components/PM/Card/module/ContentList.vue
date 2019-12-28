@@ -60,6 +60,8 @@ export default {
   position: relative;
   margin: 5px 0;
   .checked {
+    display: flex;
+    align-items: center;
     cursor: pointer;
   }
   >div{
