@@ -5,6 +5,7 @@
       <input
         v-model="name"
         type="text"
+        data-v-step="0"
       >
     </label>
     <div>
@@ -20,7 +21,10 @@
         />
       </div>
     </div>
-    <button @click="createProject">
+    <button
+      data-v-step="1"
+      @click="createProject"
+    >
       建立專案
     </button>
   </div>

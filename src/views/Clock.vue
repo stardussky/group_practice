@@ -15,9 +15,12 @@
       <ClockFace
         :timer.sync="timer"
         :is-start.sync="isStart"
-        :mode="mode"
+        :mode.sync="mode"
       />
-      <ClockControl />
+      <ClockControl
+        :is-start.sync="isStart"
+        :mode.sync="mode"
+      />
     </div>
     <ClockContent :clock-list="clockList" />
   </div>
@@ -62,25 +65,25 @@ export default {
         ]
       }
     ])
-    const workTimer = ref(1500)
-    const breakTimer = ref(300)
-    const isStart = ref(true)
+    const workTimer = ref(10)
+    const breakTimer = ref(5)
+    const isStart = ref(false)
     const mode = ref(0)
     const timer = computed({
       get () {
-        return mode ? workTimer.value : breakTimer.value
+        return mode.value === 0 ? workTimer.value : breakTimer.value
       },
       set (val) {
-        mode ? workTimer.value = val : breakTimer.value = val
+        mode.value === 0 ? workTimer.value = val : breakTimer.value = val
       }
     })
     return {
       clockList,
       workTimer,
       breakTimer,
-      timer,
       isStart,
-      mode
+      mode,
+      timer
     }
   }
 }
@@ -120,6 +123,7 @@ export default {
         height: 40%;
         align-items: center;
         margin: auto;
+        padding: 0;
       }
     }
     @include media(479px){

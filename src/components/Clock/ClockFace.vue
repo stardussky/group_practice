@@ -69,6 +69,7 @@ export default {
   },
   setup (props, { refs, emit }) {
     const dasharray = ref(NaN)
+    const nowOffset = ref(NaN)
     const timeOut = ref(null)
     const time = computed(() => {
       let second = props.timer % 60 < 10 ? '0' + props.timer % 60 : props.timer % 60
@@ -76,9 +77,10 @@ export default {
       return `${minute}:${second}`
     })
     const dashoffset = computed(() => {
-      let total = dasharray.value
-      let offset = dasharray.value -= (100 / props.timer * dasharray.value / 100)
-      return props.isStart ? offset : total
+      if (props.isStart) {
+        nowOffset.value -= (100 / props.timer * nowOffset.value / 100)
+      }
+      return nowOffset.value
     })
     const countDown = computed({
       get () {
@@ -86,7 +88,6 @@ export default {
       },
       set (val) {
         setTimer()
-        if (val <= 0)clearTimer()
         emit('update:timer', val)
       }
     })
@@ -94,21 +95,25 @@ export default {
       let bar = refs.bar
       let c = bar.getBoundingClientRect().width * Math.PI
       bar.style.strokeDasharray = c
-      dasharray.value = c
+      dasharray.value = nowOffset.value = c
     }
     const setTimer = () => {
       timeOut.value = setTimeout(() => {
-        countDown.value -= 1
+        clearTimer()
+        if (countDown.value > 0)countDown.value -= 1
+        else if (props.mode === 0) emit('update:mode', 1)
+        else stopTimer()
       }, 1000)
     }
     const clearTimer = () => {
-      emit('update:isStart', false)
       clearTimeout(timeOut.value)
     }
+    const stopTimer = () => emit('update:isStart', false)
     watch(() => props.isStart, (val) => {
       if (val)setTimer()
       else clearTimer()
     })
+    watch(() => props.mode, () => { stopTimer(); setDasharray() }, { lazy: true })
     onMounted(() => {
       setDasharray()
       window.addEventListener('resize', setDasharray)
@@ -144,19 +149,19 @@ export default {
       #gradient {
         stop {
           &:nth-of-type(1){
-            stop-color: $primary;
+            stop-color: $secondary;
           }
           &:nth-of-type(2){
-            stop-color: $third;
+            stop-color: $primary;
           }
         }
         &.break {
           stop {
             &:nth-of-type(1){
-              stop-color: $success;
+              stop-color: $danger;
             }
             &:nth-of-type(2){
-              stop-color: $fourth;
+              stop-color: $third;
             }
           }
         }

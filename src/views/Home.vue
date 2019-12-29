@@ -3,7 +3,7 @@
     <Three :weather="weather" />
     <transition name="fade">
       <div
-        v-if="path !== '/'"
+        v-show="path !== '/'"
         class="container"
       >
         <div class="header">

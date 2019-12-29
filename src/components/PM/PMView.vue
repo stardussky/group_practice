@@ -16,26 +16,54 @@
         @click.native="enterProject(project.id)"
       />
     </transition-group>
+    <Tour :steps="steps" />
   </div>
 </template>
 
 <script>
 import CreateProject from '@/components/PM/CreateProject'
 import Project from '@/components/PM/Project'
-import {} from '@vue/composition-api'
+import Tour from '@/components/Tour'
+import { ref } from '@vue/composition-api'
 import { mapState, mapActions } from 'vuex'
 export default {
   name: 'PMView',
   components: {
     CreateProject,
-    Project
+    Project,
+    Tour
   },
   setup (props, { root }) {
     const enterProject = (id) => {
       root.$router.push({ name: 'Project', params: { id: id } })
     }
+    const steps = ref([
+      {
+        target: '.createProject',
+        content: `從這裡開始建立新的專案`
+      },
+      {
+        target: '[data-v-step="0"]',
+        content: `輸入你的專案名稱`,
+        params: {
+          placement: 'bottom'
+        }
+      },
+      {
+        target: '.project_color',
+        content: '選擇專案顏色'
+      },
+      {
+        target: '[data-v-step="1"]',
+        content: '新增一個專案吧',
+        params: {
+          placement: 'top'
+        }
+      }
+    ])
     return {
-      enterProject
+      enterProject,
+      steps
     }
   },
   computed: {

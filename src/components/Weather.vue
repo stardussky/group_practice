@@ -9,8 +9,27 @@
 </template>
 
 <script>
+import { ref, onMounted } from '@vue/composition-api'
 export default {
-  name: 'Weather'
+  name: 'Weather',
+  setup () {
+    const latitude = ref(null)
+    const longitude = ref(null)
+    onMounted(() => {
+      navigator.geolocation.getCurrentPosition(position => {
+        latitude.value = position.coords.latitude
+        longitude.value = position.coords.longitude
+      }, err => {
+        console.log(err)
+      })
+      fetch('https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-D0047-089?Authorization=CWB-B129D5C9-1F5D-482E-988B-20A0637F769C&format=JSON&elementName=WeatherDescription')
+        .then(res => res.json()).then(json => console.log(json))
+    })
+    return {
+      latitude,
+      longitude
+    }
+  }
 }
 </script>
 
