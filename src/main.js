@@ -11,7 +11,6 @@ Vue.config.productionTip = false
 Vue.use(composition)
 Vue.use(veeValidate)
 Vue.use(vueTour)
-
 new Vue({
   router,
   store,

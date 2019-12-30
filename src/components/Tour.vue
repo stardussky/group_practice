@@ -45,7 +45,7 @@ export default {
     onMounted(() => {
       setTimeout(() => {
         root.$tours['myTour'].start()
-      }, 600)
+      }, 400)
     })
     return {
       options
@@ -88,6 +88,9 @@ export default {
     @include font(1);
     font-family: 'Montserrat', 'Noto Sans TC', sans-serif;
     border-radius: 20px !important;
+    &:hover {
+      color: $primary !important;
+    }
   }
 }
 </style>

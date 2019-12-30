@@ -1,33 +1,74 @@
 <template>
   <div class="weather">
-    <img src="@/assets/icon/cloudy.svg">
+    <img
+      v-if="weatherIcon"
+      :src="`${require('@/assets/icon/' + weatherIcon + '.svg')}`"
+    >
     <div>
-      <p>20°</p>
+      <p>{{ temperature }}°</p>
       <p>桃園市</p>
     </div>
   </div>
 </template>
 
 <script>
-import { ref, onMounted } from '@vue/composition-api'
+import { ref, computed, onMounted } from '@vue/composition-api'
 export default {
   name: 'Weather',
-  setup () {
+  props: {
+    weather: {
+      type: String,
+      required: true
+    }
+  },
+  setup (props, { emit }) {
     const latitude = ref(null)
     const longitude = ref(null)
-    onMounted(() => {
+    const temperature = ref(null)
+    const weatherIcon = ref(null)
+    const weatherStatus = computed({
+      get () {
+        return props.weather
+      },
+      set (val) {
+        if (val) {
+          if (val.indexOf('雨')) {
+            weatherIcon.value = 'rainy'
+            emit('update:weather', 'rainy')
+          } else if (val.indexOf('陰')) {
+            weatherIcon.value = 'cloudy'
+            emit('update:weather', 'cloudy')
+          } else {
+            if (new Date().getHours() >= 18) {
+              weatherIcon.value = 'night'
+              emit('update:weather', 'night')
+            } else {
+              weatherIcon.value = 'day'
+              emit('update:weather', 'day')
+            }
+          }
+        }
+      }
+    })
+    onMounted(async () => {
       navigator.geolocation.getCurrentPosition(position => {
         latitude.value = position.coords.latitude
         longitude.value = position.coords.longitude
       }, err => {
         console.log(err)
       })
-      fetch('https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-D0047-089?Authorization=CWB-B129D5C9-1F5D-482E-988B-20A0637F769C&format=JSON&elementName=WeatherDescription')
-        .then(res => res.json()).then(json => console.log(json))
+      await fetch('https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-D0047-089?Authorization=CWB-B129D5C9-1F5D-482E-988B-20A0637F769C&format=JSON&elementName=Wx,T')
+        .then(res => res.json())
+        .then(json => {
+          weatherStatus.value = json.records.locations[0].location[19].weatherElement[0].time[0].elementValue[0].value
+          temperature.value = json.records.locations[0].location[19].weatherElement[1].time[0].elementValue[0].value
+        })
     })
     return {
       latitude,
-      longitude
+      longitude,
+      weatherIcon,
+      temperature
     }
   }
 }

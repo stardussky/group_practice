@@ -130,21 +130,26 @@ export function changeRenderer (weather) {
   if (rendererStatus)scene.remove(skyBox, particle.particleSystem)
   if (rendererStatus === 'rainy')scene.remove(particle.flashLight)
   switch (weather) {
-    case 'day':
-      particle = new Particle(0.8, 0.3, 0.3)
-      createSkyBox(dayTimeTextures)
-      rendererStatus = 'day'
-      break
     case 'night':
       particle = new Particle(0.3, 0.8, 0.8)
       createSkyBox(nightTimeTextures)
       rendererStatus = 'night'
+      break
+    case 'cloudy':
+      particle = new Particle(0.1, 0.5, 0.9)
+      createSkyBox(rainTimeTextures)
+      rendererStatus = 'cloudy'
       break
     case 'rainy':
       particle = new RainDrop()
       scene.add(particle.flashLight)
       createSkyBox(rainTimeTextures)
       rendererStatus = 'rainy'
+      break
+    default:
+      particle = new Particle(0.8, 0.3, 0.3)
+      createSkyBox(dayTimeTextures)
+      rendererStatus = 'day'
   }
   scene.add(particle.particleSystem)
 }

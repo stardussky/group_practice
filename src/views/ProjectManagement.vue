@@ -1,7 +1,7 @@
 <template>
   <div class="projectManagement">
     <transition
-      name="slider"
+      name="fade"
       mode="out-in"
     >
       <keep-alive>

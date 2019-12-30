@@ -21,7 +21,7 @@
         </div>
         <div class="body">
           <transition
-            name="slider"
+            name="fade"
             mode="out-in"
           >
             <keep-alive exclude="Login">
@@ -42,7 +42,7 @@
       >
     </router-link>
     <Setting :weather.sync="weather" />
-    <Weather />
+    <Weather :weather.sync="weather" />
     <transition name="fade">
       <ProgressBar
         v-if="path !== '/'"

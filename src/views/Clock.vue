@@ -13,7 +13,8 @@
     </div>
     <div id="clock">
       <ClockFace
-        :timer.sync="timer"
+        :timer="timer"
+        :passed-timer.sync="passedTimer"
         :is-start.sync="isStart"
         :mode.sync="mode"
       />
@@ -30,7 +31,7 @@
 import ClockFace from '@/components/Clock/ClockFace'
 import ClockControl from '@/components/Clock/ClockControl'
 import ClockContent from '@/components/Clock/ClockContent'
-import { ref, computed } from '@vue/composition-api'
+import { ref, computed, onMounted } from '@vue/composition-api'
 export default {
   name: 'Clock',
   components: {
@@ -65,25 +66,31 @@ export default {
         ]
       }
     ])
-    const workTimer = ref(10)
-    const breakTimer = ref(5)
+    const workTimer = ref(60)
+    const breakTimer = ref(30)
+    const workedTimer = ref(NaN)
+    const breakedTimer = ref(NaN)
     const isStart = ref(false)
     const mode = ref(0)
-    const timer = computed({
+    const timer = computed(() => mode.value === 0 ? workTimer.value : breakTimer.value)
+    const passedTimer = computed({
       get () {
-        return mode.value === 0 ? workTimer.value : breakTimer.value
+        return mode.value === 0 ? workedTimer.value : breakedTimer.value
       },
       set (val) {
-        mode.value === 0 ? workTimer.value = val : breakTimer.value = val
+        mode.value === 0 ? workedTimer.value = val : breakedTimer.value = val
       }
+    })
+    onMounted(() => {
+      workedTimer.value = workTimer.value
+      breakedTimer.value = breakTimer.value
     })
     return {
       clockList,
-      workTimer,
-      breakTimer,
       isStart,
       mode,
-      timer
+      timer,
+      passedTimer
     }
   }
 }

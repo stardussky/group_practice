@@ -7,6 +7,7 @@
       viewPort="0 0 155 155"
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
+      :class="{active:isStart}"
     >
       <defs>
         <linearGradient
@@ -58,6 +59,10 @@ export default {
       type: Number,
       required: true
     },
+    passedTimer: {
+      type: Number,
+      required: true
+    },
     isStart: {
       type: Boolean,
       required: true
@@ -71,25 +76,23 @@ export default {
     const dasharray = ref(NaN)
     const nowOffset = ref(NaN)
     const timeOut = ref(null)
-    const time = computed(() => {
-      let second = props.timer % 60 < 10 ? '0' + props.timer % 60 : props.timer % 60
-      let minute = (props.timer - second) / 60 < 10 ? '0' + (props.timer - second) / 60 : (props.timer - second) / 60
-      return `${minute}:${second}`
-    })
-    const dashoffset = computed(() => {
-      if (props.isStart) {
-        nowOffset.value -= (100 / props.timer * nowOffset.value / 100)
-      }
-      return nowOffset.value
-    })
     const countDown = computed({
       get () {
-        return props.timer
+        return props.passedTimer
       },
       set (val) {
         setTimer()
-        emit('update:timer', val)
+        emit('update:passedTimer', val)
       }
+    })
+    const time = computed(() => {
+      let second = countDown.value % 60 < 10 ? '0' + countDown.value % 60 : countDown.value % 60
+      let minute = (countDown.value - second) / 60 < 10 ? '0' + (countDown.value - second) / 60 : (countDown.value - second) / 60
+      return `${minute}:${second}`
+    })
+    const dashoffset = computed(() => {
+      nowOffset.value = dasharray.value - (100 / props.timer * dasharray.value / 100) * (props.timer - countDown.value)
+      return nowOffset.value
     })
     const setDasharray = () => {
       let bar = refs.bar
@@ -105,15 +108,13 @@ export default {
         else stopTimer()
       }, 1000)
     }
-    const clearTimer = () => {
-      clearTimeout(timeOut.value)
-    }
+    const clearTimer = () => clearTimeout(timeOut.value)
     const stopTimer = () => emit('update:isStart', false)
     watch(() => props.isStart, (val) => {
       if (val)setTimer()
       else clearTimer()
     })
-    watch(() => props.mode, () => { stopTimer(); setDasharray() }, { lazy: true })
+    watch(() => props.mode, () => stopTimer(), { lazy: true })
     onMounted(() => {
       setDasharray()
       window.addEventListener('resize', setDasharray)
@@ -124,6 +125,7 @@ export default {
     return {
       dasharray,
       dashoffset,
+      nowOffset,
       time
     }
   }
@@ -139,12 +141,17 @@ export default {
       min-width: 150px;
       max-height: 350px;
       min-height: 150px;
+      &.active {
+        circle {
+          transition-duration: 1s;
+        }
+      }
       circle {
         stroke-linecap: round;
         fill: transparent;
         stroke: $white;
         stroke-width: 4px;
-        transition: stroke-dashoffset 1s linear;
+        transition: stroke-dashoffset .3s linear;
       }
       #gradient {
         stop {

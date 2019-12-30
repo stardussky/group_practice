@@ -16,6 +16,7 @@
         @click.native="enterProject(project.id)"
       />
     </transition-group>
+    <Calendar />
     <Tour :steps="steps" />
   </div>
 </template>
@@ -23,6 +24,7 @@
 <script>
 import CreateProject from '@/components/PM/CreateProject'
 import Project from '@/components/PM/Project'
+import Calendar from '@/components/PM/Calendar/index'
 import Tour from '@/components/Tour'
 import { ref } from '@vue/composition-api'
 import { mapState, mapActions } from 'vuex'
@@ -31,6 +33,7 @@ export default {
   components: {
     CreateProject,
     Project,
+    Calendar,
     Tour
   },
   setup (props, { root }) {
