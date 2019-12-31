@@ -22,20 +22,40 @@
         {{ list.content }}
       </p>
       <div class="control">
-        <img
-          src="@/assets/icon/time-left_d.svg"
-          alt="clock"
+        <div
+          v-if="isEdit"
+          class="clock"
+          @click="setTodoClock"
         >
-        <img
-          src="@/assets/icon/time-left_c.svg"
-          alt="clock"
+          <img
+            src="@/assets/icon/time-left_d.svg"
+            alt="clock"
+          >
+          <img
+            src="@/assets/icon/time-left_c.svg"
+            alt="clock"
+          >
+        </div>
+        <div
+          class="delete"
+          @click="deleteTodoList"
         >
+          <img
+            src="@/assets/icon/delete.svg"
+            alt="delete"
+          >
+          <img
+            src="@/assets/icon/delete_on.svg"
+            alt="clock"
+          >
+        </div>
       </div>
     </div>
   </li>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   name: 'ContentList',
   props: {
@@ -44,11 +64,18 @@ export default {
       required: true
     }
   },
+  computed: {
+    ...mapState('pmStore', ['isEdit'])
+  },
   setup (props, { emit }) {
     const changeStatus = () => emit('changeStatus')
+    const deleteTodoList = () => emit('deleteTodoList')
+    const setTodoClock = () => emit('setTodoClock')
 
     return {
-      changeStatus
+      changeStatus,
+      deleteTodoList,
+      setTodoClock
     }
   }
 }
@@ -68,7 +95,7 @@ export default {
     @include font;
     p{
       margin-left: 10px;
-      padding-right: 30px;
+      padding-right: 60px;
       overflow: hidden;
       text-overflow: ellipsis;
       &.done {
@@ -77,9 +104,21 @@ export default {
     }
   }
   .control {
+    display: flex;
     position: absolute;
-    right: 0;
-    @include hoverImg(30px);
+    right: -30px;
+    opacity: 0;
+    transition: all .3s;
+    .clock, .delete {
+      position: relative;
+      @include hoverImg(30px);
+    }
+  }
+  &:hover {
+    .control {
+      right: 0;
+      opacity: 1;
+    }
   }
 }
 </style>

@@ -34,6 +34,8 @@
           :key="list.id"
           :list="list"
           @changeStatus="changeStatus(index)"
+          @deleteTodoList="deleteTodoList(index)"
+          @setTodoClock="setTodoClock(list)"
         />
       </ul>
       <label>
@@ -88,6 +90,9 @@ export default {
       }
     }
     const changeStatus = (index) => emit('changeStatus', index)
+    const deleteTodoList = (index) => emit('deleteTodoList', index)
+    const setTodoClock = (list) => emit('setTodoClock', list)
+
     const deleteTodoContent = () => emit('deleteTodoContent')
     const progerss = computed(() => {
       let done = props.content.lists.filter(list => {
@@ -100,6 +105,8 @@ export default {
       enterContentList,
       changeStatus,
       deleteTodoContent,
+      deleteTodoList,
+      setTodoClock,
       progerss
     }
   }

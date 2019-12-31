@@ -16,7 +16,7 @@
         :key="todo.id"
         :color="color"
         :todo="todo"
-        @click.native="EDIT_TODO_CARD({step, index})"
+        @click.native="editCard({step, index})"
       />
     </transition-group>
   </div>
@@ -24,7 +24,7 @@
 
 <script>
 import TodoCard from './module/TodoCard'
-import { mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 export default {
   name: 'CardContent',
   components: {
@@ -48,8 +48,18 @@ export default {
       required: true
     }
   },
+  computed: {
+    ...mapState('pmStore', ['isEdit'])
+  },
   methods: {
-    ...mapActions('pmStore', ['EDIT_TODO_CARD'])
+    ...mapActions('pmStore', ['EDIT_TODO_CARD']),
+    editCard (info) {
+      if (this.isEdit) {
+        if (confirm('編輯尚未儲存,是否取消編輯?')) this.EDIT_TODO_CARD(info)
+      } else {
+        this.EDIT_TODO_CARD(info)
+      }
+    }
   }
 }
 </script>

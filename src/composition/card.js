@@ -38,6 +38,9 @@ export default (props) => {
     todoContentList.value[index].lists[listIndex].status = !status
   }
   const deleteTodoContent = (index) => todoContentList.value.splice(index, 1)
+  const deleteTodoList = (listIndex, index) => {
+    todoContentList.value[index].lists.splice(listIndex, 1)
+  }
   const deleteFile = (index) => fileContent.value.splice(index, 1)
   const resetCard = () => {
     cardTitle.value = '待辦項目'
@@ -69,6 +72,7 @@ export default (props) => {
     pushFile,
     changeStatus,
     deleteTodoContent,
+    deleteTodoList,
     deleteFile,
     resetCard
   }

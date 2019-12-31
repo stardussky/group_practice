@@ -30,6 +30,8 @@
           @enterContentList="pushContentList"
           @changeStatus="changeStatus($event, index)"
           @deleteTodoContent="deleteTodoContent(index)"
+          @deleteTodoList="deleteTodoList($event, index)"
+          @setTodoClock="ADD_TODO_LIST({$event, projectId})"
         />
         <div class="add_todo">
           <input
@@ -38,7 +40,7 @@
             placeholder="加點內容吧~"
             @keydown.enter="pushTodoContent"
           >
-          <div>
+          <div @click="pushTodoContent">
             <img
               src="@/assets/icon/edit.svg"
               alt="add"
@@ -101,7 +103,7 @@ export default {
     }
   },
   setup (props) {
-    const { cardTitle, cardContent, resetCard, dateStatus, deadLine, todoTitle, todoContentList, fileContent, pushTodoContent, pushContentList, pushFile, changeStatus, deleteTodoContent, deleteFile } = card(props)
+    const { cardTitle, cardContent, resetCard, dateStatus, deadLine, todoTitle, todoContentList, fileContent, pushTodoContent, pushContentList, pushFile, changeStatus, deleteTodoContent, deleteTodoList, deleteFile } = card(props)
     return {
       cardTitle,
       deadLine,
@@ -113,6 +115,7 @@ export default {
       pushContentList,
       pushFile,
       deleteTodoContent,
+      deleteTodoList,
       deleteFile,
       changeStatus,
       cardContent,
@@ -121,6 +124,7 @@ export default {
   },
   methods: {
     ...mapActions('pmStore', ['PUSH_TODO_CARD', 'EDIT_DONE']),
+    ...mapActions('clockStore', ['ADD_TODO_LIST']),
     pushTodoCard () {
       this.PUSH_TODO_CARD(this.cardContent)
       this.resetCard()
