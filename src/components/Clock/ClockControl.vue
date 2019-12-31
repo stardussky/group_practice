@@ -1,7 +1,11 @@
 <template>
   <div class="clockControl">
     <div class="switch">
-      <div class="work">
+      <div
+        class="work"
+        :class="{active: !switchMode}"
+        @click="switchMode = 0"
+      >
         WORK
       </div>
       <div
@@ -35,7 +39,11 @@
           >
         </div>
       </div>
-      <div class="break">
+      <div
+        class="break"
+        :class="{active: switchMode}"
+        @click="switchMode = 1"
+      >
         BREAK
       </div>
     </div>
@@ -44,13 +52,39 @@
 </template>
 
 <script>
-import { ref } from '@vue/composition-api'
+import { computed } from '@vue/composition-api'
 export default {
   name: 'ClockControl',
-  setup () {
-    const isPlay = ref(false)
+  props: {
+    isStart: {
+      type: Boolean,
+      required: true
+    },
+    mode: {
+      type: Number,
+      required: true
+    }
+  },
+  setup (props, { emit }) {
+    const isPlay = computed({
+      get () {
+        return props.isStart
+      },
+      set (val) {
+        emit('update:isStart', val)
+      }
+    })
+    const switchMode = computed({
+      get () {
+        return props.mode
+      },
+      set (val) {
+        emit('update:mode', val)
+      }
+    })
     return {
-      isPlay
+      isPlay,
+      switchMode
     }
   }
 
@@ -77,7 +111,7 @@ export default {
     transition: color .3s;
   }
   .work {
-    .active {
+    &.active {
       color: $primary;
     }
     &:hover {
@@ -85,11 +119,11 @@ export default {
     }
   }
   .break {
-    .active {
-      color: $third;
+    &.active {
+      color: $danger;
     }
     &:hover {
-      color: $third;
+      color: $danger;
     }
   }
   .control {

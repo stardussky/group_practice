@@ -9,6 +9,10 @@
   padding-bottom: 50px;
   .card_head {
     @include cardHead;
+    img {
+      @include positionCenter(y);
+      right: 30px;
+    }
   }
   .card_body {
     height: calc(100% - 50px);
@@ -48,6 +52,11 @@
     .card_body {
       height: calc(100% - 30px);
       padding: 10px;
+    }
+    .card_head {
+      img {
+        right: 15px;
+      }
     }
   }
 }

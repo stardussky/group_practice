@@ -12,8 +12,16 @@
       </button>
     </div>
     <div id="clock">
-      <ClockFace />
-      <ClockControl />
+      <ClockFace
+        :timer="timer"
+        :passed-timer.sync="passedTimer"
+        :is-start.sync="isStart"
+        :mode.sync="mode"
+      />
+      <ClockControl
+        :is-start.sync="isStart"
+        :mode.sync="mode"
+      />
     </div>
     <ClockContent :clock-list="clockList" />
   </div>
@@ -23,7 +31,7 @@
 import ClockFace from '@/components/Clock/ClockFace'
 import ClockControl from '@/components/Clock/ClockControl'
 import ClockContent from '@/components/Clock/ClockContent'
-import { ref } from '@vue/composition-api'
+import { ref, computed, onMounted } from '@vue/composition-api'
 export default {
   name: 'Clock',
   components: {
@@ -58,8 +66,31 @@ export default {
         ]
       }
     ])
+    const workTimer = ref(60)
+    const breakTimer = ref(30)
+    const workedTimer = ref(NaN)
+    const breakedTimer = ref(NaN)
+    const isStart = ref(false)
+    const mode = ref(0)
+    const timer = computed(() => mode.value === 0 ? workTimer.value : breakTimer.value)
+    const passedTimer = computed({
+      get () {
+        return mode.value === 0 ? workedTimer.value : breakedTimer.value
+      },
+      set (val) {
+        mode.value === 0 ? workedTimer.value = val : breakedTimer.value = val
+      }
+    })
+    onMounted(() => {
+      workedTimer.value = workTimer.value
+      breakedTimer.value = breakTimer.value
+    })
     return {
-      clockList
+      clockList,
+      isStart,
+      mode,
+      timer,
+      passedTimer
     }
   }
 }
@@ -99,6 +130,7 @@ export default {
         height: 40%;
         align-items: center;
         margin: auto;
+        padding: 0;
       }
     }
     @include media(479px){

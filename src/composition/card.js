@@ -1,6 +1,6 @@
 import { ref, computed, watch } from '@vue/composition-api'
 export default (props) => {
-  const cardTitle = ref(props.isEdit ? null : '代辦項目')
+  const cardTitle = ref(null)
   const todoTitle = ref(null)
   const deadLine = ref('未設定')
   const dateStatus = ref(false)
@@ -9,7 +9,7 @@ export default (props) => {
   const cardContent = computed(() => {
     return {
       id: props.isEdit ? props.editCard.id : Math.random() + '',
-      title: cardTitle.value,
+      title: cardTitle.value || '待辦項目',
       status: dateStatus.value,
       deadLine: deadLine.value,
       content: todoContentList.value,

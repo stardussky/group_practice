@@ -3,7 +3,7 @@
     <Three :weather="weather" />
     <transition name="fade">
       <div
-        v-if="path !== '/'"
+        v-show="path !== '/'"
         class="container"
       >
         <div class="header">
@@ -21,10 +21,12 @@
         </div>
         <div class="body">
           <transition
-            name="slider"
+            name="fade"
             mode="out-in"
           >
-            <router-view />
+            <keep-alive exclude="Login">
+              <router-view />
+            </keep-alive>
           </transition>
         </div>
       </div>
@@ -40,7 +42,7 @@
       >
     </router-link>
     <Setting :weather.sync="weather" />
-    <Weather />
+    <Weather :weather.sync="weather" />
     <transition name="fade">
       <ProgressBar
         v-if="path !== '/'"

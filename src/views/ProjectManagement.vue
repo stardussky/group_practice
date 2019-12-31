@@ -1,10 +1,12 @@
 <template>
   <div class="projectManagement">
     <transition
-      name="slider"
+      name="fade"
       mode="out-in"
     >
-      <router-view />
+      <keep-alive>
+        <router-view />
+      </keep-alive>
     </transition>
   </div>
 </template>

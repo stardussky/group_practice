@@ -50,6 +50,7 @@
           src="@/assets/icon/plus_w.svg"
           alt="plus"
           width="15"
+          @mousedown="enterContentList"
         >
       </label>
     </div>

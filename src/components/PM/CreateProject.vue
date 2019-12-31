@@ -5,6 +5,7 @@
       <input
         v-model="name"
         type="text"
+        data-v-step="0"
       >
     </label>
     <div>
@@ -20,7 +21,10 @@
         />
       </div>
     </div>
-    <button @click="createProject">
+    <button
+      data-v-step="1"
+      @click="createProject"
+    >
       建立專案
     </button>
   </div>
@@ -31,7 +35,7 @@ import { ref, computed } from '@vue/composition-api'
 export default {
   name: 'CreateProject',
   setup (props, { emit }) {
-    const colors = ref(['#68d2de', '#a6c1ee', '#FBC2EB', '#F9BF45', '#EB7A77', '#86C166', '#666666'])
+    const colors = ref(['#81c7d4', '#a6c1ee', '#f8c3cd', '#F9BF45', '#EB7A77', '#86C166', '#777777'])
     const name = ref(null)
     const selectColor = ref(null)
     const project = computed(() => {

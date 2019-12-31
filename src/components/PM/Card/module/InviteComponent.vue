@@ -9,7 +9,7 @@
       <p>成員</p>
     </div>
     <div class="members">
-      <div class="member" />
+      <!-- <div class="member" /> -->
       <button class="invite">
         <img
           src="@/assets/icon/plus.svg"
@@ -42,25 +42,26 @@ export default {
     }
   }
   .members {
-    padding-left: 25px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    padding-left: 30px;
+    min-height: 45px;
   }
   .member {
-    display: inline-block;
     width: 35px;
     height: 35px;
     background-color: $dark;
     border-radius: 50%;
     background-position: center;
     background-size: cover;
-    vertical-align: middle;
-    margin: 5px;
+    margin: 0 5px 5px 0;
   }
   .invite {
     border-radius: 50%;
     border: 2px solid $dark;
     position: relative;
     outline: none;
-    vertical-align: middle;
     background-color: $white;
     @include hoverImg(25px);
     transition: border-color .3s;
@@ -69,6 +70,9 @@ export default {
     }
   }
   @include media(479px){
+    .members {
+      min-height: 40px;
+    }
     .member {
       width: 30px;
       height: 30px;

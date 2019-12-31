@@ -10,20 +10,21 @@
   border-radius: 20px 20px 0 0 ;
   >input {
     @include font(2);
-    width: 320px;
-    margin-right: 10px;
+    width: 350px;
     font-family: 'Montserrat', 'Noto Sans TC', sans-serif;
     color: $white;
     background-color: inherit;
     border: none;
+    border-bottom: 1px solid $white;
     outline: none;
     text-align: center;
+    padding-right: 30px;
   }
   @include media(479px){
     height: 30px;
     @include font(1);
     >input {
-      width: 235px;
+      width: 280px;
       @include font(1);
     }
   }

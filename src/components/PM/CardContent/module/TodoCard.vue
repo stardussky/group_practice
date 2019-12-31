@@ -101,5 +101,8 @@ export default {
       margin-left: 5px;
     }
   }
+  .todo_done {
+    min-width: 56px;
+  }
 }
 </style>

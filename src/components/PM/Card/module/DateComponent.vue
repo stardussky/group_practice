@@ -121,6 +121,8 @@ $input-hover-border-color: $gray;
     align-items: center;
     padding: 5px 30px;
     .checked {
+      display: flex;
+      align-items: center;
       cursor: pointer;
       margin-right: 5px;
     }

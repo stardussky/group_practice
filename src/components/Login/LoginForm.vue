@@ -229,13 +229,4 @@ export default {
     }
   }
 }
-.flip-move{
-  transition: all .3s;
-}
-.flip-enter, .flip-leave-to{
-  opacity: 0;
-}
-.flip-leave-active{
-  position: absolute;
-}
 </style>

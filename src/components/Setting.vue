@@ -47,6 +47,21 @@
           Night
         </p>
       </li>
+      <li @click="nowWeather = 'cloudy'">
+        <img
+          v-if="nowWeather === 'cloudy'"
+          src="@/assets/icon/checked.svg"
+          width="15"
+        >
+        <img
+          v-else
+          src="@/assets/icon/unchecked.svg"
+          width="15"
+        >
+        <p :class="{active: nowWeather === 'cloudy'}">
+          Cloudy
+        </p>
+      </li>
       <li @click="nowWeather = 'rainy'">
         <img
           v-if="nowWeather === 'rainy'"
@@ -97,7 +112,7 @@ export default {
 <style lang="scss">
 .settingComponent {
   position: fixed;
-  bottom: 30px;
+  bottom: 35px;
   right: 40px;
   z-index: 1;
   > div {
@@ -105,7 +120,7 @@ export default {
   }
   .setting_list {
     @include positionCenter(y);
-    left: -220px;
+    left: -330px;
     list-style: none;
     display: flex;
     opacity: 0;
@@ -119,13 +134,12 @@ export default {
     > li {
       margin: 0 5px;
       cursor: pointer;
-      img {
-        vertical-align: middle;
-      }
+      display: flex;
+      align-items: center;
       p {
         color: $white;
-        display: inline-block;
         transition: color .3s;
+        margin-left: 5px;
         &.active{
           color: $primary;
         }
@@ -137,13 +151,31 @@ export default {
       }
     }
   }
+  @include media(1399px){
+    .setting_list {
+      width: 190px;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      left: -200px;
+    }
+  }
   @include media(1023px){
     bottom: 10px;
     right: 10px;
+    .setting_list {
+      width: auto;
+      left: -330px;
+    }
   }
   @include media(479px) {
     .setting_list {
-      left: -210px;
+      @include font(-.875);
+      left: -270px;
+      > li {
+        p{
+          margin-left: 0;
+        }
+      }
     }
   }
 }
