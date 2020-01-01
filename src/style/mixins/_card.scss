@@ -53,6 +53,7 @@
 }
 @mixin todoCard(){
   width: 90%;
+  max-width: 270px;
   min-height: 85px;
   background-color: $white;
   margin: 10px auto;
@@ -60,6 +61,8 @@
   padding: 10px;
   cursor: pointer;
   box-shadow: 1px 1px 3px $shadow;
+  position: relative;
+  z-index: 1;
   .card_color {
     position: absolute;
     top: 0px;

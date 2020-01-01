@@ -56,7 +56,7 @@ export default {
   @include positionCenter(y);
   width: 100%;
   height: 300px;
-  background-image: linear-gradient(to right, rgba($primary, .5),  rgba($third, .5));
+  background-image: linear-gradient(to right, rgba($secondary, .9),  rgba($third, .9));
   outline: 1px solid $white;
   outline-offset: 10px;
   display: flex;
@@ -65,7 +65,7 @@ export default {
     max-width: 600px;
     width: 50%;
     @include font;
-    color: $dark;
+    color: $white;
     display: flex;
     align-items: center;
     justify-content: center;

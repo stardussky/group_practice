@@ -25,9 +25,9 @@
 import CreateProject from '@/components/PM/CreateProject'
 import Project from '@/components/PM/Project'
 import Calendar from '@/components/PM/Calendar/index'
-import Tour from '@/components/Tour'
 import { ref } from '@vue/composition-api'
 import { mapState, mapActions } from 'vuex'
+import Tour from '@/components/Tour'
 export default {
   name: 'PMView',
   components: {
@@ -36,32 +36,76 @@ export default {
     Calendar,
     Tour
   },
-  setup (props, { root }) {
+  setup (props, { refs, root }) {
     const enterProject = (id) => {
       root.$router.push({ name: 'Project', params: { id: id } })
     }
     const steps = ref([
       {
-        target: '.createProject',
-        content: `從這裡開始建立新的專案`
+        attachTo: { element: '.createProject', on: 'right' },
+        text: '歡迎來到專案管理頁面,是否進入教學',
+        buttons: [
+          {
+            action () {
+              return this.complete()
+            },
+            text: 'Skip'
+          },
+          {
+            action () {
+              return this.next()
+            },
+            text: '教學'
+          }
+        ]
       },
       {
-        target: '[data-v-step="0"]',
-        content: `輸入你的專案名稱`,
-        params: {
-          placement: 'bottom'
-        }
+        attachTo: { element: '.createProject input', on: 'bottom' },
+        text: '輸入你的專案名稱',
+        buttons: [
+          {
+            action () {
+              return this.next()
+            },
+            text: '下一步'
+          }
+        ]
       },
       {
-        target: '.project_color',
-        content: '選擇專案顏色'
+        attachTo: { element: '.project_color', on: 'bottom' },
+        text: '選擇你的專案色',
+        buttons: [
+          {
+            action () {
+              return this.next()
+            },
+            text: '下一步'
+          }
+        ]
       },
       {
-        target: '[data-v-step="1"]',
-        content: '新增一個專案吧',
-        params: {
-          placement: 'top'
-        }
+        attachTo: { element: '.createProject button', on: 'left' },
+        text: '建立一個專案',
+        buttons: [
+          {
+            action () {
+              return this.next()
+            },
+            text: '完成'
+          }
+        ]
+      },
+      {
+        attachTo: { element: '.calendar_view', on: 'right' },
+        text: '登入後，側邊行事曆會提醒你 7 天以內快到期的專案待辦事項',
+        buttons: [
+          {
+            action () {
+              return this.complete()
+            },
+            text: '我知道了'
+          }
+        ]
       }
     ])
     return {

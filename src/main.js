@@ -4,13 +4,13 @@ import router from './router'
 import composition from '@vue/composition-api'
 import veeValidate from './plugins/veeValidate/veeValidate'
 import store from './store'
-import vueTour from 'vue-tour'
-require('vue-tour/dist/vue-tour.css')
+import vueShepherd from 'vue-shepherd'
 
 Vue.config.productionTip = false
 Vue.use(composition)
 Vue.use(veeValidate)
-Vue.use(vueTour)
+Vue.use(vueShepherd)
+
 new Vue({
   router,
   store,

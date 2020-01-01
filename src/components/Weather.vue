@@ -32,10 +32,10 @@ export default {
       },
       set (val) {
         if (val) {
-          if (val.indexOf('雨')) {
+          if (val.indexOf('雨') !== -1) {
             weatherIcon.value = 'rainy'
             emit('update:weather', 'rainy')
-          } else if (val.indexOf('陰')) {
+          } else if (val.indexOf('陰') !== -1) {
             weatherIcon.value = 'cloudy'
             emit('update:weather', 'cloudy')
           } else {

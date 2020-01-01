@@ -94,7 +94,7 @@ export default {
 <style lang='scss'>
 .clockControl {
   max-width: 300px;
-  background-color: rgba($white, .5);
+  background-color: rgba($white, .9);
   border-radius: 20px;
   margin: auto;
   .switch {

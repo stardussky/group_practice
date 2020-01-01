@@ -1,29 +1,9 @@
 <template>
-  <v-tour
-    name="myTour"
-    :steps="steps"
-    :options="options"
-  >
-    <template slot-scope="tour">
-      <transition-group name="fade">
-        <v-step
-          v-if="tour.steps[tour.currentStep]"
-          :key="tour.currentStep"
-          :step="tour.steps[tour.currentStep]"
-          :previous-step="tour.previousStep"
-          :next-step="tour.nextStep"
-          :stop="tour.stop"
-          :is-first="tour.isFirst"
-          :is-last="tour.isLast"
-          :labels="tour.labels"
-        />
-      </transition-group>
-    </template>
-  </v-tour>
+  <div class="tour" />
 </template>
 
 <script>
-import { ref, onMounted } from '@vue/composition-api'
+import { onMounted } from '@vue/composition-api'
 export default {
   name: 'Tour',
   props: {
@@ -33,63 +13,56 @@ export default {
     }
   },
   setup (props, { root }) {
-    const options = ref({
-      useKeyboardNavigation: true,
-      labels: {
-        buttonSkip: 'Skip',
-        buttonPrevious: '上一步',
-        buttonNext: '下一步',
-        buttonStop: '完成'
-      }
-    })
     onMounted(() => {
-      setTimeout(() => {
-        root.$tours['myTour'].start()
-      }, 400)
+      root.$nextTick(() => {
+        const tour = root.$shepherd({
+          useModalOverlay: true,
+          defaultStepOptions: {
+            classes: 'tour'
+          },
+          cancelIcon: {
+            enabled: true
+          }
+        })
+        tour.addSteps(props.steps)
+        tour.start()
+      })
     })
     return {
-      options
     }
   }
 }
 </script>
 
 <style lang='scss'>
-.v-step {
-  z-index: 9999;
-  background-color: $primary !important;
-  filter: drop-shadow(1px 1px 3px $shadow) !important;
-  border-radius: 20px !important;
-  @include font(1);
-  .v-step__arrow {
-    border-color: $primary !important;
+@import '~shepherd.js/dist/css/shepherd.css';
+.tour {
+  background-color: $primary;
+  border-radius: 20px;
+  // padding: 10px;
+  >.shepherd-arrow {
+    // border-bottom-color: $primary !important;
   }
-  &[x-placement^=bottom] .v-step__arrow{
-    border-left-color: transparent !important;
-    border-right-color: transparent !important;
-    border-top-color: transparent !important;
+  .shepherd-header{
+    // display: none;
+    // padding: 20px 10px;
   }
-  &[x-placement^=top] .v-step__arrow{
-    border-left-color: transparent !important;
-    border-right-color: transparent !important;
-    border-bottom-color: transparent !important;
-  }
-  &[x-placement^=left] .v-step__arrow{
-    border-bottom-color: transparent !important;
-    border-right-color: transparent !important;
-    border-top-color: transparent !important;
-  }
-  &[x-placement^=right] .v-step__arrow{
-    border-left-color: transparent !important;
-    border-bottom-color: transparent !important;
-    border-top-color: transparent !important;
-  }
-  button {
+  .shepherd-text {
+    color: $white;
     @include font(1);
+    padding: 5px 10px;
+    margin-bottom: 10px;
+  }
+  .shepherd-button {
     font-family: 'Montserrat', 'Noto Sans TC', sans-serif;
-    border-radius: 20px !important;
+    @include font;
+    padding: 5px 10px;
+    border-radius: 20px;
+    border: 1px solid $white;
+    background-color: $primary;
     &:hover {
-      color: $primary !important;
+      background-color: $white;
+      color: $primary;
     }
   }
 }

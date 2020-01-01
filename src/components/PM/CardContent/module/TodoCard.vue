@@ -71,8 +71,6 @@ export default {
 <style lang='scss'>
 .todoCard {
   @include todoCard;
-  position: relative;
-  z-index: 1;
   >div {
     width: 100%;
   }

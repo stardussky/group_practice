@@ -7,7 +7,6 @@
       <input
         v-model="cardTitle"
         type="text"
-        data-v-step="2"
       >
       <img
         src="@/assets/icon/edit_w.svg"
@@ -15,15 +14,12 @@
         width="20"
       >
     </div>
-    <div
-      class="card_body"
-    >
+    <div class="card_body">
       <InviteComponent />
       <DateComponent
         v-model="deadLine"
         :dead-line="deadLine"
         :date-status.sync="dateStatus"
-        data-v-step="3"
       />
       <div class="listContent">
         <TodoContent
@@ -42,7 +38,6 @@
             v-model="todoTitle"
             type="text"
             placeholder="加點內容吧~"
-            data-v-step="4"
             @keydown.enter="pushTodoContent"
           >
           <div @click="pushTodoContent">
