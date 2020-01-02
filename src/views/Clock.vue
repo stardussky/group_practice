@@ -32,6 +32,7 @@ import ClockFace from '@/components/Clock/ClockFace'
 import ClockControl from '@/components/Clock/ClockControl'
 import ClockContent from '@/components/Clock/ClockContent'
 import { ref, computed, onMounted } from '@vue/composition-api'
+import { mapGetters } from 'vuex'
 export default {
   name: 'Clock',
   components: {
@@ -40,32 +41,6 @@ export default {
     ClockContent
   },
   setup () {
-    const clockList = ref([
-      {
-        id: 'pm',
-        name: '專案管理',
-        lists: [
-          {
-            id: '1',
-            content: 'XXX',
-            timer: null,
-            status: false
-          }
-        ]
-      },
-      {
-        id: 'self',
-        name: '個人清單',
-        lists: [
-          {
-            id: '1',
-            content: 'XXX',
-            timer: null,
-            status: false
-          }
-        ]
-      }
-    ])
     const workTimer = ref(60)
     const breakTimer = ref(30)
     const workedTimer = ref(NaN)
@@ -86,12 +61,14 @@ export default {
       breakedTimer.value = breakTimer.value
     })
     return {
-      clockList,
       isStart,
       mode,
       timer,
       passedTimer
     }
+  },
+  computed: {
+    ...mapGetters('pmStore', ['clockList'])
   }
 }
 </script>

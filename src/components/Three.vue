@@ -9,6 +9,7 @@
         class="button"
         data-path="projectManagement"
         @click="enterPage('projectManagement')"
+        @touchstart="enterPage('projectManagement')"
       >
         專案管理
       </div>
@@ -17,6 +18,7 @@
         class="button"
         data-path="clock"
         @click="enterPage('clock')"
+        @touchstart="enterPage('clock')"
       >
         番茄鐘
       </div>
@@ -25,6 +27,7 @@
         class="button"
         data-path="shop"
         @click="enterPage('shop')"
+        @touchstart="enterPage('shop')"
       >
         商城
       </div>
@@ -33,6 +36,7 @@
         class="button"
         data-path="login"
         @click="enterPage('login')"
+        @touchstart="enterPage('login')"
       >
         登入
       </div>

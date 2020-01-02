@@ -59,11 +59,8 @@ export default {
 .calendar_view {
   width: 80px;
   height: 100%;
-  position: absolute;
-  top: 0;
-  right: 0;
   background-color: $white;
-  z-index: 99;
+  border-radius: 0 0 20px 0;
   overflow-y: auto;
   .calendar_month {
     width: 100%;

@@ -1,14 +1,10 @@
 <template>
   <div class="clockContentList">
     <div class="title">
-      <p>{{ info.name }}</p>
+      <p>asd</p>
     </div>
     <ul class="list">
-      <ClockList
-        v-for="list in info.lists"
-        :key="list.id"
-        :list="list"
-      />
+      <ClockList />
     </ul>
   </div>
 </template>
@@ -21,10 +17,6 @@ export default {
     ClockList
   },
   props: {
-    info: {
-      type: Object,
-      required: true
-    }
   }
 }
 </script>

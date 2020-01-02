@@ -1,11 +1,6 @@
 <template>
   <div class="clockContent">
-    <ClockContentList
-      v-for="data in clockList"
-      :key="data.id"
-      :class="data.id"
-      :info="data"
-    />
+    <ClockContentList />
   </div>
 </template>
 

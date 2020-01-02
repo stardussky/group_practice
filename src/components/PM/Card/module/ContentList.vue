@@ -3,7 +3,7 @@
     <div>
       <div
         class="checked"
-        @click="changeStatus"
+        @click="changeStatus(!list.status)"
       >
         <img
           v-if="!list.status"
@@ -23,15 +23,16 @@
       </p>
       <div class="control">
         <div
-          v-if="isEdit"
           class="clock"
-          @click="setTodoClock"
+          @click="setTodoClock(!list.isClock)"
         >
           <img
+            v-if="!list.isClock"
             src="@/assets/icon/time-left_d.svg"
             alt="clock"
           >
           <img
+            v-else
             src="@/assets/icon/time-left_c.svg"
             alt="clock"
           >
@@ -68,9 +69,9 @@ export default {
     ...mapState('pmStore', ['isEdit'])
   },
   setup (props, { emit }) {
-    const changeStatus = () => emit('changeStatus')
     const deleteTodoList = () => emit('deleteTodoList')
-    const setTodoClock = () => emit('setTodoClock')
+    const changeStatus = (status) => emit('changeStatus', status)
+    const setTodoClock = (status) => emit('setTodoClock', status)
 
     return {
       changeStatus,
@@ -111,7 +112,18 @@ export default {
     right: -30px;
     opacity: 0;
     transition: all .3s;
-    .clock, .delete {
+    .clock {
+      width: 30px;
+      height: 30px;
+      position: relative;
+      cursor: pointer;
+      >img {
+        @include positionCenter;
+        width: 21px;
+        height: 21px;
+      }
+    }
+    .delete {
       position: relative;
       @include hoverImg(30px);
     }

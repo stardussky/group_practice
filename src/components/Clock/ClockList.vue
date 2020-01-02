@@ -2,7 +2,7 @@
   <li class="clockList">
     <div class="card_color" />
     <div class="title">
-      <p>{{ list.content }}</p>
+      <p />
     </div>
     <div class="info">
       <div class="timer">
@@ -16,13 +16,11 @@
       <div class="status">
         <div class="done">
           <img
-            v-if="list.status"
             src="@/assets/icon/checked_d.svg"
             alt="checked"
             width="17.5"
           >
           <img
-            v-else
             src="@/assets/icon/unchecked_d.svg"
             alt="checked"
             width="17.5"
@@ -47,10 +45,6 @@
 export default {
   name: 'ClockList',
   props: {
-    list: {
-      type: Object,
-      required: true
-    }
   }
 }
 </script>
@@ -61,7 +55,7 @@ export default {
   position: relative;
   z-index: 1;
   .card_color {
-    background-image: linear-gradient(to right, $primary, $third);
+    background-image: linear-gradient(to right, $secondary, $third);
   }
   &:hover {
     .card_color {

@@ -25,7 +25,9 @@ export default {
           }
         })
         tour.addSteps(props.steps)
-        tour.start()
+        setTimeout(() => {
+          tour.start()
+        }, 100)
       })
     })
     return {

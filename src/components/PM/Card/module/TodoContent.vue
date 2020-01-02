@@ -33,9 +33,9 @@
           v-for="(list, index) in content.lists"
           :key="list.id"
           :list="list"
-          @changeStatus="changeStatus(index)"
+          @changeStatus="changeStatus($event, index)"
           @deleteTodoList="deleteTodoList(index)"
-          @setTodoClock="setTodoClock(list)"
+          @setTodoClock="setTodoClock($event, index)"
         />
       </ul>
       <label>
@@ -84,15 +84,16 @@ export default {
           list: {
             id: Math.random() + '',
             status: false,
+            isClock: false,
             content: inputValue.value
           }
         })
         inputValue.value = null
       }
     }
-    const changeStatus = (index) => emit('changeStatus', index)
+    const changeStatus = (status, index) => emit('changeStatus', { status, index })
     const deleteTodoList = (index) => emit('deleteTodoList', index)
-    const setTodoClock = (list) => emit('setTodoClock', list)
+    const setTodoClock = (status, index) => emit('setTodoClock', { status, index })
 
     const deleteTodoContent = () => emit('deleteTodoContent')
     const progerss = computed(() => {

@@ -1,6 +1,9 @@
 <template>
   <div class="calendar">
-    <transition name="slider_xl">
+    <transition
+      name="slider_xl"
+      mode="out-in"
+    >
       <component
         :is="view"
         v-for="info in calendar"
@@ -77,6 +80,10 @@ export default {
 
 <style lang='scss'>
 .calendar {
-
+  height: calc(100% - 10px);
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 99;
 }
 </style>

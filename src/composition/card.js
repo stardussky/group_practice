@@ -33,9 +33,11 @@ export default (props) => {
     }).lists.push(list)
   }
   const pushFile = (file) => fileContent.value.push(file)
-  const changeStatus = (listIndex, index) => {
-    let status = todoContentList.value[index].lists[listIndex].status
-    todoContentList.value[index].lists[listIndex].status = !status
+  const changeStatus = ({ status, index }, listIndex) => {
+    todoContentList.value[listIndex].lists[index].status = status
+  }
+  const setTodoClock = ({ status, index }, listIndex) => {
+    todoContentList.value[listIndex].lists[index].isClock = status
   }
   const deleteTodoContent = (index) => todoContentList.value.splice(index, 1)
   const deleteTodoList = (listIndex, index) => {
@@ -47,7 +49,7 @@ export default (props) => {
     todoContentList.value = []
     fileContent.value = []
   }
-  watch(() => props.editCard, (val) => {
+  watch(() => props.editCard, val => {
     if (props.isEdit) {
       let edit = JSON.parse(JSON.stringify(val))
       cardTitle.value = edit.title
@@ -74,6 +76,7 @@ export default (props) => {
     deleteTodoContent,
     deleteTodoList,
     deleteFile,
+    setTodoClock,
     resetCard
   }
 }

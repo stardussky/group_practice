@@ -31,7 +31,7 @@
           @changeStatus="changeStatus($event, index)"
           @deleteTodoContent="deleteTodoContent(index)"
           @deleteTodoList="deleteTodoList($event, index)"
-          @setTodoClock="ADD_TODO_LIST({$event, projectId})"
+          @setTodoClock="setTodoClock($event, index)"
         />
         <div class="add_todo">
           <input
@@ -103,7 +103,7 @@ export default {
     }
   },
   setup (props) {
-    const { cardTitle, cardContent, resetCard, dateStatus, deadLine, todoTitle, todoContentList, fileContent, pushTodoContent, pushContentList, pushFile, changeStatus, deleteTodoContent, deleteTodoList, deleteFile } = card(props)
+    const { cardTitle, setTodoClock, cardContent, resetCard, dateStatus, deadLine, todoTitle, todoContentList, fileContent, pushTodoContent, pushContentList, pushFile, changeStatus, deleteTodoContent, deleteTodoList, deleteFile } = card(props)
     return {
       cardTitle,
       deadLine,
@@ -118,13 +118,16 @@ export default {
       deleteTodoList,
       deleteFile,
       changeStatus,
+      setTodoClock,
       cardContent,
       resetCard
     }
   },
+  deactivated () {
+    if (this.isEdit) this.EDIT_DONE(this.cardContent)
+  },
   methods: {
     ...mapActions('pmStore', ['PUSH_TODO_CARD', 'EDIT_DONE']),
-    ...mapActions('clockStore', ['ADD_TODO_LIST']),
     pushTodoCard () {
       this.PUSH_TODO_CARD(this.cardContent)
       this.resetCard()

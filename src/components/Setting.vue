@@ -168,6 +168,7 @@ export default {
     }
   }
   @include media(479px) {
+    bottom: 5px;
     .setting_list {
       @include font(-.875);
       left: -270px;

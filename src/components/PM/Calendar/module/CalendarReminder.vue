@@ -7,7 +7,7 @@
           alt="back"
         >
         <img
-          src="@/assets/icon/back.svg"
+          src="@/assets/icon/back_on.svg"
           alt="back"
         >
       </button>
@@ -56,12 +56,9 @@ export default {
 .calendarReminder {
   width: 300px;
   height: 100%;
-  position: absolute;
-  top: 0;
-  right: 0;
-  background-image: linear-gradient(-45deg, $third, $secondary);
+  background-image: linear-gradient(-45deg, rgba($third, .9), rgba($secondary, .9));
+  border-radius: 0 0 20px 0;
   box-shadow: -1px 0 3px $shadow;
-  z-index: 99;
   .reminder_header {
     width: 100%;
     padding: 10px;
@@ -91,7 +88,9 @@ export default {
     padding-bottom: 10px;
   }
   @include media(479px){
-    width: 100%;
+    width: calc(100vw - 20px);
+    min-width: 320px;
+    border-radius: 20px;
   }
 }
 </style>

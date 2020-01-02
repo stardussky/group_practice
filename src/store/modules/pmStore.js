@@ -20,6 +20,31 @@ export default () => {
         if (state.isEdit) {
           return getters.project.list[state.editInfo.step].todo[state.editInfo.index]
         }
+      },
+      clockList (state) {
+        let clockList = []
+        state.projects.map((project, projectIndex) => {
+          return project.list.map((projectList, step) => {
+            return projectList.todo.map((todo, todoIndex) => {
+              return todo.content.map((content, contentIndex) => {
+                return content.lists.map((list, listIndex) => {
+                  if (list.isClock) {
+                    clockList.push({
+                      projectIndex,
+                      step,
+                      todoIndex,
+                      contentIndex,
+                      listIndex,
+                      color: project.info.color,
+                      list
+                    })
+                  }
+                })
+              })
+            })
+          })
+        })
+        return clockList
       }
     },
     mutations: {

@@ -13,7 +13,6 @@ export default {
 <style lang='scss'>
 .calendar_reminder_item{
   @include todoCard;
-  background-color: rgba($white, .5);
   .card_color {
     background-color: $primary;
   }
