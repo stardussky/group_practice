@@ -8,34 +8,18 @@
       >
         WORK
       </div>
-      <div
-        class="control"
-        @click="isPlay = !isPlay"
-      >
+      <div class="control">
         <div
-          v-if="!isPlay"
-          class="play"
+          class="reset"
+          @click="resetTimer"
         >
           <img
-            src="@/assets/icon/play.svg"
-            alt="play"
+            src="@/assets/icon/reload.svg"
+            alt="reset"
           >
           <img
-            src="@/assets/icon/play_c.svg"
-            alt="play"
-          >
-        </div>
-        <div
-          v-else
-          class="pause"
-        >
-          <img
-            src="@/assets/icon/pause.svg"
-            alt="pause"
-          >
-          <img
-            src="@/assets/icon/pause_c.svg"
-            alt="pause"
+            src="@/assets/icon/reload_on.svg"
+            alt="reset"
           >
         </div>
       </div>
@@ -56,24 +40,12 @@ import { computed } from '@vue/composition-api'
 export default {
   name: 'ClockControl',
   props: {
-    isStart: {
-      type: Boolean,
-      required: true
-    },
     mode: {
       type: Number,
       required: true
     }
   },
   setup (props, { emit }) {
-    const isPlay = computed({
-      get () {
-        return props.isStart
-      },
-      set (val) {
-        emit('update:isStart', val)
-      }
-    })
     const switchMode = computed({
       get () {
         return props.mode
@@ -82,9 +54,10 @@ export default {
         emit('update:mode', val)
       }
     })
+    const resetTimer = () => emit('resetTimer')
     return {
-      isPlay,
-      switchMode
+      switchMode,
+      resetTimer
     }
   }
 
@@ -127,7 +100,7 @@ export default {
     }
   }
   .control {
-    .play, .pause {
+    .reset {
       margin: 0 10px;
       position: relative;
       @include hoverImg(35px);
@@ -142,7 +115,7 @@ export default {
       @include font(-.875);
     }
     .control {
-      .play, .pause{
+      .reset{
         margin: 0 5px;
       }
     }
@@ -152,7 +125,7 @@ export default {
     top: 40px;
     right: 6px;
     .control {
-      .play, .pause{
+      .reset{
         margin: 0 5px;
         img {
           width: 20px;

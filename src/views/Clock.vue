@@ -19,11 +19,14 @@
         :mode.sync="mode"
       />
       <ClockControl
-        :is-start.sync="isStart"
         :mode.sync="mode"
+        @resetTimer="resetTimer"
       />
     </div>
-    <ClockContent :clock-list="clockList" />
+    <ClockContent
+      :clock-list="clockList"
+      :cumulative-timer="cumulativeTimer"
+    />
   </div>
 </template>
 
@@ -32,7 +35,7 @@ import ClockFace from '@/components/Clock/ClockFace'
 import ClockControl from '@/components/Clock/ClockControl'
 import ClockContent from '@/components/Clock/ClockContent'
 import { ref, computed, onMounted } from '@vue/composition-api'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState, mapActions } from 'vuex'
 export default {
   name: 'Clock',
   components: {
@@ -45,7 +48,6 @@ export default {
     const breakTimer = ref(30)
     const workedTimer = ref(NaN)
     const breakedTimer = ref(NaN)
-    const isStart = ref(false)
     const mode = ref(0)
     const timer = computed(() => mode.value === 0 ? workTimer.value : breakTimer.value)
     const passedTimer = computed({
@@ -56,19 +58,38 @@ export default {
         mode.value === 0 ? workedTimer.value = val : breakedTimer.value = val
       }
     })
-    onMounted(() => {
+    const cumulativeTimer = computed(() => timer.value - passedTimer.value)
+    const resetTimer = () => {
       workedTimer.value = workTimer.value
       breakedTimer.value = breakTimer.value
+    }
+    onMounted(() => {
+      resetTimer()
     })
     return {
-      isStart,
       mode,
       timer,
-      passedTimer
+      passedTimer,
+      cumulativeTimer,
+      resetTimer
     }
   },
   computed: {
-    ...mapGetters('pmStore', ['clockList'])
+    ...mapState('clockStore', ['targetInfo']),
+    ...mapGetters('clockStore', ['clockList']),
+    isStart: {
+      ...mapState('clockStore', {
+        get: state => state.isPlay
+      }),
+      ...mapActions('clockStore', {
+        set: 'TOGGLE_START'
+      })
+    }
+  },
+  watch: {
+    targetInfo () {
+      this.resetTimer()
+    }
   }
 }
 </script>

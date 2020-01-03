@@ -85,7 +85,8 @@ export default {
             id: Math.random() + '',
             status: false,
             isClock: false,
-            content: inputValue.value
+            content: inputValue.value,
+            timer: 0
           }
         })
         inputValue.value = null

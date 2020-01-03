@@ -1,10 +1,15 @@
 <template>
   <div class="clockContentList">
     <div class="title">
-      <p>asd</p>
+      <p>{{ content.type }}</p>
     </div>
     <ul class="list">
-      <ClockList />
+      <ClockList
+        v-for="list in content.list"
+        :key="list.info.id"
+        :list="list"
+        :cumulative-timer="cumulativeTimer"
+      />
     </ul>
   </div>
 </template>
@@ -17,6 +22,14 @@ export default {
     ClockList
   },
   props: {
+    content: {
+      type: Object,
+      required: true
+    },
+    cumulativeTimer: {
+      type: Number,
+      required: true
+    }
   }
 }
 </script>

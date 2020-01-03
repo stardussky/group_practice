@@ -22,29 +22,28 @@ export default () => {
         }
       },
       clockList (state) {
-        let clockList = []
-        state.projects.map((project, projectIndex) => {
-          return project.list.map((projectList, step) => {
+        return state.projects.reduce((prev, project, projectIndex) => {
+          project.list.map((projectList, step) => {
             return projectList.todo.map((todo, todoIndex) => {
               return todo.content.map((content, contentIndex) => {
-                return content.lists.map((list, listIndex) => {
-                  if (list.isClock) {
-                    clockList.push({
+                return content.lists.map((info, listIndex) => {
+                  if (info.isClock) {
+                    prev.push({
                       projectIndex,
                       step,
                       todoIndex,
                       contentIndex,
                       listIndex,
                       color: project.info.color,
-                      list
+                      info
                     })
                   }
                 })
               })
             })
           })
-        })
-        return clockList
+          return prev
+        }, [])
       }
     },
     mutations: {
@@ -66,6 +65,9 @@ export default () => {
       editDone (state, { getters, card }) {
         state.isEdit = false
         state.projects[getters.projectIndex].list[state.editInfo.step].todo.splice(state.editInfo.index, 1, card)
+      },
+      recordClockTime (state, { info: { projectIndex, step, todoIndex, contentIndex, listIndex }, timer }) {
+        state.projects[projectIndex].list[step].todo[todoIndex].content[contentIndex].lists[listIndex].timer += timer
       }
     },
     actions: {
@@ -96,6 +98,12 @@ export default () => {
       EDIT_DONE ({ commit, getters }, card) {
         return new Promise(resolve => {
           commit('editDone', { getters, card })
+          resolve()
+        })
+      },
+      RECORD_CLOCK_TIME ({ commit }, payload) {
+        return new Promise(resolve => {
+          commit('recordClockTime', payload)
           resolve()
         })
       }

@@ -63,6 +63,13 @@
   box-shadow: 1px 1px 3px $shadow;
   position: relative;
   z-index: 1;
+  &.active {
+    .card_color{
+      height: 100%;
+      border-radius: 0 0 10px 10px;
+      opacity: .5;
+    }
+  }
   .card_color {
     position: absolute;
     top: 0px;
@@ -71,17 +78,12 @@
     height: 3px;
     transition: all .3s;
     z-index: -1;
-    &.active {
-      height: 100%;
-      border-radius: 0 0 10px 10px;
-      opacity: .6;
-    }
   }
   &:hover {
     .card_color {
       height: 100%;
       border-radius: 0 0 10px 10px;
-      opacity: .6;
+      opacity: .5;
     }
   }
 }

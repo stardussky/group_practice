@@ -109,7 +109,7 @@ export default {
       }, 1000)
     }
     const clearTimer = () => clearTimeout(timeOut.value)
-    const stopTimer = () => emit('update:isStart', false)
+    const stopTimer = () => emit('update:isStart', { status: false, mode: props.mode })
     watch(() => props.isStart, (val) => {
       if (val)setTimer()
       else clearTimer()
