@@ -7,7 +7,7 @@
       viewPort="0 0 155 155"
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
-      :class="{active:isStart}"
+      class="active"
     >
       <defs>
         <linearGradient
@@ -33,7 +33,7 @@
         r="40%"
         cx="50%"
         cy="50%"
-        :stroke-dashoffset="dashoffset"
+        :stroke-dashoffset="dashOffset"
       />
       <circle
         id="outside"
@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import { ref, computed, onMounted, onUnmounted, watch } from '@vue/composition-api'
+import { ref, computed, onMounted, onUnmounted } from '@vue/composition-api'
 export default {
   name: 'ClockFace',
   props: {
@@ -59,16 +59,8 @@ export default {
       type: Number,
       required: true
     },
-    passedTimer: {
+    clockTime: {
       type: Number,
-      required: true
-    },
-    cumulativeTimer: {
-      type: Number,
-      required: true
-    },
-    isStart: {
-      type: Boolean,
       required: true
     },
     mode: {
@@ -78,47 +70,19 @@ export default {
   },
   setup (props, { refs, emit }) {
     const dasharray = ref(NaN)
-    const nowOffset = ref(NaN)
-    const timeOut = ref(null)
-    const countDown = computed({
-      get () {
-        return props.passedTimer
-      },
-      set (val) {
-        setTimer()
-        emit('update:passedTimer', val)
-      }
-    })
     const time = computed(() => {
-      let second = countDown.value % 60 < 10 ? '0' + countDown.value % 60 : countDown.value % 60
-      let minute = (countDown.value - second) / 60 < 10 ? '0' + (countDown.value - second) / 60 : (countDown.value - second) / 60
+      let second = props.clockTime % 60 < 10 ? '0' + props.clockTime % 60 : props.clockTime % 60
+      let minute = (props.clockTime - second) / 60 < 10 ? '0' + (props.clockTime - second) / 60 : (props.clockTime - second) / 60
       return `${minute}:${second}`
     })
-    const dashoffset = computed(() => {
-      nowOffset.value = dasharray.value - (100 / props.timer * dasharray.value / 100) * (props.timer - countDown.value)
-      return nowOffset.value
-    })
+    const dashOffset = computed(() => dasharray.value - (dasharray.value - (dasharray.value / props.timer * props.clockTime)))
     const setDasharray = () => {
       let bar = refs.bar
       let c = bar.getBoundingClientRect().width * Math.PI
       bar.style.strokeDasharray = c
-      dasharray.value = nowOffset.value = c
+      dasharray.value = c
     }
-    const setTimer = () => {
-      timeOut.value = setTimeout(() => {
-        clearTimer()
-        if (countDown.value > 0)countDown.value -= 1
-        else if (props.mode === 0) emit('update:mode', 1)
-        else stopTimer()
-      }, 1000)
-    }
-    const clearTimer = () => clearTimeout(timeOut.value)
-    const stopTimer = () => emit('update:isStart', { status: false, timer: props.cumulativeTimer })
-    watch(() => props.isStart, (val) => {
-      if (val)setTimer()
-      else clearTimer()
-    })
-    watch(() => props.mode, () => stopTimer(), { lazy: true })
+
     onMounted(() => {
       setDasharray()
       window.addEventListener('resize', setDasharray)
@@ -128,8 +92,7 @@ export default {
     })
     return {
       dasharray,
-      dashoffset,
-      nowOffset,
+      dashOffset,
       time
     }
   }

@@ -2,21 +2,16 @@
   <div class="clock">
     <div id="clock">
       <ClockFace
+        :mode="mode"
+        :clock-time="passedTimer"
         :timer="timer"
-        :passed-timer.sync="passedTimer"
-        :cumulative-timer=" mode ? cumulativeTimer : 0"
-        :is-start.sync="isStart"
-        :mode.sync="mode"
       />
       <ClockControl
         :mode.sync="mode"
-        @resetTimer="resetTimer"
+        @resetTimer="resetTimer(targetInfo)"
       />
     </div>
-    <ClockContent
-      :clock-list="clockList"
-      :cumulative-timer=" !mode ? cumulativeTimer : 0"
-    />
+    <ClockContent :mode="mode" />
   </div>
 </template>
 
@@ -25,7 +20,7 @@ import ClockFace from '@/components/Clock/ClockFace'
 import ClockControl from '@/components/Clock/ClockControl'
 import ClockContent from '@/components/Clock/ClockContent'
 import { ref, computed, onMounted } from '@vue/composition-api'
-import { mapGetters, mapState, mapActions } from 'vuex'
+import { mapState, mapMutations, mapActions } from 'vuex'
 export default {
   name: 'Clock',
   components: {
@@ -34,51 +29,91 @@ export default {
     ClockContent
   },
   setup () {
-    const workTimer = ref(60)
-    const breakTimer = ref(30)
-    const workedTimer = ref(NaN)
-    const breakedTimer = ref(NaN)
     const mode = ref(0)
-    const timer = computed(() => mode.value === 0 ? workTimer.value : breakTimer.value)
-    const passedTimer = computed({
+    const workTimer = ref(10)
+    const breakTimer = ref(5)
+    const workElapsedtimer = ref(0)
+    const breakElapsedtimer = ref(0)
+    const setTime = ref(null)
+
+    const timer = computed(() => !mode.value ? workTimer.value : breakTimer.value)
+    const elapsedtimer = computed({
       get () {
-        return mode.value === 0 ? workedTimer.value : breakedTimer.value
+        return !mode.value ? workElapsedtimer.value : breakElapsedtimer.value
       },
       set (val) {
-        mode.value === 0 ? workedTimer.value = val : breakedTimer.value = val
+        !mode.value ? workElapsedtimer.value = val : breakElapsedtimer.value = val
       }
     })
-    const cumulativeTimer = computed(() => timer.value - passedTimer.value)
-    const resetTimer = () => {
-      workedTimer.value = workTimer.value
-      breakedTimer.value = breakTimer.value
+    const passedTimer = computed(() => timer.value - elapsedtimer.value)
+    const startTime = () => {
+      setTime.value = setTimeout(() => {
+        clearTime()
+        if (passedTimer.value > 0) {
+          elapsedtimer.value += 1
+        } else if (mode.value === 0) {
+          elapsedtimer.value = 0
+          mode.value = 1
+        } else {
+          resetClock()
+        }
+        if (passedTimer.value >= 0)startTime()
+      }, 1000)
+    }
+    const clearTime = () => clearTimeout(setTime.value)
+
+    const resetClock = (resetMode) => {
+      if (resetMode)mode.value = 0
+      workElapsedtimer.value = 0
+      breakElapsedtimer.value = 0
     }
     onMounted(() => {
-      resetTimer()
+      resetClock()
     })
     return {
       mode,
+      workElapsedtimer,
+      resetClock,
+      startTime,
+      clearTime,
       timer,
-      passedTimer,
-      cumulativeTimer,
-      resetTimer
+      passedTimer
     }
   },
   computed: {
-    ...mapState('clockStore', ['targetInfo']),
-    ...mapGetters('clockStore', ['clockList']),
-    isStart: {
-      ...mapState('clockStore', {
-        get: state => state.isPlay
-      }),
-      ...mapActions('clockStore', {
-        set: 'TOGGLE_START'
-      })
-    }
+    ...mapState('clockStore', ['isPlay', 'targetInfo'])
   },
   watch: {
-    targetInfo () {
-      this.resetTimer()
+    mode: {
+      handler () {
+        this.toggleStatus(false)
+      }
+    },
+    targetInfo: {
+      handler (newval, oldval) {
+        this.resetTimer(oldval)
+      }
+    },
+    isPlay: {
+      immediate: true,
+      handler (val) {
+        if (val) this.startTime()
+        else {
+          if (this.targetInfo) {
+            this.resetTimer(this.targetInfo, false)
+          }
+          this.clearTime()
+        }
+      }
+    }
+  },
+  methods: {
+    ...mapMutations('clockStore', ['toggleStatus']),
+    ...mapActions('clockStore', ['ADD_TIMER']),
+    resetTimer (info, reset = true) {
+      this.ADD_TIMER({ info, timer: this.workElapsedtimer })
+      this.toggleStatus(false)
+      this.resetClock(reset)
     }
   }
 }

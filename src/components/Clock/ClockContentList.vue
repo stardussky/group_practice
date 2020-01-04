@@ -8,7 +8,8 @@
         v-for="list in content.list"
         :key="list.info.id"
         :list="list"
-        :cumulative-timer="cumulativeTimer"
+        :mode="mode"
+        @click.native="selectTarget(list)"
       />
     </ul>
   </div>
@@ -16,6 +17,7 @@
 
 <script>
 import ClockList from './ClockList'
+import { mapMutations } from 'vuex'
 export default {
   name: 'ClockContentList',
   components: {
@@ -26,10 +28,13 @@ export default {
       type: Object,
       required: true
     },
-    cumulativeTimer: {
+    mode: {
       type: Number,
       required: true
     }
+  },
+  methods: {
+    ...mapMutations('clockStore', ['selectTarget'])
   }
 }
 </script>

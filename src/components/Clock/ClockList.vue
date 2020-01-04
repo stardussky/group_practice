@@ -1,7 +1,7 @@
 <template>
   <li
     class="clockList"
-    :class="{active: targetInfo && list.info.id === targetInfo.info.id}"
+    :class="[{active: targetInfo && list.info.id === targetInfo.info.id}, clockStyle]"
   >
     <div
       class="card_color"
@@ -22,10 +22,10 @@
       <div class="status">
         <div
           class="control"
-          @click="TOGGLE_START({status: !isPlay, info: list, timer: cumulativeTimer})"
+          @click="toggleStatus(!isPlay)"
         >
           <div
-            v-if="!isPlay || list.info.id !== targetInfo.info.id"
+            v-if="!isPlay || targetInfo &&list.info.id !== targetInfo.info.id"
             class="play"
           >
             <img
@@ -51,7 +51,10 @@
             >
           </div>
         </div>
-        <div class="done">
+        <div
+          class="done"
+          @click="DONE_CLOCK(list)"
+        >
           <img
             v-if="list.info.status"
             src="@/assets/icon/checked_d.svg"
@@ -65,7 +68,10 @@
             width="17.5"
           >
         </div>
-        <div class="cancel">
+        <div
+          class="cancel"
+          @click="DELETE_CLOCK(list)"
+        >
           <img
             src="@/assets/icon/delete.svg"
             alt="checked"
@@ -82,7 +88,7 @@
 
 <script>
 import { computed } from '@vue/composition-api'
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapMutations, mapActions } from 'vuex'
 export default {
   name: 'ClockList',
   props: {
@@ -90,7 +96,7 @@ export default {
       type: Object,
       required: true
     },
-    cumulativeTimer: {
+    mode: {
       type: Number,
       required: true
     }
@@ -102,16 +108,20 @@ export default {
       let minute = (value - second) / 60 < 10 ? '0' + (value - second) / 60 : (value - second) / 60
       return `${minute}:${second}`
     })
+    const clockStyle = computed(() => !props.mode ? 'work' : 'break')
     return {
-      time
+      time,
+      clockStyle
     }
   },
   computed: {
     ...mapState('clockStore', ['isPlay', 'targetInfo'])
   },
   methods: {
-    ...mapActions('clockStore', ['TOGGLE_START'])
+    ...mapMutations('clockStore', ['toggleStatus']),
+    ...mapActions('clockStore', ['DONE_CLOCK', 'DELETE_CLOCK'])
   }
+
 }
 </script>
 
@@ -120,8 +130,17 @@ export default {
   @include todoCard;
   position: relative;
   z-index: 1;
-  .card_color {
-    // background-image: linear-gradient(to right, $secondary, $third);
+  &.active{
+    &.work {
+      .card_color {
+        background-image: linear-gradient(to right, $secondary, $primary);
+      }
+    }
+    &.break {
+      .card_color {
+        background-image: linear-gradient(to right, $danger, $third);
+      }
+    }
   }
   >.title {
     @include font(2);

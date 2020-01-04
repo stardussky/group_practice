@@ -23,27 +23,24 @@ export default () => {
       }
     },
     mutations: {
-      clockStart (state, { status, info }) {
+      toggleStatus (state, status) {
         state.isPlay = status
-        state.targetInfo = info
       },
-      clockPause (state, status) {
-        state.isPlay = status
+      selectTarget (state, payload) {
+        state.targetInfo = payload
       }
     },
     actions: {
-      TOGGLE_START ({ commit, dispatch, state }, { status, info, timer }) {
-        return new Promise(resolve => {
-          if (status) {
-            commit('clockStart', { status, info })
-          } else {
-            commit('clockPause', status)
-            if (state.targetInfo) {
-              dispatch('pmStore/RECORD_CLOCK_TIME', { info: state.targetInfo, timer }, { root: true })
-            }
-          }
-          resolve()
-        })
+      ADD_TIMER ({ dispatch }, { info, timer }) {
+        if (info) {
+          dispatch('pmStore/RECORD_CLOCK_TIME', { info, timer }, { root: true })
+        }
+      },
+      DONE_CLOCK ({ commit, dispatch }, payload) {
+        dispatch('pmStore/DONE_PM_CLOCK', payload, { root: true })
+      },
+      DELETE_CLOCK ({ commit, dispatch }, payload) {
+        dispatch('pmStore/DELETE_PM_CLOCK', payload, { root: true })
       }
     }
   }

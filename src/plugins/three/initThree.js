@@ -33,14 +33,14 @@ export function init (refs, vm) {
   refs.threeJs.appendChild(renderer.domElement)
 
   camera = new THREE.PerspectiveCamera(45, aspect, 1, 5000)
-  camera.position.set(0, 400, 800)
+  camera.position.set(0, 400, 1000)
   cameraControl = new OrbitControls(camera, labelRenderer.domElement)
   cameraControl.enableDamping = true
   cameraControl.dampingFactor = 0.005
   cameraControl.autoRotate = true
   cameraControl.autoRotateSpeed = 1
-  cameraControl.minDistance = 400
-  cameraControl.maxDistance = 600
+  cameraControl.minDistance = 500
+  cameraControl.maxDistance = 650
 
   const globalLight = new THREE.AmbientLight(0xffffff, 0.85)
   const directionalLight = new THREE.DirectionalLight(0xffffff, 0.2)

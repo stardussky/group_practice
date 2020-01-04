@@ -68,6 +68,12 @@ export default () => {
       },
       recordClockTime (state, { info: { projectIndex, step, todoIndex, contentIndex, listIndex }, timer }) {
         state.projects[projectIndex].list[step].todo[todoIndex].content[contentIndex].lists[listIndex].timer += timer
+      },
+      donePmClock (state, { projectIndex, step, todoIndex, contentIndex, listIndex }) {
+        state.projects[projectIndex].list[step].todo[todoIndex].content[contentIndex].lists[listIndex].status = true
+      },
+      deletePmClock (state, { projectIndex, step, todoIndex, contentIndex, listIndex }) {
+        state.projects[projectIndex].list[step].todo[todoIndex].content[contentIndex].lists[listIndex].isClock = false
       }
     },
     actions: {
@@ -104,6 +110,18 @@ export default () => {
       RECORD_CLOCK_TIME ({ commit }, payload) {
         return new Promise(resolve => {
           commit('recordClockTime', payload)
+          resolve()
+        })
+      },
+      DONE_PM_CLOCK ({ commit }, payload) {
+        return new Promise(resolve => {
+          commit('donePmClock', payload)
+          resolve()
+        })
+      },
+      DELETE_PM_CLOCK ({ commit }, payload) {
+        return new Promise(resolve => {
+          commit('deletePmClock', payload)
           resolve()
         })
       }

@@ -15,28 +15,27 @@
       v-for="content in clockList"
       :key="content.type"
       :content="content"
-      :cumulative-timer="cumulativeTimer"
-      :class="content.type"
+      :mode="mode"
     />
   </div>
 </template>
 
 <script>
 import ClockContentList from './ClockContentList'
+import { mapGetters } from 'vuex'
 export default {
   name: 'ClockContent',
   components: {
     ClockContentList
   },
   props: {
-    clockList: {
-      type: Array,
-      required: true
-    },
-    cumulativeTimer: {
+    mode: {
       type: Number,
       required: true
     }
+  },
+  computed: {
+    ...mapGetters('clockStore', ['clockList'])
   }
 }
 </script>
