@@ -63,6 +63,10 @@ export default {
       type: Number,
       required: true
     },
+    cumulativeTimer: {
+      type: Number,
+      required: true
+    },
     isStart: {
       type: Boolean,
       required: true
@@ -109,7 +113,7 @@ export default {
       }, 1000)
     }
     const clearTimer = () => clearTimeout(timeOut.value)
-    const stopTimer = () => emit('update:isStart', { status: false, mode: props.mode })
+    const stopTimer = () => emit('update:isStart', { status: false, timer: props.cumulativeTimer })
     watch(() => props.isStart, (val) => {
       if (val)setTimer()
       else clearTimer()

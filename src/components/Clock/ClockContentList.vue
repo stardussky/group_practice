@@ -1,7 +1,7 @@
 <template>
   <div class="clockContentList">
     <div class="title">
-      <p>{{ content.type }}</p>
+      <p>{{ content.name }}</p>
     </div>
     <ul class="list">
       <ClockList

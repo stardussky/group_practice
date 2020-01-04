@@ -1,20 +1,10 @@
 <template>
   <div class="clock">
-    <div class="select_list">
-      <button
-        type="button"
-        class="active"
-      >
-        專案管理
-      </button>
-      <button type="button">
-        個人清單
-      </button>
-    </div>
     <div id="clock">
       <ClockFace
         :timer="timer"
         :passed-timer.sync="passedTimer"
+        :cumulative-timer=" mode ? cumulativeTimer : 0"
         :is-start.sync="isStart"
         :mode.sync="mode"
       />
@@ -25,7 +15,7 @@
     </div>
     <ClockContent
       :clock-list="clockList"
-      :cumulative-timer="cumulativeTimer"
+      :cumulative-timer=" !mode ? cumulativeTimer : 0"
     />
   </div>
 </template>
@@ -100,9 +90,6 @@ export default {
     height: 100%;
     display: flex;
     position: relative;
-    .select_list {
-      display: none;
-    }
     #clock {
       width: 40%;
       height: 100%;
@@ -115,26 +102,12 @@ export default {
     }
     @include media(767px){
       flex-direction: column;
-      .select_list {
-        display: block;
-        position: absolute;
-        top: 15px;
-        right: 15px;
-        z-index: 1;
-        @include switchBtn;
-      }
       #clock {
         width: 300px;
         height: 40%;
         align-items: center;
         margin: auto;
         padding: 0;
-      }
-    }
-    @include media(479px){
-      .select_list{
-        top: 5px;
-        right: 5px;
       }
     }
   }

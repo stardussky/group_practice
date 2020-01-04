@@ -10,11 +10,13 @@ export default () => {
       clockList (state, getters, rootState, rootGetters) {
         return [
           {
-            type: '專案項目',
+            type: 'pm',
+            name: '專案項目',
             list: rootGetters['pmStore/clockList']
           },
           {
-            type: '個人項目',
+            type: 'self',
+            name: '個人項目',
             list: state.selfList
           }
         ]
@@ -30,14 +32,15 @@ export default () => {
       }
     },
     actions: {
-      TOGGLE_START ({ commit, dispatch, state }, { status, mode, info, timer }) {
+      TOGGLE_START ({ commit, dispatch, state }, { status, info, timer }) {
         return new Promise(resolve => {
           if (status) {
             commit('clockStart', { status, info })
           } else {
             commit('clockPause', status)
-            console.log(mode)
-            // dispatch('pmStore/RECORD_CLOCK_TIME', { info: state.targetInfo, timer }, { root: true })
+            if (state.targetInfo) {
+              dispatch('pmStore/RECORD_CLOCK_TIME', { info: state.targetInfo, timer }, { root: true })
+            }
           }
           resolve()
         })
