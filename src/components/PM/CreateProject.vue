@@ -83,7 +83,7 @@ export default {
   padding: 15px;
   box-shadow: 1px 1px 3px $shadow;
   @include font(1);
-  color: $dark;
+  color: $textDark;
   span {
     @include font;
   }

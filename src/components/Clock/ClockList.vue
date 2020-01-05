@@ -25,7 +25,7 @@
           @click="toggleStatus(!isPlay)"
         >
           <div
-            v-if="!isPlay || targetInfo &&list.info.id !== targetInfo.info.id"
+            v-if="!isPlay || targetInfo && list.info.id !== targetInfo.info.id"
             class="play"
           >
             <img
@@ -89,8 +89,10 @@
 <script>
 import { computed } from '@vue/composition-api'
 import { mapState, mapMutations, mapActions } from 'vuex'
+import mixins from './mixins'
 export default {
   name: 'ClockList',
+  mixins: [mixins],
   props: {
     list: {
       type: Object,
@@ -99,23 +101,25 @@ export default {
     mode: {
       type: Number,
       required: true
+    },
+    elapsedtimer: {
+      type: Number,
+      required: true
     }
   },
   setup (props) {
-    const time = computed(() => {
-      let value = props.list.info.timer
-      let second = value % 60 < 10 ? '0' + value % 60 : value % 60
-      let minute = (value - second) / 60 < 10 ? '0' + (value - second) / 60 : (value - second) / 60
-      return `${minute}:${second}`
-    })
     const clockStyle = computed(() => !props.mode ? 'work' : 'break')
     return {
-      time,
       clockStyle
     }
   },
   computed: {
-    ...mapState('clockStore', ['isPlay', 'targetInfo'])
+    ...mapState('clockStore', ['isPlay', 'targetInfo']),
+    clockTime () {
+      return this.targetInfo && this.list.info.id === this.targetInfo.info.id
+        ? this.list.info.timer + this.elapsedtimer
+        : this.list.info.timer
+    }
   },
   methods: {
     ...mapMutations('clockStore', ['toggleStatus']),

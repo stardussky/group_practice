@@ -11,7 +11,10 @@
         @resetTimer="resetTimer(targetInfo)"
       />
     </div>
-    <ClockContent :mode="mode" />
+    <ClockContent
+      :mode="mode"
+      :elapsedtimer="workElapsedtimer"
+    />
   </div>
 </template>
 
@@ -62,8 +65,8 @@ export default {
     }
     const clearTime = () => clearTimeout(setTime.value)
 
-    const resetClock = (resetMode) => {
-      if (resetMode)mode.value = 0
+    const resetClock = () => {
+      mode.value = 0
       workElapsedtimer.value = 0
       breakElapsedtimer.value = 0
     }
@@ -98,22 +101,17 @@ export default {
       immediate: true,
       handler (val) {
         if (val) this.startTime()
-        else {
-          if (this.targetInfo) {
-            this.resetTimer(this.targetInfo, false)
-          }
-          this.clearTime()
-        }
+        else this.clearTime()
       }
     }
   },
   methods: {
     ...mapMutations('clockStore', ['toggleStatus']),
     ...mapActions('clockStore', ['ADD_TIMER']),
-    resetTimer (info, reset = true) {
+    resetTimer (info) {
       this.ADD_TIMER({ info, timer: this.workElapsedtimer })
       this.toggleStatus(false)
-      this.resetClock(reset)
+      this.resetClock()
     }
   }
 }

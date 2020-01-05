@@ -9,6 +9,7 @@
         :key="list.info.id"
         :list="list"
         :mode="mode"
+        :elapsedtimer="elapsedtimer"
         @click.native="selectTarget(list)"
       />
     </ul>
@@ -31,6 +32,10 @@ export default {
     mode: {
       type: Number,
       required: true
+    },
+    elapsedtimer: {
+      type: Number,
+      required: true
     }
   },
   methods: {
@@ -51,7 +56,7 @@ export default {
   >.title {
     @include cardHead;
     background-color: $white;
-    color: $dark;
+    color: $textDark;
     position: relative;
   }
   .list {

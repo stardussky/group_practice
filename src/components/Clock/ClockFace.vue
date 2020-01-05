@@ -52,8 +52,10 @@
 
 <script>
 import { ref, computed, onMounted, onUnmounted } from '@vue/composition-api'
+import mixins from './mixins'
 export default {
   name: 'ClockFace',
+  mixins: [mixins],
   props: {
     timer: {
       type: Number,
@@ -70,11 +72,6 @@ export default {
   },
   setup (props, { refs, emit }) {
     const dasharray = ref(NaN)
-    const time = computed(() => {
-      let second = props.clockTime % 60 < 10 ? '0' + props.clockTime % 60 : props.clockTime % 60
-      let minute = (props.clockTime - second) / 60 < 10 ? '0' + (props.clockTime - second) / 60 : (props.clockTime - second) / 60
-      return `${minute}:${second}`
-    })
     const dashOffset = computed(() => dasharray.value - (dasharray.value - (dasharray.value / props.timer * props.clockTime)))
     const setDasharray = () => {
       let bar = refs.bar
@@ -92,8 +89,7 @@ export default {
     })
     return {
       dasharray,
-      dashOffset,
-      time
+      dashOffset
     }
   }
 }

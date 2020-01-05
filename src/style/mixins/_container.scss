@@ -15,7 +15,7 @@
     height: 50px;
     position: relative;
     padding-left: 60px;
-    color: $dark;
+    color: $textDark;
     @include font(2, 50px);
     >div {
       @include positionCenter(y);

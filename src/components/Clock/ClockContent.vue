@@ -16,6 +16,8 @@
       :key="content.type"
       :content="content"
       :mode="mode"
+      :class="content.type"
+      :elapsedtimer="elapsedtimer"
     />
   </div>
 </template>
@@ -30,6 +32,10 @@ export default {
   },
   props: {
     mode: {
+      type: Number,
+      required: true
+    },
+    elapsedtimer: {
       type: Number,
       required: true
     }
