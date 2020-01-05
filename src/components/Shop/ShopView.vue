@@ -1,5 +1,8 @@
 <template>
-  <div class="shop_view">
+  <div
+    class="shop_view"
+    :style="backgroundSrc"
+  >
     <div class="item_introduction">
       <h2>New Collection</h2>
       <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
@@ -9,8 +12,25 @@
 </template>
 
 <script>
+import { computed } from '@vue/composition-api'
 export default {
-  name: 'ShopView'
+  name: 'ShopView',
+  props: {
+    currentlist: {
+      type: Object,
+      required: true
+    }
+  },
+  setup (props) {
+    const backgroundSrc = computed(() => {
+      return {
+        backgroundImage: `url('${props.currentlist.src}')`
+      }
+    })
+    return {
+      backgroundSrc
+    }
+  }
 }
 </script>
 
@@ -18,21 +38,20 @@ export default {
 .shop_view {
   width: 100%;
   height: 100%;
-  background-image: url('https://images.unsplash.com/photo-1562887085-cb16e9116582?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1778&q=80');
   background-position: center;
   background-size: cover;
-  border-radius: 0 0 20px 20px;
-  padding-top: 50px;
+  padding-top: 80px;
+  overflow: hidden;
   .item_introduction {
-    width: 40%;
-    min-width: 300px;
-    background-color: rgba($white, .3);
+    width: 500px;
+    background-color: rgba($white, .7);
     box-shadow: 1px 1px 3px $shadow;
     padding: 30px;
-    color: $textDark;
+    color: $dark;
     h2 {
       @include font(10);
       margin-bottom: 10px;
+      white-space: nowrap;
     }
     p {
       @include font;
@@ -40,6 +59,17 @@ export default {
     }
     button {
       @include baseBtn;
+    }
+  }
+  @include media(1023px){
+    padding-top: 0;
+    .item_introduction {
+      width: 100%;
+      height: 100%;
+      box-shadow: none;
+      h2 {
+        @include font(5);
+      }
     }
   }
 }
