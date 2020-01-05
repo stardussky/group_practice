@@ -42,6 +42,7 @@ export default {
   background-size: cover;
   padding-top: 80px;
   overflow: hidden;
+  left: 0;
   .item_introduction {
     width: 500px;
     background-color: rgba($white, .7);

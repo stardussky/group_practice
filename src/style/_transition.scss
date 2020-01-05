@@ -21,26 +21,26 @@
 }
 .banner-enter-active, .banner_reverse-enter-active {
   @include positionCenter(y);
-  transition: transform .5s, height .5s .5s;
+  transition: left .5s, height .5s .5s;
 }
 .banner-leave-active, .banner_reverse-leave-active {
   opacity: 0;
-  transition: transform .5s, opacity .5s .5s;
+  transition: left .5s, opacity .5s .5s;
 }
 .banner-enter {
   height: 10px;
-  transform: translateX(100%);
+  left: 100%;
 }
 .banner-leave-to {
-  transform: translateX(-100%);
+  left: -100%;
   transition-delay: .5s;
 }
 .banner_reverse-enter {
   height: 10px;
-  transform: translateX(-100%);
+  left: -100%;
 }
 .banner_reverse-leave-to {
-  transform: translateX(100%);
+  left: 100%;
   transition-delay: .5s;
 }
 .slider_banner-enter{
@@ -62,7 +62,6 @@
 @include media(479px){
   .banner-enter-active, .banner_reverse-enter-active {
     top: auto;
-    left: auto;
     transform: translateY(0);
     transition: all .5s;
   }
@@ -71,18 +70,7 @@
     opacity: 1;
     transition: all .5s;
   }
-  .banner-enter {
+  .banner-enter, .banner_reverse-enter {
     height: 100%;
-    transform: translateX(100%);
-  }
-  .banner-leave-to {
-    transform: translateX(-100%);
-  }
-  .banner_reverse-enter {
-    height: 100%;
-    transform: translateX(-100%);
-  }
-  .banner_reverse-leave-to {
-    transform: translateX(100%);
   }
 }
