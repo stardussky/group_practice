@@ -141,10 +141,19 @@ export default {
       return formInfo.value[props.mode].fields.reduce((prev, info) => {
         prev[info.name] = info.value
         return prev
-      }, [])
+      }, {})
     })
     const submit = () => {
-      console.log('submit: ', userData.value)
+      let params = null
+      for (let key in userData.value) {
+        params += `${key}=${userData.value[key]}&`
+      }
+      console.log(params)
+      fetch('/phpLab/dd104g3/login.php', {
+        method: 'POST',
+        body: new URLSearchParams(params)
+      }).then(res => res.text()).then(text => console.log(text))
+
       formInfo.value[props.mode].fields.forEach(info => {
         if (info.name === 'headshot')info.value = `${require('@/assets/icon/user.svg')}`
         else info.value = ''

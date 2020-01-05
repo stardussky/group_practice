@@ -20,5 +20,18 @@ module.exports = {
         })
         .end()
     })
+  },
+  // eslint-disable-next-line no-dupe-keys
+  devServer: {
+    proxy: {
+      '/phpLab': {
+        target: 'http://localhost/phpLab',
+        // ws : true,
+        changeOrigin: true,
+        pathRewrite: {
+          '^/phpLab': ''
+        }
+      }
+    }
   }
 }
