@@ -59,6 +59,7 @@ import Setting from '../components/Setting'
 import Weather from '../components/Weather'
 import ProgressBar from '../components/ProgressBar'
 import { ref, watch } from '@vue/composition-api'
+import { mapActions } from 'vuex'
 export default {
   name: 'Home',
   components: {
@@ -85,6 +86,12 @@ export default {
       pathInfo,
       previous
     }
+  },
+  computed: {
+    ...mapActions('memberStore', ['CHECK_LOGIN'])
+  },
+  async mounted () {
+    await this.CHECK_LOGIN
   }
 }
 </script>

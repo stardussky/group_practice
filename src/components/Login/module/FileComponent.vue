@@ -88,7 +88,7 @@ export default {
     position: relative;
     margin-bottom: 10px;
     >img {
-      width: 100%;
+      width: 90%;
       object-fit: cover;
       border-radius: 50%;
     }

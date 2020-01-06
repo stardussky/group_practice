@@ -51,13 +51,21 @@ export default {
       }
     })
     onMounted(async () => {
+      let date = new Date()
+      let year = date.getFullYear()
+      let month = (date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1)
+      let day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate()
+      let hours = date.getHours() < 10 ? '0' + date.getHours() : date.getHours()
+      let startHours = hours >= 21 ? 21 : hours
+      let endHours = startHours + 3
       navigator.geolocation.getCurrentPosition(position => {
         latitude.value = position.coords.latitude
         longitude.value = position.coords.longitude
       }, err => {
         console.log(err)
       })
-      await fetch('https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-D0047-089?Authorization=CWB-B129D5C9-1F5D-482E-988B-20A0637F769C&format=JSON&elementName=Wx,T')
+      let url = `https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-D0047-089?Authorization=CWB-B129D5C9-1F5D-482E-988B-20A0637F769C&format=JSON&elementName=Wx,T&timeFrom=${year}-${month}-${day}T${startHours}%3A00%3A00&timeTo=${year}-${month}-${day}T${endHours}%3A00%3A00`
+      await fetch(url)
         .then(res => res.json())
         .then(json => {
           weatherStatus.value = json.records.locations[0].location[19].weatherElement[0].time[0].elementValue[0].value

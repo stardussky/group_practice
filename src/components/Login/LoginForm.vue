@@ -23,7 +23,6 @@
     </div>
     <form @submit.prevent="passes(submit)">
       <div class="form_field">
-        <h2>{{ mode ? 'Sign In' : 'Sign Up' }}</h2>
         <transition-group
           tag="div"
           name="flip"
@@ -38,13 +37,31 @@
             :name="input.name"
             :type="input.type"
             :field="input.field"
-          />
-          <button
-            key="button"
-            class="submit"
+            :content="input.content"
           >
-            {{ mode ? 'Sign In' : 'Sign Up' }}
-          </button>
+            <template v-slot:slotButton>
+              <button
+                v-if="input.name === 'forget'"
+                :type="input.type"
+                @click="changeMode = 2"
+              >
+                {{ input.content }}
+              </button>
+              <button
+                v-else-if="input.name === 'back'"
+                :type="input.type"
+                @click="changeMode = 1"
+              >
+                {{ input.content }}
+              </button>
+              <button
+                v-else
+                :type="input.type"
+              >
+                {{ input.content }}
+              </button>
+            </template>
+          </component>
         </transition-group>
       </div>
     </form>
@@ -52,14 +69,20 @@
 </template>
 
 <script>
-import InputComponent from './InputComponent'
-import FileComponent from './FileComponent'
-import { ref, computed } from '@vue/composition-api'
+import InputComponent from './module/InputComponent'
+import FileComponent from './module/FileComponent'
+import TitleComponent from './module/TitleComponent'
+import ButtonComponent from './module/ButtonComponent'
+import { computed } from '@vue/composition-api'
+import { mapActions } from 'vuex'
+import form from '@/composition/form'
 export default {
   name: 'LoginForm',
   components: {
     InputComponent,
-    FileComponent
+    FileComponent,
+    ButtonComponent,
+    TitleComponent
   },
   props: {
     mode: {
@@ -68,67 +91,7 @@ export default {
     }
   },
   setup (props, { emit }) {
-    const formInfo = ref([
-      {
-        fields: [
-          {
-            component: 'FileComponent',
-            type: 'file',
-            name: 'headshot',
-            value: `${require('@/assets/icon/user.svg')}`
-          },
-          {
-            component: 'InputComponent',
-            field: 'Account',
-            type: 'text',
-            name: 'memId',
-            placeholder: '請輸入帳號',
-            require: 'required',
-            value: ''
-          },
-          {
-            component: 'InputComponent',
-            field: 'Password',
-            type: 'password',
-            name: 'memPsw',
-            placeholder: '請輸入密碼',
-            require: 'required',
-            value: ''
-          },
-          {
-            component: 'InputComponent',
-            field: 'Email',
-            type: 'email',
-            name: 'email',
-            placeholder: '請輸入電子信箱',
-            require: 'email',
-            value: ''
-          }
-        ]
-      },
-      {
-        fields: [
-          {
-            component: 'InputComponent',
-            field: 'Account',
-            type: 'text',
-            name: 'memId',
-            placeholder: '請輸入帳號',
-            require: 'required',
-            value: ''
-          },
-          {
-            component: 'InputComponent',
-            field: 'Password',
-            type: 'password',
-            name: 'memPsw',
-            placeholder: '請輸入密碼',
-            require: 'required',
-            value: ''
-          }
-        ]
-      }
-    ])
+    const { formInfo } = form()
     const changeMode = computed({
       get () {
         return props.mode
@@ -137,32 +100,31 @@ export default {
         emit('update:mode', val)
       }
     })
-    const userData = computed(() => {
-      return formInfo.value[props.mode].fields.reduce((prev, info) => {
-        prev[info.name] = info.value
+    const inputFileInfo = computed(() => {
+      return formInfo.value[props.mode].fields.reduce((prev, info, index, arr) => {
+        prev += `${info.name}=${info.value}`
+        if (index !== arr.length - 1) prev += '&'
         return prev
-      }, {})
+      }, '')
     })
-    const submit = () => {
-      let params = null
-      for (let key in userData.value) {
-        params += `${key}=${userData.value[key]}&`
-      }
-      console.log(params)
-      fetch('/phpLab/dd104g3/login.php', {
-        method: 'POST',
-        body: new URLSearchParams(params)
-      }).then(res => res.text()).then(text => console.log(text))
-
-      formInfo.value[props.mode].fields.forEach(info => {
-        if (info.name === 'headshot')info.value = `${require('@/assets/icon/user.svg')}`
-        else info.value = ''
-      })
-    }
+    const url = computed(() => props.mode ? '/phpLab/dd104g3/member/login.php' : '/phpLab/dd104g3/member/signup.php')
     return {
       changeMode,
       formInfo,
-      submit
+      url,
+      inputFileInfo
+
+    }
+  },
+  methods: {
+    ...mapActions('memberStore', ['SUBMIT']),
+    async submit () {
+      let result = await this.SUBMIT({ url: this.url, data: this.inputFileInfo })
+      this.formInfo[this.mode].fields.forEach(info => {
+        if (info.name === 'headshot')info.value = `${require('@/assets/icon/user.svg')}`
+        else info.value = ''
+      })
+      if (result.content === '註冊成功') this.changeMode = 1
     }
   }
 }
@@ -207,14 +169,6 @@ export default {
     >div {
       width: 250px;
     }
-    h2 {
-      @include font(3);
-      color: $dark;
-      margin-bottom: 20px;
-    }
-  }
-  .submit{
-    @include baseBtn;
   }
   @include media(1023px){
     width: 100%;
@@ -223,9 +177,6 @@ export default {
     }
     .form_field{
       margin-top: 0;
-      h2 {
-        display: none;
-      }
     }
     .select_mode {
       @include switchBtn;
