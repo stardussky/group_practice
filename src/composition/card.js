@@ -6,9 +6,10 @@ export default (props) => {
   const dateStatus = ref(false)
   const todoContentList = ref([])
   const fileContent = ref([])
+  const editCardId = ref(null)
   const cardContent = computed(() => {
     return {
-      id: props.isEdit ? props.editCard.id : Math.random() + '',
+      id: editCardId.value || Math.random() + '',
       title: cardTitle.value || '待辦項目',
       status: dateStatus.value,
       deadLine: deadLine.value,
@@ -45,6 +46,7 @@ export default (props) => {
   }
   const deleteFile = (index) => fileContent.value.splice(index, 1)
   const resetCard = () => {
+    editCardId.value = null
     cardTitle.value = '待辦項目'
     todoContentList.value = []
     fileContent.value = []
@@ -52,6 +54,7 @@ export default (props) => {
   watch(() => props.editCard, val => {
     if (props.isEdit) {
       let edit = JSON.parse(JSON.stringify(val))
+      editCardId.value = edit.id
       cardTitle.value = edit.title
       todoContentList.value = edit.content
       fileContent.value = edit.files

@@ -58,12 +58,14 @@ export default () => {
         state.projects[getters.projectIndex].list[0].todo.push(card)
         // state.projects.find(project => project.id === projectId).list[0].todo.push(JSON.parse(JSON.stringify(card)))
       },
+      changeEditStatus (state, status) {
+        state.isEdit = status
+      },
       editTodoCard (state, payload) {
         state.isEdit = true
         state.editInfo = payload
       },
       editDone (state, { getters, card }) {
-        state.isEdit = false
         state.projects[getters.projectIndex].list[state.editInfo.step].todo.splice(state.editInfo.index, 1, card)
       },
       recordClockTime (state, { info: { projectIndex, step, todoIndex, contentIndex, listIndex }, timer }) {
@@ -74,6 +76,9 @@ export default () => {
       },
       deletePmClock (state, { projectIndex, step, todoIndex, contentIndex, listIndex }) {
         state.projects[projectIndex].list[step].todo[todoIndex].content[contentIndex].lists[listIndex].isClock = false
+      },
+      dragList (state, { getters, payload: { $event: list, index } }) {
+        state.projects[getters.projectIndex].list[index].todo = list
       }
     },
     actions: {
@@ -113,15 +118,21 @@ export default () => {
           resolve()
         })
       },
-      DONE_PM_CLOCK ({ commit }, payload) {
+      DONE_PM_CLOCK ({ commit, getters }, payload) {
         return new Promise(resolve => {
-          commit('donePmClock', payload)
+          commit('donePmClock', { getters, payload })
           resolve()
         })
       },
       DELETE_PM_CLOCK ({ commit }, payload) {
         return new Promise(resolve => {
           commit('deletePmClock', payload)
+          resolve()
+        })
+      },
+      DRAG_LIST ({ commit, getters }, payload) {
+        return new Promise(resolve => {
+          commit('dragList', { getters, payload })
           resolve()
         })
       }

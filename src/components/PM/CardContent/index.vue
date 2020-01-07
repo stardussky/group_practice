@@ -6,29 +6,36 @@
     >
       {{ list.status }}
     </div>
-    <transition-group
+    <draggable
+      v-model="moveList"
       class="card_body"
-      name="slider"
-      tag="div"
+      group="todo"
     >
-      <TodoCard
-        v-for="(todo, index) in list.todo"
-        :key="todo.id"
-        :color="color"
-        :todo="todo"
-        @click.native="editCard({step, index})"
-      />
-    </transition-group>
+      <transition-group
+        tag="div"
+      >
+        <TodoCard
+          v-for="(todo, index) in list.todo"
+          :key="todo.id"
+          :color="color"
+          :todo="todo"
+          @click.native="editCard({step, index})"
+        />
+      </transition-group>
+    </draggable>
   </div>
 </template>
 
 <script>
 import TodoCard from './module/TodoCard'
-import { mapState, mapActions } from 'vuex'
+import draggable from 'vuedraggable'
+import { mapState, mapActions, mapMutations } from 'vuex'
+// import { computed } from '@vue/composition-api'
 export default {
   name: 'CardContent',
   components: {
-    TodoCard
+    TodoCard,
+    draggable
   },
   props: {
     projectId: {
@@ -48,14 +55,44 @@ export default {
       required: true
     }
   },
+  setup (props, { emit }) {
+    // const moveList = computed({
+    //   get () {
+    //     return props.list.todo
+    //   },
+    //   set (val) {
+    //     emit('moveList', val)
+    //   }
+    // })
+    return {
+      // moveList
+    }
+  },
   computed: {
-    ...mapState('pmStore', ['isEdit'])
+    ...mapState('pmStore', ['isEdit']),
+    moveList: {
+      get () {
+        return this.list.todo
+      },
+      set (val) {
+        new Promise(resolve => {
+          this.changeEditStatus(false)
+          resolve()
+        }).then(res => {
+          this.$emit('moveList', val)
+        })
+      }
+    }
   },
   methods: {
-    ...mapActions('pmStore', ['EDIT_TODO_CARD']),
+    ...mapActions('pmStore', ['EDIT_TODO_CARD', 'DROP_TODO']),
+    ...mapMutations('pmStore', ['changeEditStatus']),
     editCard (info) {
       if (this.isEdit) {
-        if (confirm('編輯尚未儲存,是否取消編輯?')) this.EDIT_TODO_CARD(info)
+        new Promise(resolve => {
+          this.changeEditStatus(false)
+          resolve()
+        }).then(res => this.EDIT_TODO_CARD(info))
       } else {
         this.EDIT_TODO_CARD(info)
       }
@@ -77,6 +114,9 @@ export default {
   .card_body {
     height: calc(100% - 50px);
     overflow-y: auto;
+    >div {
+      min-height: 95%;
+    }
   }
 }
 </style>

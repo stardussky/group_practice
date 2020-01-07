@@ -13,6 +13,7 @@
       :list="list"
       :color="project.info.color"
       :step="index"
+      @moveList="DRAG_LIST({$event, index})"
     />
     <Tour :steps="steps" />
   </div>
@@ -23,7 +24,7 @@ import CardContent from '@/components/PM/CardContent/index'
 import Card from '@/components/PM/Card/index'
 import Tour from '@/components/Tour'
 import { ref } from '@vue/composition-api'
-import { mapState, mapGetters } from 'vuex'
+import { mapState, mapGetters, mapActions } from 'vuex'
 export default {
   name: 'CardView',
   components: {
@@ -131,6 +132,9 @@ export default {
   computed: {
     ...mapState('pmStore', ['isEdit']),
     ...mapGetters('pmStore', ['project', 'editCardTarget'])
+  },
+  methods: {
+    ...mapActions('pmStore', ['DRAG_LIST'])
   }
 }
 </script>

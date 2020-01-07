@@ -1,9 +1,11 @@
 <template>
-  <div class="todoCard">
+  <div
+    class="todoCard"
+    :class="{active: isEditTarget}"
+  >
     <div
       class="card_color"
       :style="{backgroundColor: color}"
-      :class="{active: isEditTarget}"
     />
     <div class="todo_title">
       <p>{{ todo.title }}</p>

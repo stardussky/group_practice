@@ -70,7 +70,7 @@ export default {
         .then(json => {
           weatherStatus.value = json.records.locations[0].location[19].weatherElement[0].time[0].elementValue[0].value
           temperature.value = json.records.locations[0].location[19].weatherElement[1].time[0].elementValue[0].value
-        })
+        }).catch(err => console.log(err))
     })
     return {
       latitude,

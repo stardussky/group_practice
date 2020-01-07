@@ -62,7 +62,7 @@
     <div
       class="card_footer"
       :style="{backgroundColor:color}"
-      @click="isEdit?EDIT_DONE(cardContent):pushTodoCard()"
+      @click="isEdit?changeEditStatus(false):pushTodoCard()"
     >
       {{ isEdit?'編輯完成':'新增' }}
     </div>
@@ -75,7 +75,7 @@ import DateComponent from './module/DateComponent'
 import FileContent from './module/FileContent'
 import TodoContent from './module/TodoContent'
 import card from '@/composition/card'
-import { mapActions } from 'vuex'
+import { mapActions, mapMutations } from 'vuex'
 export default {
   name: 'Card',
   components: {
@@ -123,11 +123,19 @@ export default {
       resetCard
     }
   },
+  watch: {
+    isEdit: {
+      handler (val) {
+        if (!val) this.EDIT_DONE(this.cardContent)
+      }
+    }
+  },
   deactivated () {
-    if (this.isEdit) this.EDIT_DONE(this.cardContent)
+    if (this.isEdit) this.changeEditStatus(false)
   },
   methods: {
     ...mapActions('pmStore', ['PUSH_TODO_CARD', 'EDIT_DONE']),
+    ...mapMutations('pmStore', ['changeEditStatus']),
     pushTodoCard () {
       this.PUSH_TODO_CARD(this.cardContent)
       this.resetCard()
