@@ -9,10 +9,13 @@
     <draggable
       v-model="moveList"
       class="card_body"
+      :options="dragOptions"
       group="todo"
+      @dragstart.native="changeEditStatus(false)"
     >
       <transition-group
         tag="div"
+        name="slider"
       >
         <TodoCard
           v-for="(todo, index) in list.todo"
@@ -30,7 +33,7 @@
 import TodoCard from './module/TodoCard'
 import draggable from 'vuedraggable'
 import { mapState, mapActions, mapMutations } from 'vuex'
-// import { computed } from '@vue/composition-api'
+import { computed } from '@vue/composition-api'
 export default {
   name: 'CardContent',
   components: {
@@ -55,34 +58,30 @@ export default {
       required: true
     }
   },
-  setup (props, { emit }) {
-    // const moveList = computed({
-    //   get () {
-    //     return props.list.todo
-    //   },
-    //   set (val) {
-    //     emit('moveList', val)
-    //   }
-    // })
+  data () {
     return {
-      // moveList
+      dragOptions: {
+        animation: 300,
+        disabled: false,
+        ghostClass: 'ghost'
+      }
+    }
+  },
+  setup (props, { emit }) {
+    const moveList = computed({
+      get () {
+        return props.list.todo
+      },
+      set (val) {
+        emit('moveList', val)
+      }
+    })
+    return {
+      moveList
     }
   },
   computed: {
-    ...mapState('pmStore', ['isEdit']),
-    moveList: {
-      get () {
-        return this.list.todo
-      },
-      set (val) {
-        new Promise(resolve => {
-          this.changeEditStatus(false)
-          resolve()
-        }).then(res => {
-          this.$emit('moveList', val)
-        })
-      }
-    }
+    ...mapState('pmStore', ['isEdit'])
   },
   methods: {
     ...mapActions('pmStore', ['EDIT_TODO_CARD', 'DROP_TODO']),
@@ -117,6 +116,9 @@ export default {
     >div {
       min-height: 95%;
     }
+  }
+  .ghost {
+    opacity: 0.5;
   }
 }
 </style>
