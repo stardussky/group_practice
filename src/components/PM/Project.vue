@@ -34,7 +34,7 @@ export default {
   background-color: rgba($white, .8);
   border-radius: 20px;
   box-shadow: 1px 1px 3px $shadow;
-  margin: 0 0 10px 20px;
+  margin: 0 10px 5px 10px;
   overflow: hidden;
   cursor: pointer;
   position: relative;

@@ -72,11 +72,11 @@ const router = new VueRouter({
   routes
 })
 
-router.beforeEach(async (to, from, next) => {
+router.beforeEach((to, from, next) => {
   if (to.meta.auth) {
     console.log(to.params.id)
-    await store.dispatch('pmStore/GET_PROJECT', to.params.id)
-    // if (!store.getters['pmStore/project']) return next({ name: 'ProjectManagement' })
+    store.dispatch('pmStore/GET_PROJECT', to.params.id)
+    if (!store.getters['pmStore/project']) return next({ name: 'ProjectManagement' })
     next()
   }
   next()

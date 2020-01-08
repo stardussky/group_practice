@@ -19,5 +19,6 @@ export default {
 .projectManagement {
   height: calc(100% - 10px);
   overflow: auto;
+  padding: 0 10px;
 }
 </style>

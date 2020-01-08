@@ -85,7 +85,7 @@ export default {
     li {
       text-align: center;
       cursor: pointer;
-      padding: 5px 0;
+      padding: 7.5px 0;
       position: relative;
       z-index: 1;
       &:nth-of-type(1){

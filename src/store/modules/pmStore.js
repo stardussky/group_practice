@@ -56,7 +56,7 @@ export default () => {
       getProject (state, { getters, id, json }) {
         state.isEdit = false
         state.id = id
-        console.log('mut', id)
+        console.log(getters, id, json)
         if (json) {
           state.projects[getters.projectIndex].list.forEach((info, index) => {
             info.todo = json[index]
