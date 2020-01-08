@@ -3,7 +3,7 @@
     <label>
       <p>專案名稱 <span>Project</span></p>
       <input
-        v-model="name"
+        v-model.trim="name"
         type="text"
       >
     </label>
@@ -30,13 +30,19 @@
 import { ref, computed } from '@vue/composition-api'
 export default {
   name: 'CreateProject',
+  props: {
+    projectIndex: {
+      type: String,
+      required: true
+    }
+  },
   setup (props, { emit }) {
     const colors = ref(['#81c7d4', '#a6c1ee', '#f8c3cd', '#F9BF45', '#EB7A77', '#86C166', '#777777'])
     const name = ref(null)
     const selectColor = ref(null)
     const project = computed(() => {
       return {
-        id: Math.random() + '',
+        id: props.projectIndex,
         info: {
           title: name.value,
           color: selectColor.value

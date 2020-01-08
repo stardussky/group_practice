@@ -89,10 +89,10 @@
 <script>
 import { computed } from '@vue/composition-api'
 import { mapState, mapMutations, mapActions } from 'vuex'
-import mixins from './mixins'
+import clockTime from '@/mixins/clockTime'
 export default {
   name: 'ClockList',
-  mixins: [mixins],
+  mixins: [clockTime],
   props: {
     list: {
       type: Object,

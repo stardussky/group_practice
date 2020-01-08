@@ -40,7 +40,7 @@
       </ul>
       <label>
         <input
-          v-model="inputValue"
+          v-model.trim="inputValue"
           type="text"
           placeholder="增加項目"
           :style="{backgroundColor: color}"

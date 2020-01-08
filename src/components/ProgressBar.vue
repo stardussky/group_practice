@@ -6,7 +6,7 @@
     <li
       v-for="page in list"
       :key="page.id"
-      @click="changePage(page.id)"
+      @click="enterPage(page.id)"
     >
       <p :class="{active: page.id === pathName}">
         {{ page.name.split('|')[0] }}<br>{{ page.name.split('|')[1] }}
@@ -21,10 +21,16 @@
 
 <script>
 import { ref, computed, onMounted, onUnmounted } from '@vue/composition-api'
+import enterRouter from '@/mixins/enterRouter'
 export default {
   name: 'ProgressBar',
+  mixins: [enterRouter],
   props: {
     pathName: {
+      type: String,
+      required: true
+    },
+    projectId: {
       type: String,
       required: true
     }
@@ -70,9 +76,6 @@ export default {
           style: { width: `${progress}%` }
         }
     })
-    const changePage = (page) => {
-      root.$router.push({ name: page })
-    }
     const resizeHandler = () => {
       width.value = innerWidth
     }
@@ -84,7 +87,6 @@ export default {
     })
     return {
       list,
-      changePage,
       progressBar
     }
   }

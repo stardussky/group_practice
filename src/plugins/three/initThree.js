@@ -99,13 +99,21 @@ export function init (refs, vm) {
   refs.threeJs.addEventListener('click', function (e) {
     let currentObj = getCurrentObj(e)
     if (buttons.indexOf(currentObj.name) !== -1) {
-      vm.$router.push({ path: currentObj.name })
+      if (vm.projectId !== '' && currentObj.name === 'ProjectManagement') {
+        vm.$router.push({ name: 'Project', params: { id: vm.projectId } })
+      } else {
+        vm.$router.push({ name: currentObj.name })
+      }
     }
   })
   refs.threeJs.addEventListener('touchstart', function (e) {
     let currentObj = getCurrentObj(e)
     if (buttons.indexOf(currentObj.name) !== -1) {
-      vm.$router.push({ path: currentObj.name })
+      if (vm.projectId !== '' && currentObj.name === 'ProjectManagement') {
+        vm.$router.push({ name: 'Project', params: { id: vm.projectId } })
+      } else {
+        vm.$router.push({ name: currentObj.name })
+      }
     }
   })
 

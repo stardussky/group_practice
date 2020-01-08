@@ -2,6 +2,7 @@
   <div class="pmView">
     <div>
       <CreateProject
+        :project-index="projectIndex"
         @createProject="CREATE_PROJECT"
       />
     </div>
@@ -17,7 +18,7 @@
       />
     </transition-group>
     <Calendar />
-    <Tour :steps="steps" />
+    <Tour :steps="PMViewSteps" />
   </div>
 </template>
 
@@ -25,9 +26,9 @@
 import CreateProject from '@/components/PM/CreateProject'
 import Project from '@/components/PM/Project'
 import Calendar from '@/components/PM/Calendar/index'
-import { ref } from '@vue/composition-api'
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapMutations } from 'vuex'
 import Tour from '@/components/Tour'
+import tourStep from '@/composition/tour'
 export default {
   name: 'PMView',
   components: {
@@ -40,84 +41,28 @@ export default {
     const enterProject = (id) => {
       root.$router.push({ name: 'Project', params: { id: id } })
     }
-    const steps = ref([
-      {
-        attachTo: { element: '.createProject', on: 'right' },
-        text: '歡迎來到專案管理頁面,是否進入教學',
-        buttons: [
-          {
-            action () {
-              return this.complete()
-            },
-            text: 'Skip'
-          },
-          {
-            action () {
-              return this.next()
-            },
-            text: '教學'
-          }
-        ]
-      },
-      {
-        attachTo: { element: '.createProject input', on: 'bottom' },
-        text: '輸入你的專案名稱',
-        buttons: [
-          {
-            action () {
-              return this.next()
-            },
-            text: '下一步'
-          }
-        ]
-      },
-      {
-        attachTo: { element: '.project_color', on: 'bottom' },
-        text: '選擇你的專案色',
-        buttons: [
-          {
-            action () {
-              return this.next()
-            },
-            text: '下一步'
-          }
-        ]
-      },
-      {
-        attachTo: { element: '.createProject button', on: 'left' },
-        text: '建立一個專案',
-        buttons: [
-          {
-            action () {
-              return this.next()
-            },
-            text: '完成'
-          }
-        ]
-      },
-      {
-        attachTo: { element: '.calendar_view', on: 'right' },
-        text: '登入後，側邊行事曆會提醒你 7 天以內快到期的專案待辦事項',
-        buttons: [
-          {
-            action () {
-              return this.complete()
-            },
-            text: '我知道了'
-          }
-        ]
-      }
-    ])
+    const { PMViewSteps } = tourStep(root)
     return {
       enterProject,
-      steps
+      PMViewSteps
     }
   },
   computed: {
-    ...mapState('pmStore', ['projects'])
+    ...mapState(['isLogin']),
+    ...mapState('pmStore', ['projects']),
+    ...mapState('memberStore', ['userInfo']),
+    projectIndex () {
+      let length = this.projects.length
+      return length ? (+this.projects[length - 1].id + 1) + '' : '1'
+    }
+  },
+  mounted () {
+    this.clearProjectId()
+    if (this.isLogin) this.GET_PROJECTS_LIST(this.userInfo.mem_no)
   },
   methods: {
-    ...mapActions('pmStore', ['CREATE_PROJECT'])
+    ...mapActions('pmStore', ['CREATE_PROJECT', 'GET_PROJECTS_LIST']),
+    ...mapMutations('pmStore', ['clearProjectId'])
   }
 }
 </script>

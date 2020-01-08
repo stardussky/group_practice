@@ -7,36 +7,36 @@
       <div
         ref="projectManagement"
         class="button"
-        data-path="projectManagement"
-        @click="enterPage('projectManagement')"
-        @touchstart="enterPage('projectManagement')"
+        data-path="ProjectManagement"
+        @click="enterPage('ProjectManagement')"
+        @touchstart="enterPage('ProjectManagement')"
       >
         專案管理
       </div>
       <div
         ref="clock"
         class="button"
-        data-path="clock"
-        @click="enterPage('clock')"
-        @touchstart="enterPage('clock')"
+        data-path="Clock"
+        @click="enterPage('Clock')"
+        @touchstart="enterPage('Clock')"
       >
         番茄鐘
       </div>
       <div
         ref="shop"
         class="button"
-        data-path="shop"
-        @click="enterPage('shop')"
-        @touchstart="enterPage('shop')"
+        data-path="Shop"
+        @click="enterPage('Shop')"
+        @touchstart="enterPage('Shop')"
       >
         商城
       </div>
       <div
         ref="login"
         class="button"
-        data-path="login"
-        @click="enterPage('login')"
-        @touchstart="enterPage('login')"
+        data-path="Login"
+        @click="enterPage('Login')"
+        @touchstart="enterPage('Login')"
       >
         登入
       </div>
@@ -51,8 +51,10 @@
 <script>
 import { onMounted, onUnmounted } from '@vue/composition-api'
 import { init, handleWindowResize, changeRenderer, animation } from '../plugins/three/initThree'
+import enterRouter from '@/mixins/enterRouter'
 export default {
   name: 'Three',
+  mixins: [enterRouter],
   props: {
     weather: {
       type: String,
@@ -60,7 +62,6 @@ export default {
     }
   },
   setup (props, { root }) {
-    const enterPage = (page) => root.$router.push({ path: page })
     onMounted(() => {
       changeRenderer(props.weather)
       handleWindowResize()
@@ -71,7 +72,6 @@ export default {
       cancelAnimationFrame(animation)
     })
     return {
-      enterPage
     }
   },
   watch: {

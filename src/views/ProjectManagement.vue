@@ -4,9 +4,7 @@
       name="fade"
       mode="out-in"
     >
-      <keep-alive>
-        <router-view />
-      </keep-alive>
+      <router-view />
     </transition>
   </div>
 </template>
@@ -19,8 +17,7 @@ export default {
 
 <style lang="scss">
 .projectManagement {
-  height: 100%;
+  height: calc(100% - 10px);
   overflow: auto;
-  padding: 10px;
 }
 </style>

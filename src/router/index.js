@@ -28,13 +28,13 @@ const routes = [
             path: 'pm',
             name: 'ProjectManagement',
             component: () => import(/* webpackChunkName: "PMView" */ '@/components/PM/PMView.vue'),
-            meta: { name: 'ProjectManagement', title: '我的專案' }
+            meta: { name: 'ProjectManagement', title: '我的專案', tour: true }
           },
           {
             path: 'project/:id',
             name: 'Project',
             component: () => import(/* webpackChunkName: "CardView" */ '@/components/PM/CardView.vue'),
-            meta: { name: 'ProjectManagement', title: '專案內容', auth: true }
+            meta: { name: 'ProjectManagement', title: '專案內容', auth: true, tour: true }
           },
           {
             path: '*',
@@ -72,10 +72,11 @@ const router = new VueRouter({
   routes
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   if (to.meta.auth) {
-    store.dispatch('pmStore/GET_PROJECT', to.params.id)
-    if (!store.getters['pmStore/project']) return next('/')
+    console.log(to.params.id)
+    await store.dispatch('pmStore/GET_PROJECT', to.params.id)
+    // if (!store.getters['pmStore/project']) return next({ name: 'ProjectManagement' })
     next()
   }
   next()

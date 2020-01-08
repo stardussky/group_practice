@@ -5,7 +5,7 @@
       :style="{backgroundColor:color}"
     >
       <input
-        v-model="cardTitle"
+        v-model.trim="cardTitle"
         type="text"
       >
       <img
@@ -35,7 +35,7 @@
         />
         <div class="add_todo">
           <input
-            v-model="todoTitle"
+            v-model.trim="todoTitle"
             type="text"
             placeholder="加點內容吧~"
             @keydown.enter="pushTodoContent"
@@ -75,7 +75,7 @@ import DateComponent from './module/DateComponent'
 import FileContent from './module/FileContent'
 import TodoContent from './module/TodoContent'
 import card from '@/composition/card'
-import { mapActions, mapMutations } from 'vuex'
+import { mapGetters, mapActions, mapMutations } from 'vuex'
 export default {
   name: 'Card',
   components: {
@@ -103,10 +103,11 @@ export default {
     }
   },
   setup (props) {
-    const { cardTitle, setTodoClock, cardContent, resetCard, dateStatus, deadLine, todoTitle, todoContentList, fileContent, pushTodoContent, pushContentList, pushFile, changeStatus, deleteTodoContent, deleteTodoList, deleteFile } = card(props)
+    const { cardTitle, editCardId, setTodoClock, resetCard, dateStatus, deadLine, todoTitle, todoContentList, fileContent, pushTodoContent, pushContentList, pushFile, changeStatus, deleteTodoContent, deleteTodoList, deleteFile } = card(props)
     return {
       cardTitle,
       deadLine,
+      editCardId,
       dateStatus,
       todoTitle,
       todoContentList,
@@ -119,8 +120,24 @@ export default {
       deleteFile,
       changeStatus,
       setTodoClock,
-      cardContent,
       resetCard
+    }
+  },
+  computed: {
+    ...mapGetters('pmStore', ['project']),
+    cardIndex () {
+      let length = this.project.list[0].todo.length
+      return length ? (+this.project.list[0].todo[length - 1].id + 1) + '' : '1'
+    },
+    cardContent () {
+      return {
+        id: this.editCardId || this.cardIndex,
+        title: this.cardTitle || '待辦項目',
+        status: this.dateStatus,
+        deadLine: this.deadLine,
+        content: this.todoContentList,
+        files: this.fileContent
+      }
     }
   },
   watch: {

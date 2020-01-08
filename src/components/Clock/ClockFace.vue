@@ -52,10 +52,10 @@
 
 <script>
 import { ref, computed, onMounted, onUnmounted } from '@vue/composition-api'
-import mixins from './mixins'
+import clockTime from '@/mixins/clockTime'
 export default {
   name: 'ClockFace',
-  mixins: [mixins],
+  mixins: [clockTime],
   props: {
     timer: {
       type: Number,

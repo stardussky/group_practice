@@ -1,6 +1,9 @@
 <template>
   <div class="home">
-    <Three :weather="weather" />
+    <Three
+      :weather="weather"
+      :project-id="id || ''"
+    />
     <transition name="fade">
       <div
         v-show="path !== '/'"
@@ -24,9 +27,7 @@
             name="fade"
             mode="out-in"
           >
-            <keep-alive exclude="Login">
-              <router-view />
-            </keep-alive>
+            <router-view />
           </transition>
         </div>
       </div>
@@ -47,6 +48,7 @@
       <ProgressBar
         v-if="path !== '/'"
         :path-name="pathInfo.name"
+        :project-id="id || ''"
       />
     </transition>
   </div>
@@ -59,7 +61,7 @@ import Setting from '../components/Setting'
 import Weather from '../components/Weather'
 import ProgressBar from '../components/ProgressBar'
 import { ref, watch } from '@vue/composition-api'
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 export default {
   name: 'Home',
   components: {
@@ -74,7 +76,11 @@ export default {
     const path = ref(null)
     const pathInfo = ref(null)
     const previous = () => {
-      root.$router.go(-1)
+      if (pathInfo.value && pathInfo.value.title === '專案內容') {
+        root.$router.push({ name: 'ProjectManagement' })
+      } else {
+        root.$router.push({ path: '/' })
+      }
     }
     watch(() => root.$route, (to) => {
       path.value = to.path
@@ -88,10 +94,13 @@ export default {
     }
   },
   computed: {
-    ...mapActions('memberStore', ['CHECK_LOGIN'])
+    ...mapState('pmStore', ['id'])
   },
-  async mounted () {
-    await this.CHECK_LOGIN
+  created () {
+    this.CHECK_LOGIN()
+  },
+  methods: {
+    ...mapActions('memberStore', ['CHECK_LOGIN'])
   }
 }
 </script>

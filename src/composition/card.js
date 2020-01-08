@@ -1,4 +1,4 @@
-import { ref, computed, watch } from '@vue/composition-api'
+import { ref, watch } from '@vue/composition-api'
 export default (props) => {
   const cardTitle = ref(null)
   const todoTitle = ref(null)
@@ -7,16 +7,6 @@ export default (props) => {
   const todoContentList = ref([])
   const fileContent = ref([])
   const editCardId = ref(null)
-  const cardContent = computed(() => {
-    return {
-      id: editCardId.value || Math.random() + '',
-      title: cardTitle.value || '待辦項目',
-      status: dateStatus.value,
-      deadLine: deadLine.value,
-      content: todoContentList.value,
-      files: fileContent.value
-    }
-  })
 
   const pushTodoContent = () => {
     if (todoTitle.value) {
@@ -66,7 +56,7 @@ export default (props) => {
   })
   return {
     cardTitle,
-    cardContent,
+    editCardId,
     todoTitle,
     deadLine,
     dateStatus,

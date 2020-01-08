@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { onMounted } from '@vue/composition-api'
+import { mapState } from 'vuex'
 export default {
   name: 'Tour',
   props: {
@@ -12,10 +12,14 @@ export default {
       required: true
     }
   },
-  setup (props, { root }) {
-    onMounted(() => {
-      root.$nextTick(() => {
-        const tour = root.$shepherd({
+  computed: {
+    ...mapState(['isLogin'])
+  },
+  mounted () {
+    if (this.isLogin) return
+    if (this.$route.meta.tour) {
+      this.$nextTick(() => {
+        const tour = this.$shepherd({
           useModalOverlay: true,
           defaultStepOptions: {
             classes: 'tour'
@@ -24,13 +28,11 @@ export default {
             enabled: true
           }
         })
-        tour.addSteps(props.steps)
+        tour.addSteps(this.steps)
         setTimeout(() => {
           tour.start()
         }, 100)
       })
-    })
-    return {
     }
   }
 }

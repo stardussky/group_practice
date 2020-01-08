@@ -9,22 +9,16 @@
     <draggable
       v-model="moveList"
       class="card_body"
-      :options="dragOptions"
-      group="todo"
+      v-bind="dragOptions"
       @dragstart.native="changeEditStatus(false)"
     >
-      <transition-group
-        tag="div"
-        name="slider"
-      >
-        <TodoCard
-          v-for="(todo, index) in list.todo"
-          :key="todo.id"
-          :color="color"
-          :todo="todo"
-          @click.native="editCard({step, index})"
-        />
-      </transition-group>
+      <TodoCard
+        v-for="(todo, index) in list.todo"
+        :key="todo.id"
+        :color="color"
+        :todo="todo"
+        @click.native="editCard({step, index})"
+      />
     </draggable>
   </div>
 </template>
@@ -33,7 +27,7 @@
 import TodoCard from './module/TodoCard'
 import draggable from 'vuedraggable'
 import { mapState, mapActions, mapMutations } from 'vuex'
-import { computed } from '@vue/composition-api'
+import { ref, computed } from '@vue/composition-api'
 export default {
   name: 'CardContent',
   components: {
@@ -58,16 +52,14 @@ export default {
       required: true
     }
   },
-  data () {
-    return {
-      dragOptions: {
-        animation: 300,
-        disabled: false,
-        ghostClass: 'ghost'
-      }
-    }
-  },
   setup (props, { emit }) {
+    const dragOptions = ref({
+      animation: 300,
+      group: 'todo',
+      disabled: false,
+      ghostClass: 'ghost',
+      scroll: true
+    })
     const moveList = computed({
       get () {
         return props.list.todo
@@ -77,6 +69,7 @@ export default {
       }
     })
     return {
+      dragOptions,
       moveList
     }
   },
@@ -113,12 +106,9 @@ export default {
   .card_body {
     height: calc(100% - 50px);
     overflow-y: auto;
-    >div {
-      min-height: 95%;
-    }
   }
   .ghost {
-    opacity: 0.5;
+    opacity: 0.25;
   }
 }
 </style>

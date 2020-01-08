@@ -50,13 +50,24 @@ export default () => {
       createProject (state, data) {
         state.projects.push(data)
       },
-      getProject (state, id) {
+      getProjectsList (state, data) {
+        state.projects = data
+      },
+      getProject (state, { getters, id, json }) {
         state.isEdit = false
         state.id = id
+        console.log('mut', id)
+        if (json) {
+          state.projects[getters.projectIndex].list.forEach((info, index) => {
+            info.todo = json[index]
+          })
+        }
+      },
+      clearProjectId (state) {
+        state.id = null
       },
       pushTodoCard (state, { getters, card }) {
         state.projects[getters.projectIndex].list[0].todo.push(card)
-        // state.projects.find(project => project.id === projectId).list[0].todo.push(JSON.parse(JSON.stringify(card)))
       },
       changeEditStatus (state, status) {
         state.isEdit = status
@@ -82,20 +93,64 @@ export default () => {
       }
     },
     actions: {
-      CREATE_PROJECT ({ commit }, data) {
+      CREATE_PROJECT ({ commit, rootState }, data) {
         return new Promise(resolve => {
+          if (rootState.isLogin) {
+            fetch('/phpLab/dd104g3/pm/createProject.php', {
+              method: 'POST',
+              body: new URLSearchParams(`mem_no=${rootState['memberStore'].userInfo.mem_no}&pro_col=${data.info.color}&pro_title=${data.info.title}`)
+            })
+              .then(res => res.json())
+              .then(json => json)
+              .catch(err => err)
+          }
           commit('createProject', data)
           resolve()
         })
       },
-      GET_PROJECT ({ commit }, id) {
+      GET_PROJECTS_LIST ({ commit }, id) {
         return new Promise(resolve => {
-          commit('getProject', id)
+          fetch('/phpLab/dd104g3/pm/getProjectList.php', {
+            method: 'POST',
+            body: new URLSearchParams(`mem_no=${id}`)
+          })
+            .then(res => res.json())
+            .then(json => {
+              if (json.status === 'success') commit('getProjectsList', json.data)
+            })
+            .catch(err => err)
           resolve()
         })
       },
-      PUSH_TODO_CARD ({ commit, getters }, card) {
+      GET_PROJECT ({ commit, rootState, getters }, id) {
         return new Promise(resolve => {
+          if (rootState.isLogin) {
+            fetch('/phpLab/dd104g3/pm/getProject.php', {
+              method: 'POST',
+              body: new URLSearchParams(`pro_no=${id}`)
+            })
+              .then(res => res.json())
+              .then(json => {
+                if (json.status === 'success') commit('getProject', { getters, id, json: json.data })
+              })
+              .catch(err => err)
+          } else {
+            commit('getProject', { id })
+          }
+          resolve()
+        })
+      },
+      PUSH_TODO_CARD ({ commit, getters, rootState, state }, card) {
+        return new Promise(resolve => {
+          if (rootState.isLogin) {
+            fetch('/phpLab/dd104g3/pm/pushTodoCard.php', {
+              method: 'POST',
+              body: new URLSearchParams(`pro_no=${state.id}&card_name=${card.title}`)
+            })
+              .then(res => res.json())
+              .then(json => json)
+              .catch(err => err)
+          }
           commit('pushTodoCard', { getters, card })
           resolve()
         })
