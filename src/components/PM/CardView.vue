@@ -42,6 +42,11 @@ export default {
     ...mapState('pmStore', ['isEdit']),
     ...mapGetters('pmStore', ['project', 'editCardTarget'])
   },
+  watch: {
+    project (val) {
+      if (!val) this.$router.push({ name: 'ProjectManagement' })
+    }
+  },
   methods: {
     ...mapActions('pmStore', ['DRAG_LIST'])
   }

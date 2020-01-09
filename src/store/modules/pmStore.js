@@ -56,7 +56,6 @@ export default () => {
       getProject (state, { getters, id, json }) {
         state.isEdit = false
         state.id = id
-        console.log(getters, id, json)
         if (json) {
           state.projects[getters.projectIndex].list.forEach((info, index) => {
             info.todo = json[index]
@@ -132,12 +131,14 @@ export default () => {
               .then(res => res.json())
               .then(json => {
                 if (json.status === 'success') commit('getProject', { getters, id, json: json.data })
+                else commit('getProject', { id })
+                resolve()
               })
               .catch(err => err)
           } else {
             commit('getProject', { id })
+            resolve()
           }
-          resolve()
         })
       },
       PUSH_TODO_CARD ({ commit, getters, rootState, state }, card) {
