@@ -134,7 +134,7 @@ export default () => {
                 else commit('getProject', { id })
                 resolve()
               })
-              .catch(err => err)
+              .catch(err => console.log(err))
           } else {
             commit('getProject', { id })
             resolve()
@@ -146,10 +146,14 @@ export default () => {
           if (rootState.isLogin) {
             fetch('/phpLab/dd104g3/pm/pushTodoCard.php', {
               method: 'POST',
-              body: new URLSearchParams(`pro_no=${state.id}&card_name=${card.title}`)
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ projectId: state.id, card })
             })
               .then(res => res.json())
-              .then(json => json)
+              .then(json => console.log(json))
               .catch(err => err)
           }
           commit('pushTodoCard', { getters, card })

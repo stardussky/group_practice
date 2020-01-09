@@ -31,6 +31,7 @@
       <ul>
         <ContentList
           v-for="(list, index) in content.lists"
+          v-show="list.id"
           :key="list.id"
           :list="list"
           @changeStatus="changeStatus($event, index)"

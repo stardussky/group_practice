@@ -12,6 +12,7 @@
       <ul>
         <li
           v-for="(list, index) in fileContent"
+          v-show="list.name"
           :key="list.id"
         >
           <a

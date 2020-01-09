@@ -24,6 +24,7 @@
       <div class="listContent">
         <TodoContent
           v-for="(content, index) in todoContentList"
+          v-show="content.id"
           :key="content.id"
           :content="content"
           :color="color"
