@@ -27,7 +27,7 @@
               ])
             ]
           ),
-          'deadLine'=>"未設定",
+          'deadLine'=>$card['card_date'],
           'files'=>array([
             'id'=>$card['file_no'],
             'name'=>$card['file_name'],
