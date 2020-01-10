@@ -5,7 +5,8 @@ export default () => {
       projects: [],
       id: null,
       isEdit: false,
-      editInfo: null
+      editInfo: null,
+      projectFK: null
     },
     getters: {
       projectIndex (state) {
@@ -47,7 +48,8 @@ export default () => {
       }
     },
     mutations: {
-      createProject (state, data) {
+      createProject (state, { data, FK }) {
+        if (FK)state.projectFK = FK
         state.projects.push(data)
       },
       getProjectsList (state, data) {
@@ -100,10 +102,11 @@ export default () => {
               body: new URLSearchParams(`mem_no=${rootState['memberStore'].userInfo.mem_no}&pro_col=${data.info.color}&pro_title=${data.info.title}`)
             })
               .then(res => res.json())
-              .then(json => json)
+              .then(json => commit('createProject', { data, FK: json.data }))
               .catch(err => err)
+          } else {
+            commit('createProject', { data })
           }
-          commit('createProject', data)
           resolve()
         })
       },
@@ -150,7 +153,7 @@ export default () => {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
               },
-              body: JSON.stringify({ projectId: state.id, card })
+              body: JSON.stringify({ projectId: state.projectFK || state.id, card })
             })
               .then(res => res.json())
               .then(json => console.log(json))
