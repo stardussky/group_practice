@@ -6,9 +6,23 @@
     $res->bindParam(':mem_id', $_POST['mem_id']);
     $res->bindParam(':mem_psw', $_POST['mem_psw']);
     $res->execute();
-    if($res->rowCount() > 0){
+
+    $sql = "select `AUTO_INCREMENT`, `TABLE_NAME` FROM INFORMATION_SCHEMA.TABLES 
+    WHERE TABLE_SCHEMA = 'dd104g3' AND (TABLE_NAME = 'program' OR TABLE_NAME = 'card')";
+    $autoInc = $pdo->prepare($sql);
+    $autoInc->execute();
+
+    if($res->rowCount()){
       $member = $res->fetchObject();
-      echo json_encode(['status'=>'success', 'content'=>'登入成功', 'data'=>$member]);
+      $id = [];
+      foreach($autoInc->fetchAll(PDO::FETCH_ASSOC) as $info){
+        $id[]=[$info['TABLE_NAME']=>$info['AUTO_INCREMENT']];
+      }
+      echo json_encode([
+        'status'=>'success', 
+        'content'=>'登入成功', 
+        'data'=>['user'=>$member, 'id'=>$id]
+      ]);
       session_start();
       foreach($member as $key=>$info){
         $_SESSION[$key] = $info;
