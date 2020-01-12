@@ -7,10 +7,12 @@
       {{ list.status }}
     </div>
     <draggable
-      v-model="moveList"
+      v-model="todoList"
       class="card_body"
       v-bind="dragOptions"
       @dragstart.native="changeEditStatus(false)"
+      @end="closeDrag"
+      @change="changeHandler({step, $event})"
     >
       <TodoCard
         v-for="(todo, index) in list.todo"
@@ -26,8 +28,8 @@
 <script>
 import TodoCard from './module/TodoCard'
 import draggable from 'vuedraggable'
-import { mapState, mapActions, mapMutations } from 'vuex'
-import { ref, computed } from '@vue/composition-api'
+import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
+import { ref } from '@vue/composition-api'
 export default {
   name: 'CardContent',
   components: {
@@ -60,25 +62,27 @@ export default {
       ghostClass: 'ghost',
       scroll: true
     })
-    const moveList = computed({
-      get () {
-        return props.list.todo
-      },
-      set (val) {
-        emit('moveList', val)
-      }
-    })
+    const closeDrag = () => emit('closeDrag')
     return {
       dragOptions,
-      moveList
+      closeDrag
     }
   },
   computed: {
-    ...mapState('pmStore', ['isEdit'])
+    ...mapState('pmStore', ['isEdit']),
+    ...mapGetters('pmStore', ['projectIndex']),
+    todoList: {
+      get () {
+        return this.list.todo
+      },
+      set (val) {
+        this.moveList({ projectIndex: this.projectIndex, step: this.step, val })
+      }
+    }
   },
   methods: {
-    ...mapActions('pmStore', ['EDIT_TODO_CARD', 'DROP_TODO']),
-    ...mapMutations('pmStore', ['changeEditStatus']),
+    ...mapActions('pmStore', ['EDIT_TODO_CARD', 'DRAG_LIST']),
+    ...mapMutations('pmStore', ['changeEditStatus', 'moveList']),
     editCard (info) {
       if (this.isEdit) {
         new Promise(resolve => {
@@ -88,6 +92,9 @@ export default {
       } else {
         this.EDIT_TODO_CARD(info)
       }
+    },
+    changeHandler ({ step, $event: { added, removed } }) {
+      this.DRAG_LIST({ step, added, removed })
     }
   }
 }
@@ -95,11 +102,12 @@ export default {
 
 <style lang='scss'>
 .cardContent {
-  min-width: 300px;
+  min-width: 320px;
   height: 100%;
   border-radius: 20px;
   background-color: rgba($white, .65);
   margin-right: 10px;
+  box-shadow: 1px 1px 3px $shadow;
   .card_head {
     @include cardHead;
   }

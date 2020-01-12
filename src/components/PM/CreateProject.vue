@@ -31,7 +31,7 @@ import { ref, computed } from '@vue/composition-api'
 export default {
   name: 'CreateProject',
   props: {
-    projectIndex: {
+    projectId: {
       type: String,
       required: true
     }
@@ -42,7 +42,7 @@ export default {
     const selectColor = ref(null)
     const project = computed(() => {
       return {
-        id: props.projectIndex,
+        id: props.projectId || Date.now() + '',
         info: {
           title: name.value,
           color: selectColor.value

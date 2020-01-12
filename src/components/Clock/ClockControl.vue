@@ -109,7 +109,7 @@ export default {
   @include media(767px){
     position: absolute;
     top: 60px;
-    right: 25px;
+    right: 7%;
     background-color: transparent;
     .switch {
       @include font(-.875);

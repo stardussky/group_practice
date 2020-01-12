@@ -3,7 +3,7 @@ import * as THREE from 'three'
 import GLTFLoader from 'three-gltf-loader'
 import { CSS2DRenderer } from 'three-css2drender'
 import transformModel from './transformModel'
-import stats from 'three-stats'
+// import stats from 'three-stats'
 import { Particle, RainDrop } from './particleSystem'
 import { CircleButton } from './button'
 import { TimelineMax } from 'gsap'
@@ -11,7 +11,7 @@ const OrbitControls = require('three-orbitcontrols')
 const textureLoader = new THREE.TextureLoader()
 let scene, renderer, labelRenderer, camera, cameraControl, width, height, aspect, animation
 let rendererStatus, skyBox, particle
-let statsUI
+// let statsUI
 const dayTimeTextures = ['mat_ft.jpg', 'mat_bk.jpg', 'mat_up.jpg', 'mat_dn.jpg', 'mat_rt.jpg', 'mat_lf.jpg']
 const nightTimeTextures = ['mat_ft_n.jpg', 'mat_bk_n.jpg', 'mat_up_n.jpg', 'mat_dn_n.jpg', 'mat_rt_n.jpg', 'mat_lf_n.jpg']
 const rainTimeTextures = ['mat_ft_r.jpg', 'mat_bk_r.jpg', 'mat_up_r.jpg', 'mat_dn_r.jpg', 'mat_rt_r.jpg', 'mat_lf_r.jpg']
@@ -118,8 +118,8 @@ export function init (refs, vm) {
   })
 
   // debugger
-  statsUI = new stats.Stats()
-  refs.stats.append(statsUI.domElement)
+  // statsUI = new stats.Stats()
+  // refs.stats.append(statsUI.domElement)
   // var directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight);
   // scene.add(directionalLightHelper);
   // var axesHelper = new THREE.AxesHelper(5);
@@ -205,6 +205,6 @@ function render () {
   animation = requestAnimationFrame(render)
 
   // debugger
-  statsUI.update()
+  // statsUI.update()
 }
 export { animation }

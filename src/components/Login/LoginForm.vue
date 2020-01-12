@@ -165,7 +165,6 @@ export default {
     align-items: center;
     position: relative;
     padding: 0 10%;
-    border-radius: 0 0 20px 20px;
     >div {
       width: 250px;
     }
@@ -183,8 +182,10 @@ export default {
     }
   }
   @include media(479px){
+    height: 100%;
+    border-radius: 0;
     .select_mode{
-      top: 5px;
+      top: 10px;
       right: 5px;
     }
   }

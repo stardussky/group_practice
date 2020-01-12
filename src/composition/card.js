@@ -8,16 +8,6 @@ export default (props) => {
   const fileContent = ref([])
   const editCardId = ref(null)
 
-  const pushTodoContent = () => {
-    if (todoTitle.value) {
-      todoContentList.value.push({
-        id: Math.random() + '',
-        title: todoTitle.value,
-        lists: []
-      })
-      todoTitle.value = null
-    }
-  }
   const pushContentList = ({ id, list }) => {
     todoContentList.value.find(list => {
       return list.id === id
@@ -62,7 +52,6 @@ export default (props) => {
     dateStatus,
     todoContentList,
     fileContent,
-    pushTodoContent,
     pushContentList,
     pushFile,
     changeStatus,

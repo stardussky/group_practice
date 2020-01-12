@@ -27,7 +27,9 @@
             name="fade"
             mode="out-in"
           >
-            <router-view />
+            <keep-alive include="Clock">
+              <router-view />
+            </keep-alive>
           </transition>
         </div>
       </div>
@@ -61,7 +63,7 @@ import Setting from '../components/Setting'
 import Weather from '../components/Weather'
 import ProgressBar from '../components/ProgressBar'
 import { ref, watch } from '@vue/composition-api'
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapState, mapMutations } from 'vuex'
 export default {
   name: 'Home',
   components: {
@@ -86,6 +88,7 @@ export default {
       path.value = to.path
       pathInfo.value = to.meta
     })
+
     return {
       weather,
       path,
@@ -94,13 +97,36 @@ export default {
     }
   },
   computed: {
-    ...mapState('pmStore', ['id'])
+    ...mapState('pmStore', ['id']),
+    ...mapState(['isLogin'])
+  },
+  watch: {
+    isLogin (val) {
+      if (val) {
+        window.removeEventListener('beforeunload', this.beforeunloadLeave)
+      } else {
+        window.addEventListener('beforeunload', this.beforeunloadLeave)
+      }
+    }
   },
   created () {
+    window.addEventListener('beforeunload', this.beforeunloadLeave)
+    window.addEventListener('beforeunload', this.beforeunloadRecord)
     this.CHECK_LOGIN()
   },
+  destroyed () {
+    window.removeEventListener('beforeunload', this.beforeunloadLeave)
+    window.removeEventListener('beforeunload', this.beforeunloadRecord)
+  },
   methods: {
-    ...mapActions('memberStore', ['CHECK_LOGIN'])
+    ...mapActions('memberStore', ['CHECK_LOGIN']),
+    ...mapMutations('clockStore', ['selectTarget']),
+    beforeunloadLeave (e) {
+      (e || window.event).returnValue = ''
+    },
+    beforeunloadRecord (e) {
+      this.selectTarget(null)
+    }
   }
 }
 </script>

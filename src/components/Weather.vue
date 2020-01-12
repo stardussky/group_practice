@@ -121,7 +121,8 @@ export default {
     }
   }
   @include media(479px){
-    top: 45px;
+    top: 7.5px;
+    left: 110px;
     bottom: auto;
     > img {
       width: 30px;

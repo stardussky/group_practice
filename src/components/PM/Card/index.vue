@@ -90,6 +90,10 @@ export default {
       type: String,
       required: true
     },
+    cardId: {
+      type: String,
+      required: true
+    },
     color: {
       type: String,
       required: true
@@ -104,7 +108,7 @@ export default {
     }
   },
   setup (props) {
-    const { cardTitle, editCardId, setTodoClock, resetCard, dateStatus, deadLine, todoTitle, todoContentList, fileContent, pushTodoContent, pushContentList, pushFile, changeStatus, deleteTodoContent, deleteTodoList, deleteFile } = card(props)
+    const { cardTitle, editCardId, setTodoClock, resetCard, dateStatus, deadLine, todoTitle, todoContentList, fileContent, pushContentList, pushFile, changeStatus, deleteTodoContent, deleteTodoList, deleteFile } = card(props)
     return {
       cardTitle,
       deadLine,
@@ -113,7 +117,6 @@ export default {
       todoTitle,
       todoContentList,
       fileContent,
-      pushTodoContent,
       pushContentList,
       pushFile,
       deleteTodoContent,
@@ -126,13 +129,9 @@ export default {
   },
   computed: {
     ...mapGetters('pmStore', ['project']),
-    cardIndex () {
-      let length = this.project.list[0].todo.length
-      return length ? (+this.project.list[0].todo[length - 1].id + 1) + '' : '1'
-    },
     cardContent () {
       return {
-        id: this.editCardId || this.cardIndex,
+        id: this.editCardId || this.cardId || Date.now() + '',
         title: this.cardTitle || '待辦項目',
         status: this.dateStatus,
         deadLine: this.deadLine,
@@ -151,9 +150,22 @@ export default {
   deactivated () {
     if (this.isEdit) this.changeEditStatus(false)
   },
+  beforeDestroy () {
+    if (this.isEdit) this.EDIT_DONE(this.cardContent)
+  },
   methods: {
     ...mapActions('pmStore', ['PUSH_TODO_CARD', 'EDIT_DONE']),
     ...mapMutations('pmStore', ['changeEditStatus']),
+    pushTodoContent () {
+      if (this.todoTitle) {
+        this.todoContentList.push({
+          id: Date.now() + '',
+          title: this.todoTitle,
+          lists: []
+        })
+        this.todoTitle = null
+      }
+    },
     pushTodoCard () {
       this.PUSH_TODO_CARD(this.cardContent)
       this.resetCard()

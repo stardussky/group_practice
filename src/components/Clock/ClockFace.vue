@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import { ref, computed, onMounted, onUnmounted } from '@vue/composition-api'
+import { ref, computed, onMounted, onBeforeUnmount } from '@vue/composition-api'
 import clockTime from '@/mixins/clockTime'
 export default {
   name: 'ClockFace',
@@ -84,7 +84,7 @@ export default {
       setDasharray()
       window.addEventListener('resize', setDasharray)
     })
-    onUnmounted(() => {
+    onBeforeUnmount(() => {
       window.removeEventListener('resize', setDasharray)
     })
     return {

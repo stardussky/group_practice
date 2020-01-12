@@ -2,6 +2,7 @@
   <div class="cardView">
     <Card
       :project-id="project.id"
+      :card-id="cardIndex"
       :is-edit="isEdit"
       :edit-card="isEdit?editCardTarget:{}"
       :color="project.info.color"
@@ -13,7 +14,7 @@
       :list="list"
       :color="project.info.color"
       :step="index"
-      @moveList="DRAG_LIST({$event, index})"
+      @closeDrag="closeDrag"
     />
     <Tour :steps="CardViewSteps" />
   </div>
@@ -24,7 +25,7 @@ import CardContent from '@/components/PM/CardContent/index'
 import Card from '@/components/PM/Card/index'
 import Tour from '@/components/Tour'
 import tourStep from '@/composition/tour'
-import { mapState, mapGetters, mapActions } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 export default {
   name: 'CardView',
   components: {
@@ -32,23 +33,26 @@ export default {
     Card,
     Tour
   },
-  setup (props, { root }) {
+  setup (props, { root, emit }) {
     const { CardViewSteps } = tourStep(root)
+    const closeDrag = () => emit('closeDrag')
     return {
-      CardViewSteps
+      CardViewSteps,
+      closeDrag
     }
   },
   computed: {
     ...mapState('pmStore', ['isEdit']),
-    ...mapGetters('pmStore', ['project', 'editCardTarget'])
+    ...mapState('memberStore', ['cardId']),
+    ...mapGetters('pmStore', ['project', 'editCardTarget']),
+    cardIndex () {
+      return this.cardId ? this.cardId + '' : ''
+    }
   },
   watch: {
     project (val) {
       if (!val) this.$router.push({ name: 'ProjectManagement' })
     }
-  },
-  methods: {
-    ...mapActions('pmStore', ['DRAG_LIST'])
   }
 }
 </script>

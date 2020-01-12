@@ -62,7 +62,7 @@ export default {
   props: {
     deadLine: {
       type: String,
-      required: true
+      default: ''
     },
     dateStatus: {
       type: Boolean,
@@ -105,8 +105,13 @@ $input-hover-border-color: $gray;
 @import '~vue2-datepicker/scss/index.scss';
 .dateComponent {
   .mx-datepicker{
-      width: 200px;
+    width: 200px;
+    .mx-input-wrapper {
+      input {
+        appearance: none;
+      }
     }
+  }
   .title {
     display: flex;
     align-items: center;
@@ -141,7 +146,7 @@ $input-hover-border-color: $gray;
   }
   @include media(479px){
     .mx-datepicker{
-      width: 120px;
+      width: 140px;
     }
   }
 }

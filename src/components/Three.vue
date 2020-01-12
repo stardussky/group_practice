@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import { onMounted, onUnmounted } from '@vue/composition-api'
+import { onMounted, onBeforeUnmount } from '@vue/composition-api'
 import { init, handleWindowResize, changeRenderer, animation } from '../plugins/three/initThree'
 import enterRouter from '@/mixins/enterRouter'
 export default {
@@ -67,7 +67,7 @@ export default {
       handleWindowResize()
       window.addEventListener('resize', handleWindowResize)
     })
-    onUnmounted(() => {
+    onBeforeUnmount(() => {
       window.removeEventListener('resize', handleWindowResize)
       cancelAnimationFrame(animation)
     })

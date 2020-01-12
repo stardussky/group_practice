@@ -2,7 +2,7 @@
   <div class="pmView">
     <div>
       <CreateProject
-        :project-index="projectIndex"
+        :project-id="projectIndex"
         @createProject="CREATE_PROJECT"
       />
     </div>
@@ -50,15 +50,19 @@ export default {
   computed: {
     ...mapState(['isLogin']),
     ...mapState('pmStore', ['projects']),
-    ...mapState('memberStore', ['userInfo']),
+    ...mapState('memberStore', ['userInfo', 'projectId']),
     projectIndex () {
-      let length = this.projects.length
-      return length ? (+this.projects[length - 1].id + 1) + '' : '1'
+      return this.projectId ? this.projectId + '' : ''
     }
   },
-  mounted () {
+  watch: {
+    isLogin (val) {
+      if (val) this.GET_PROJECTS_LIST(this.userInfo.mem_no)
+    }
+  },
+  async mounted () {
     this.clearProjectId()
-    if (this.isLogin) this.GET_PROJECTS_LIST(this.userInfo.mem_no)
+    if (this.isLogin) await this.GET_PROJECTS_LIST(this.userInfo.mem_no)
   },
   methods: {
     ...mapActions('pmStore', ['CREATE_PROJECT', 'GET_PROJECTS_LIST']),

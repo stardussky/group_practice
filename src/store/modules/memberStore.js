@@ -1,12 +1,20 @@
+import router from '@/router'
 export default () => {
   return {
     namespaced: true,
     state: {
-      userInfo: null
+      userInfo: null,
+      projectId: null,
+      cardId: null
     },
     mutations: {
-      setUserInfo (state, payload) {
-        state.userInfo = payload
+      setUserInfo (state, { user, id: [{ card }, { program }] }) {
+        state.userInfo = user
+        state.projectId = program
+        state.cardId = card
+      },
+      addId (state, name) {
+        if (state[name]) state[name]++
       }
     },
     actions: {
@@ -44,6 +52,7 @@ export default () => {
             .then(res => res.json())
             .then(json => {
               commit('changeLoginStatus', false, { root: true })
+              router.go(0)
             }).catch(err => err)
           resolve()
         })

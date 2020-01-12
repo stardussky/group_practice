@@ -56,8 +56,12 @@ export default {
 .calendarReminder {
   width: 300px;
   height: 100%;
-  background-image: linear-gradient(-45deg, rgba($third, .9), rgba($secondary, .9));
-  border-radius: 0 0 20px 0;
+      background-image: linear-gradient(
+      -30deg,
+      rgba($primary, 1),
+      rgba($third, 1)
+    );
+  border-radius: 0;
   box-shadow: -1px 0 3px $shadow;
   .reminder_header {
     width: 100%;
@@ -88,9 +92,8 @@ export default {
     padding-bottom: 10px;
   }
   @include media(479px){
-    width: calc(100vw - 20px);
+    width: 100vw;
     min-width: 320px;
-    border-radius: 20px;
   }
 }
 </style>

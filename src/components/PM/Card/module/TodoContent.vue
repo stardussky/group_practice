@@ -83,7 +83,7 @@ export default {
         emit('enterContentList', {
           id: props.content.id,
           list: {
-            id: Math.random() + '',
+            id: Date.now() + '',
             status: false,
             isClock: false,
             content: inputValue.value,

@@ -19,13 +19,15 @@
     outline: none;
     text-align: center;
     padding-right: 30px;
+    border-radius: 0;
   }
   @include media(479px){
-    height: 30px;
+    height: 40px;
     @include font(1);
     >input {
       width: 280px;
       @include font(1);
+      padding: 0 30px 5px 0;
     }
   }
 }
@@ -47,8 +49,8 @@
     opacity: 1;
   }
   @include media(479px){
-    height: 30px;
-    @include font(1, 30px);
+    height: 40px;
+    @include font(1, 40px);
   }
 }
 @mixin todoCard(){

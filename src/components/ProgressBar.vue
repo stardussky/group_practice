@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { ref, computed, onMounted, onUnmounted } from '@vue/composition-api'
+import { ref, computed, onMounted, onBeforeUnmount } from '@vue/composition-api'
 import enterRouter from '@/mixins/enterRouter'
 export default {
   name: 'ProgressBar',
@@ -82,7 +82,7 @@ export default {
     onMounted(() => {
       window.addEventListener('resize', resizeHandler)
     })
-    onUnmounted(() => {
+    onBeforeUnmount(() => {
       window.removeEventListener('resize', resizeHandler)
     })
     return {
@@ -159,6 +159,7 @@ export default {
     }
   }
   @include media(479px){
+    display: none;
     width: calc(100% - 20px);
     min-width: 300px;
     height: auto;

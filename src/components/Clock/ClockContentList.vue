@@ -48,7 +48,7 @@ export default {
 .clockContentList {
   width: 50%;
   min-width: 250px;
-  max-width: 300px;
+  max-width: 400px;
   height: 100%;
   border-radius: 20px;
   background-color: rgba($white, .65);
@@ -76,6 +76,7 @@ export default {
     }
   }
   @include media(479px){
+    max-width: 320px;
     .list {
       height: calc(100% - 30px);
     }

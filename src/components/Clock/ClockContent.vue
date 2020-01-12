@@ -71,7 +71,7 @@ export default {
         display: block;
         position: absolute;
         top: 15px;
-        right: 15px;
+        right: 5%;
         z-index: 1;
         @include switchBtn;
       }
@@ -81,7 +81,7 @@ export default {
     }
     @include media(479px){
       .select_list{
-        top: 5px;
+        top: 10px;
         right: 5px;
       }
     }

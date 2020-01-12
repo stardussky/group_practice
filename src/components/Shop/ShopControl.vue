@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import { ref, computed, watch, onMounted, onUnmounted, onActivated } from '@vue/composition-api'
+import { ref, computed, watch, onMounted, onBeforeUnmount, onActivated } from '@vue/composition-api'
 export default {
   name: 'ShopControl',
   props: {
@@ -116,7 +116,7 @@ export default {
     watch(disbaled, (val) => { if (val)disableHandler() })
     onMounted(() => setTimeHandler())
     onActivated(() => setTimeHandler())
-    onUnmounted(() => clearTime(setTime.value))
+    onBeforeUnmount(() => clearTime(setTime.value))
     return {
       index
     }
@@ -150,7 +150,7 @@ export default {
     vertical-align: middle;
     width: 280px;
     height: 100%;
-    background-image: linear-gradient(to right, rgba($secondary, .9),  rgba($third, .9));
+    background-image: linear-gradient(-30deg,rgba($primary, 1),rgba($third, 1));
     padding: 50px 20px 10px;
     position: relative;
     .info {

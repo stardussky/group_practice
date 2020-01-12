@@ -47,7 +47,7 @@ export default {
     @include positionCenter;
     width: 500px;
     height: 300px;
-    background-image: linear-gradient(to right, rgba($secondary, .9),  rgba($third, .9));
+    background-image: linear-gradient(-30deg,rgba($primary, 1),rgba($third, 1));
     box-shadow: 1px 1px 3px $shadow;
     padding: 20px;
     border-radius: 20px;
@@ -123,7 +123,6 @@ export default {
           &::before{
             transform: scaleX(1);
             transform-origin: left;
-
           }
         }
       }
@@ -135,6 +134,13 @@ export default {
           color: $white;
         }
       }
+    }
+    @include media(767px){
+      width: 100%;
+    }
+    @include media(479px){
+      background-image: none;
+      background-color: rgba($white, .3);
     }
   }
 </style>

@@ -17,7 +17,7 @@
           alt="calendar"
           width="20"
         >
-        <p>{{ todo.deadLine }}</p>
+        <p>{{ todo.deadLine || '未設定' }}</p>
       </div>
       <div class="todo_done">
         <img

@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { computed, onMounted, onUnmounted } from '@vue/composition-api'
+import { computed, onMounted, onBeforeUnmount } from '@vue/composition-api'
 import fileReader from '@/composition/fileReader'
 export default {
   name: 'FileComponent',
@@ -58,7 +58,7 @@ export default {
     onMounted(() => {
       reader.addEventListener('load', fileHandler)
     })
-    onUnmounted(() => {
+    onBeforeUnmount(() => {
       reader.removeEventListener('load', fileHandler)
     })
     return {

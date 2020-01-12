@@ -69,5 +69,9 @@ export default {
   @include media(1023px){
     border-radius: 20px;
   }
+  @include media(479px){
+    border-radius: 0;
+    height: 100%;
+  }
 }
 </style>

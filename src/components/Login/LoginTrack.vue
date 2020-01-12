@@ -56,7 +56,7 @@ export default {
   @include positionCenter(y);
   width: 100%;
   height: 300px;
-  background-image: linear-gradient(to right, rgba($secondary, .9),  rgba($third, .9));
+  background-image: linear-gradient(-30deg,rgba($primary, .9),rgba($third, .9));
   outline: 1px solid $white;
   outline-offset: 10px;
   display: flex;

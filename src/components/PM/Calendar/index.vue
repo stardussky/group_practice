@@ -85,5 +85,8 @@ export default {
   top: 0;
   right: 0;
   z-index: 99;
+  @include media(479px) {
+    height: 100%;
+  }
 }
 </style>

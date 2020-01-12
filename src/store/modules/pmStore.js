@@ -5,8 +5,7 @@ export default () => {
       projects: [],
       id: null,
       isEdit: false,
-      editInfo: null,
-      projectFK: null
+      editInfo: null
     },
     getters: {
       projectIndex (state) {
@@ -48,12 +47,19 @@ export default () => {
       }
     },
     mutations: {
-      createProject (state, { data, FK }) {
-        if (FK)state.projectFK = FK
+      createProject (state, data) {
         state.projects.push(data)
       },
       getProjectsList (state, data) {
         state.projects = data
+        // if (!state.projects.length)state.projects = data
+        // else {
+        //   data.forEach((info, index) => {
+        //     if (info.id !== state.projects[index].id) {
+        //       state.projects.push(data)
+        //     }
+        //   })
+        // }
       },
       getProject (state, { getters, id, json }) {
         state.isEdit = false
@@ -89,12 +95,12 @@ export default () => {
       deletePmClock (state, { projectIndex, step, todoIndex, contentIndex, listIndex }) {
         state.projects[projectIndex].list[step].todo[todoIndex].content[contentIndex].lists[listIndex].isClock = false
       },
-      dragList (state, { getters, payload: { $event: list, index } }) {
-        state.projects[getters.projectIndex].list[index].todo = list
+      moveList (state, { projectIndex, step, val }) {
+        state.projects[projectIndex].list[step].todo = val
       }
     },
     actions: {
-      CREATE_PROJECT ({ commit, rootState }, data) {
+      CREATE_PROJECT ({ commit, rootState, rootGetters }, data) {
         return new Promise(resolve => {
           if (rootState.isLogin) {
             fetch('/phpLab/dd104g3/pm/createProject.php', {
@@ -102,11 +108,11 @@ export default () => {
               body: new URLSearchParams(`mem_no=${rootState['memberStore'].userInfo.mem_no}&pro_col=${data.info.color}&pro_title=${data.info.title}`)
             })
               .then(res => res.json())
-              .then(json => commit('createProject', { data, FK: json.data }))
-              .catch(err => err)
-          } else {
-            commit('createProject', { data })
+              .then(json => json)
+              .catch(err => console.log(err))
           }
+          commit('createProject', data)
+          commit('memberStore/addId', 'projectId', { root: true })
           resolve()
         })
       },
@@ -119,8 +125,9 @@ export default () => {
             .then(res => res.json())
             .then(json => {
               if (json.status === 'success') commit('getProjectsList', json.data)
+              else commit('getProjectsList', [])
             })
-            .catch(err => err)
+            .catch(err => console.log(err))
           resolve()
         })
       },
@@ -153,13 +160,14 @@ export default () => {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
               },
-              body: JSON.stringify({ projectId: state.projectFK || state.id, card })
+              body: JSON.stringify({ projectId: state.id, card })
             })
               .then(res => res.json())
-              .then(json => console.log(json))
+              .then(json => json)
               .catch(err => err)
           }
           commit('pushTodoCard', { getters, card })
+          commit('memberStore/addId', 'cardId', { root: true })
           resolve()
         })
       },
@@ -169,8 +177,21 @@ export default () => {
           resolve()
         })
       },
-      EDIT_DONE ({ commit, getters }, card) {
+      EDIT_DONE ({ commit, getters, rootState, state }, card) {
         return new Promise(resolve => {
+          if (rootState.isLogin) {
+            fetch('/phpLab/dd104g3/pm/editDone.php', {
+              method: 'POST',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ projectId: state.id, card })
+            })
+              .then(res => res.json())
+              .then(json => json)
+              .catch(err => console.log(err))
+          }
           commit('editDone', { getters, card })
           resolve()
         })
@@ -193,9 +214,17 @@ export default () => {
           resolve()
         })
       },
-      DRAG_LIST ({ commit, getters }, payload) {
+      DRAG_LIST ({ rootState, state }, { step, added }) {
         return new Promise(resolve => {
-          commit('dragList', { getters, payload })
+          if (rootState.isLogin && added) {
+            fetch('/phpLab/dd104g3/pm/dragList.php', {
+              method: 'POST',
+              body: new URLSearchParams(`pro_no=${state.id}&step=${step}&card_no=${added.element.id}`)
+            })
+              .then(res => res.text())
+              .then(json => json)
+              .catch(err => console.log(err))
+          }
           resolve()
         })
       }

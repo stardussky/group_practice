@@ -60,8 +60,9 @@ export default {
   width: 80px;
   height: 100%;
   background-color: $white;
-  border-radius: 0 0 20px 0;
+  border-radius: 0;
   overflow-y: auto;
+  box-shadow: -1px 0 3px $shadow;
   .calendar_month {
     width: 100%;
     @include font(10);
@@ -80,7 +81,7 @@ export default {
       right: 0;
       width: 3px;
       height: 100%;
-      background-image: linear-gradient(to bottom, $secondary, $third);
+      background-image: linear-gradient(to bottom,rgba($primary, 1),rgba($third, 1));
     }
     li {
       text-align: center;
@@ -120,7 +121,7 @@ export default {
         right: 0;
         width: 0;
         height: 100%;
-        background-image: linear-gradient(to left, $third, $secondary);
+        background-color: $primary;
         transition: all .3s;
         z-index: -1;
       }

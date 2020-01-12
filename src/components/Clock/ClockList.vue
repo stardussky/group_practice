@@ -21,6 +21,7 @@
       </div>
       <div class="status">
         <div
+          v-if="targetInfo && list.info.id === targetInfo.info.id"
           class="control"
           @click="toggleStatus(!isPlay)"
         >
