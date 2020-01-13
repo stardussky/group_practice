@@ -100,8 +100,8 @@ export default () => {
     actions: {
       CREATE_PROJECT ({ commit, rootState }, data) {
         return new Promise(resolve => {
-          commit('changeLoadingStatue', true, { root: true })
           if (rootState.isLogin) {
+            commit('changeLoadingStatue', true, { root: true })
             fetch('/phpLab/dd104g3/pm/createProject.php', {
               method: 'POST',
               body: new URLSearchParams(`mem_no=${rootState['memberStore'].userInfo.mem_no}&pro_col=${data.info.color}&pro_title=${data.info.title}`)
