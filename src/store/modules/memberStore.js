@@ -21,8 +21,9 @@ export default () => {
             if (json.content === '登入成功') {
               commit('changeLoginStatus', true, { root: true })
               commit('setUserInfo', json.data)
-              commit('changeLoadingStatue', false, { root: true })
+              commit('pmStore/clearProjects', null, { root: true })
             }
+            commit('changeLoadingStatue', false, { root: true })
             return json
           }).catch(err => err)
           resolve(result)

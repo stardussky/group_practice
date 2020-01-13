@@ -70,6 +70,9 @@ export default () => {
       clearProjectId (state) {
         state.id = null
       },
+      clearProjects (state) {
+        state.projects = []
+      },
       pushTodoCard (state, { getters, card, id }) {
         if (id)card.id = id
         state.projects[getters.projectIndex].list[0].todo.push(card)
