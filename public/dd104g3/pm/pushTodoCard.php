@@ -15,8 +15,8 @@ try {
   $res->bindParam(':card_date', $cardDate);
   $res->bindParam(':card_sta', $cardStatus);
   $res->execute();
+  $lastCardId = $pdo->lastInsertId();
   if ($data['content']) {
-    $lastCardId = $pdo->lastInsertId();
     foreach ($data['content'] as $info) {
       $sql = 'insert into `todo` 
         (card_no, pro_no, todo_title) values
@@ -26,8 +26,8 @@ try {
       $res->bindParam(':pro_no', $pro_no);
       $res->bindParam(':todo_title', $info['title']);
       $res->execute();
+      $lastId = $pdo->lastInsertId();
       if ($info['lists']) {
-        $lastId = $pdo->lastInsertId();
         foreach ($info['lists'] as $list) {
           $listStatus = $list['status'] ? '1' : '0';
           $isClock = $list['isClock'] ? '1' : '0';
@@ -46,7 +46,7 @@ try {
       }
     }
   }
-  echo json_encode(['status' => 'success', 'content' => '新建成功']);
+  echo json_encode(['status' => 'success', 'content' => '新建成功', 'data'=>$lastCardId]);
 } catch (PDOException $e) {
   echo $e->getLine();
   echo $e->getMessage();

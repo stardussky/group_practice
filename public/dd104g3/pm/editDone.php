@@ -3,6 +3,7 @@ try {
   require_once('../pdo.php');
   $jsonData = json_decode(file_get_contents('php://input'), true);
   $pro_no = $jsonData['projectId'];
+  $card_type = $jsonData['step'];
   $data = $jsonData['card'];
   $sql = "delete FROM `card` WHERE card_no = :card_no";
   $res = $pdo->prepare($sql);
@@ -12,12 +13,13 @@ try {
   $cardDate = $data['deadLine'] == '未設定' ? null : $data['deadLine'];
   $cardStatus = $data['status'] ? '1' : '0';
   $sql = 'insert into `card` 
-    (pro_no, card_no,  card_name, card_date, card_sta) values 
-    (:pro_no, :card_no, :card_name, :card_date, :card_sta)';
+    (pro_no, card_no,  card_name, card_type, card_date, card_sta) values 
+    (:pro_no, :card_no, :card_name, :card_type, :card_date, :card_sta)';
   $res = $pdo->prepare($sql);
   $res->bindParam(':pro_no', $pro_no);
   $res->bindParam(':card_no', $data['id']);
   $res->bindParam(':card_name', $data['title']);
+  $res->bindParam(':card_type', $card_type);
   $res->bindParam(':card_date', $cardDate);
   $res->bindParam(':card_sta', $cardStatus);
   $res->execute();

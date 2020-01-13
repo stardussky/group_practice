@@ -8,11 +8,17 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   strict: true,
   state: {
-    isLogin: false
+    isLogin: false,
+    isLoading: false
   },
   mutations: {
     changeLoginStatus (state, status) {
       state.isLogin = status
+    },
+    changeLoadingStatue (state, status) {
+      if (status) this._vm.$Progress.start()
+      else this._vm.$Progress.finish()
+      state.isLoading = status
     }
   },
   actions: {

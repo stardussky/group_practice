@@ -17,7 +17,11 @@
       </div>
     </div>
     <ul class="reminder_list">
-      <CalendarReminderItem />
+      <CalendarReminderItem
+        v-for="cards in maturityCard[viewDate.index]"
+        :key="cards.card_no"
+        :cards="cards"
+      />
     </ul>
   </div>
 </template>
@@ -33,6 +37,10 @@ export default {
   props: {
     viewDate: {
       type: Object,
+      required: true
+    },
+    maturityCard: {
+      type: Array,
       required: true
     }
   },

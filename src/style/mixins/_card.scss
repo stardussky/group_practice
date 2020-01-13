@@ -81,6 +81,31 @@
     transition: all .3s;
     z-index: -1;
   }
+  .todo_title {
+    @include font(2);
+    margin: 10px 0 5px;
+    >p{
+      word-wrap: break-word;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 10;
+    }
+  }
+  .todo_info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .todo_date {
+    display: flex;
+    align-items: center;
+    p {
+      @include font;
+      margin-left: 5px;
+    }
+  }
   &:hover {
     .card_color {
       height: 100%;

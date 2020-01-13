@@ -90,10 +90,6 @@ export default {
       type: String,
       required: true
     },
-    cardId: {
-      type: String,
-      required: true
-    },
     color: {
       type: String,
       required: true
@@ -131,7 +127,7 @@ export default {
     ...mapGetters('pmStore', ['project']),
     cardContent () {
       return {
-        id: this.editCardId || this.cardId || Date.now() + '',
+        id: this.editCardId || Date.now() + '',
         title: this.cardTitle || '待辦項目',
         status: this.dateStatus,
         deadLine: this.deadLine,
@@ -146,12 +142,6 @@ export default {
         if (!val) this.EDIT_DONE(this.cardContent)
       }
     }
-  },
-  deactivated () {
-    if (this.isEdit) this.changeEditStatus(false)
-  },
-  beforeDestroy () {
-    if (this.isEdit) this.EDIT_DONE(this.cardContent)
   },
   methods: {
     ...mapActions('pmStore', ['PUSH_TODO_CARD', 'EDIT_DONE']),

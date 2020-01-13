@@ -3,23 +3,17 @@ export default () => {
   return {
     namespaced: true,
     state: {
-      userInfo: null,
-      projectId: null,
-      cardId: null
+      userInfo: null
     },
     mutations: {
-      setUserInfo (state, { user, id: [{ card }, { program }] }) {
-        state.userInfo = user
-        state.projectId = program
-        state.cardId = card
-      },
-      addId (state, name) {
-        if (state[name]) state[name]++
+      setUserInfo (state, json) {
+        state.userInfo = json
       }
     },
     actions: {
       SUBMIT ({ commit }, { url, data }) {
         return new Promise(resolve => {
+          commit('changeLoadingStatue', true, { root: true })
           let result = fetch(url, {
             method: 'POST',
             body: new URLSearchParams(data)
@@ -27,6 +21,7 @@ export default () => {
             if (json.content === '登入成功') {
               commit('changeLoginStatus', true, { root: true })
               commit('setUserInfo', json.data)
+              commit('changeLoadingStatue', false, { root: true })
             }
             return json
           }).catch(err => err)

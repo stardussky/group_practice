@@ -49,12 +49,16 @@ export default () => {
     actions: {
       GET_CLOCK_LIST ({ commit, rootState }) {
         return new Promise(resolve => {
+          commit('changeLoadingStatue', true, { root: true })
           fetch('/phpLab/dd104g3/clock/getClockList.php', {
             method: 'POST',
             body: new URLSearchParams(`mem_no=${rootState.memberStore.userInfo.mem_no}`)
           })
             .then(res => res.json())
-            .then(json => commit('getClockList', json.data))
+            .then(json => {
+              commit('getClockList', json.data)
+              commit('changeLoadingStatue', false, { root: true })
+            })
             .catch(err => console.log(err))
           resolve()
         })
@@ -82,6 +86,7 @@ export default () => {
       DONE_CLOCK ({ commit, dispatch, rootState }, payload) {
         return new Promise(resolve => {
           if (rootState.isLogin) {
+            commit('changeLoadingStatue', true, { root: true })
             fetch('/phpLab/dd104g3/clock/clockStatus.php', {
               method: 'POST',
               body: new URLSearchParams(`todo_cont_no=${payload.todoContentId}&todo_cont_sta=1&todo_cont_clock=1`)
@@ -89,6 +94,7 @@ export default () => {
               .then(res => res.json())
               .then(json => {
                 if (json.status === 'success')commit('doneClock', payload)
+                commit('changeLoadingStatue', false, { root: true })
               })
               .catch(err => console.log(err))
           } else {
@@ -100,6 +106,7 @@ export default () => {
       DELETE_CLOCK ({ commit, dispatch, rootState }, payload) {
         return new Promise(resolve => {
           if (rootState.isLogin) {
+            commit('changeLoadingStatue', true, { root: true })
             fetch('/phpLab/dd104g3/clock/clockStatus.php', {
               method: 'POST',
               body: new URLSearchParams(`todo_cont_no=${payload.todoContentId}&todo_cont_sta=0&todo_cont_clock=0`)
@@ -107,6 +114,7 @@ export default () => {
               .then(res => res.json())
               .then(json => {
                 if (json.status === 'success')commit('deleteClock', payload)
+                commit('changeLoadingStatue', false, { root: true })
               })
               .catch(err => console.log(err))
           } else {

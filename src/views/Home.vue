@@ -150,7 +150,7 @@ export default {
     .logo {
       cursor: pointer;
       position: fixed;
-      top: 40px;
+      top: 35px;
       left: 40px;
       width: 150px;
     }

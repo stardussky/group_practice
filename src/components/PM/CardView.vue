@@ -2,7 +2,6 @@
   <div class="cardView">
     <Card
       :project-id="project.id"
-      :card-id="cardIndex"
       :is-edit="isEdit"
       :edit-card="isEdit?editCardTarget:{}"
       :color="project.info.color"
@@ -43,17 +42,16 @@ export default {
   },
   computed: {
     ...mapState('pmStore', ['isEdit']),
-    ...mapState('memberStore', ['cardId']),
-    ...mapGetters('pmStore', ['project', 'editCardTarget']),
-    cardIndex () {
-      return this.cardId ? this.cardId + '' : ''
-    }
+    ...mapGetters('pmStore', ['project', 'editCardTarget'])
   },
   watch: {
     project (val) {
       if (!val) this.$router.push({ name: 'ProjectManagement' })
     }
   }
+  // beforeRouteLeave  (to, from, next) {
+  //   console.log('a')
+  // }
 }
 </script>
 

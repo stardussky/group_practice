@@ -5,13 +5,13 @@
     </div>
     <ul class="calendar_days">
       <li
-        v-for="day in days"
+        v-for="(day, index) in days"
         :key="day.date"
-        @click="selectDate = {date: day.date, day: day.day}"
+        @click="selectDate = {date: day.date, day: day.day, index}"
       >
         <p>{{ day.day }}</p>
         <p>{{ day.date }}</p>
-      <!-- <span>1</span> -->
+        <span v-if="maturityCard.length && maturityCard[index].length">{{ maturityCard[index].length }}</span>
       </li>
     </ul>
   </div>
@@ -33,6 +33,10 @@ export default {
     viewDate: {
       type: Object,
       required: true
+    },
+    maturityCard: {
+      type: Array,
+      required: true
     }
   },
   setup (props, { emit }) {
@@ -40,11 +44,12 @@ export default {
       get () {
         return props.viewDate
       },
-      set ({ date, day }) {
+      set ({ date, day, index }) {
         emit('viewRemainder', {
           month: props.month,
           date,
-          day
+          day,
+          index
         })
       }
     })
@@ -104,8 +109,8 @@ export default {
       }
       span {
         position: absolute;
-        top: -5px;
-        left: -5px;
+        top: 0;
+        left: 0;
         width: 15px;
         height: 15px;
         background-color: $danger;
@@ -137,7 +142,7 @@ export default {
     }
   }
   @include media(479px){
-    width: 60px;
+    width: 70px;
     .calendar_month {
       @include font(5);
     }

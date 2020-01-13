@@ -76,24 +76,7 @@ export default {
   >div {
     width: 100%;
   }
-  .todo_title {
-    @include font(2);
-    margin: 10px 0 5px;
-    >p{
-      word-wrap: break-word;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: -webkit-box;
-      -webkit-box-orient: vertical;
-      -webkit-line-clamp: 10;
-    }
-  }
-  .todo_info {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .todo_date, .todo_done {
+  .todo_done {
     display: flex;
     align-items: center;
     p {

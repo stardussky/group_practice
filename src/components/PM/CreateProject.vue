@@ -30,19 +30,13 @@
 import { ref, computed } from '@vue/composition-api'
 export default {
   name: 'CreateProject',
-  props: {
-    projectId: {
-      type: String,
-      required: true
-    }
-  },
   setup (props, { emit }) {
     const colors = ref(['#81c7d4', '#a6c1ee', '#f8c3cd', '#F9BF45', '#EB7A77', '#86C166', '#777777'])
     const name = ref(null)
     const selectColor = ref(null)
     const project = computed(() => {
       return {
-        id: props.projectId || Date.now() + '',
+        id: Date.now() + '',
         info: {
           title: name.value,
           color: selectColor.value

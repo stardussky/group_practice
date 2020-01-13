@@ -2,7 +2,6 @@
   <div class="pmView">
     <div>
       <CreateProject
-        :project-id="projectIndex"
         @createProject="CREATE_PROJECT"
       />
     </div>
@@ -50,22 +49,25 @@ export default {
   computed: {
     ...mapState(['isLogin']),
     ...mapState('pmStore', ['projects']),
-    ...mapState('memberStore', ['userInfo', 'projectId']),
-    projectIndex () {
-      return this.projectId ? this.projectId + '' : ''
-    }
+    ...mapState('memberStore', ['userInfo'])
   },
   watch: {
-    isLogin (val) {
-      if (val) this.GET_PROJECTS_LIST(this.userInfo.mem_no)
+    async isLogin (val) {
+      if (val) {
+        await this.GET_PROJECTS_LIST(this.userInfo.mem_no)
+        await this.GET_MATURITY_CARD(this.userInfo.mem_no)
+      }
     }
   },
   async mounted () {
     this.clearProjectId()
-    if (this.isLogin) await this.GET_PROJECTS_LIST(this.userInfo.mem_no)
+    if (this.isLogin) {
+      await this.GET_PROJECTS_LIST(this.userInfo.mem_no)
+      await this.GET_MATURITY_CARD(this.userInfo.mem_no)
+    }
   },
   methods: {
-    ...mapActions('pmStore', ['CREATE_PROJECT', 'GET_PROJECTS_LIST']),
+    ...mapActions('pmStore', ['CREATE_PROJECT', 'GET_PROJECTS_LIST', 'GET_MATURITY_CARD']),
     ...mapMutations('pmStore', ['clearProjectId'])
   }
 }

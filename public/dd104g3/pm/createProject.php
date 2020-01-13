@@ -7,7 +7,8 @@
     $res->bindParam(':pro_col', $_POST['pro_col']);
     $res->bindParam(':pro_title', $_POST['pro_title']);
     $res->execute();
-    echo json_encode(['status'=>'success', 'content'=>'新建成功']);
+    $lastId = $pdo->lastInsertId();
+    echo json_encode(['status'=>'success', 'content'=>'新建成功', 'data'=>$lastId]);
   }catch(PDOException $e){
     echo $e->getLine();
     echo $e->getMessage();

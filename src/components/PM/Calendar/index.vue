@@ -11,8 +11,9 @@
         :month="info.nowMonth"
         :days="info.days"
         :view-date="viewDate"
+        :maturity-card="maturityCard"
         @viewRemainder="viewRemainder"
-        @back="back"
+        @back="view = 'CalendarView'"
       />
     </transition>
   </div>
@@ -22,6 +23,7 @@
 import CalendarView from './module/CalendarView'
 import CalendarReminder from './module/CalendarReminder'
 import { ref, onMounted } from '@vue/composition-api'
+import { mapState } from 'vuex'
 export default {
   name: 'Calendar',
   components: {
@@ -61,9 +63,6 @@ export default {
       view.value = 'CalendarReminder'
       viewDate.value = date
     }
-    const back = () => {
-      view.value = 'CalendarView'
-    }
     onMounted(() => {
       getCalendar()
     })
@@ -71,9 +70,11 @@ export default {
       view,
       calendar,
       viewDate,
-      viewRemainder,
-      back
+      viewRemainder
     }
+  },
+  computed: {
+    ...mapState('pmStore', ['maturityCard'])
   }
 }
 </script>
