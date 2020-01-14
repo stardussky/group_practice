@@ -1,20 +1,20 @@
 <template>
   <ValidationProvider
-    v-slot="{errors}"
+    v-slot="{errors, failed}"
     class="inputComponent"
     tag="div"
     :rules="rules"
   >
     <label>
       <input
-        v-model="inputValue"
+        v-model.trim="inputValue"
         :type="type"
         :name="name"
         :placeholder="placeholder"
         autocomplete="off"
       >
       <p>{{ field }}</p>
-      <span :class="{invalid: errors.length}" />
+      <span :class="{invalid: failed}" />
     </label>
     <p class="error">
       {{ errors[0] }}

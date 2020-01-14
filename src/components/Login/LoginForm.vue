@@ -125,12 +125,12 @@ export default {
   methods: {
     ...mapActions('memberStore', ['SUBMIT']),
     async submit () {
+      this.$refs.form.reset()
       let result = await this.SUBMIT({ url: this.url, data: this.inputFileInfo })
       this.formInfo[this.mode].fields.forEach(info => {
         if (info.name === 'headshot')info.value = `${require('@/assets/icon/user.svg')}`
         else info.value = ''
       })
-      this.$refs.form.reset()
       if (result.content === '註冊成功') this.changeMode = 1
       if (result.status === 'error') this.errorMsg = result.content
     }
