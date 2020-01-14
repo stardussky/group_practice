@@ -1,4 +1,3 @@
-import router from '@/router'
 export default () => {
   return {
     namespaced: true,
@@ -11,8 +10,9 @@ export default () => {
       }
     },
     actions: {
-      SUBMIT ({ commit }, { url, data }) {
+      SUBMIT ({ commit, rootState }, { url, data }) {
         return new Promise(resolve => {
+          if (rootState.isLoading) return
           commit('changeLoadingStatue', true, { root: true })
           let result = fetch(url, {
             method: 'POST',
@@ -48,7 +48,7 @@ export default () => {
             .then(res => res.json())
             .then(json => {
               commit('changeLoginStatus', false, { root: true })
-              router.go(0)
+              commit('pmStore/clearProjects', null, { root: true })
             }).catch(err => err)
           resolve()
         })

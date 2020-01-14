@@ -1,7 +1,7 @@
 <template>
   <div
     class="todoCard"
-    :class="{active: isEditTarget}"
+    :class="{active: isEditTarget, draggable: !isEditTarget}"
   >
     <div
       class="card_color"

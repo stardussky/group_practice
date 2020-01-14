@@ -16,9 +16,7 @@ try {
     $step0 = array();
     $step1 = array();
     $step2 = array();
-    $prevCardId = null;
-    $prevTodoId = null;
-    foreach ($cards as $card) {
+    foreach($cards as $card){     
       $contentList = [
         'content' => $card['todo_cont'],
         'id' => $card['todo_cont_no'],
@@ -29,7 +27,7 @@ try {
       $content = [
         'title' => $card['todo_title'],
         'id' => $card['todo_no'],
-        'lists' => $card['todo_cont_no'] ? [$contentList] : []
+        'lists' => []
       ];
       $file = [
         'id' => $card['file_no'],
@@ -37,55 +35,38 @@ try {
         'src' => $card['file_src']
       ];
       $info = [
-        'content' => $card['todo_no'] ? [$content] : [],
-        'files' => $card['file_no'] ? [$file] : [],
+        'content' => [],
+        'files' => [],
         'id' => $card['card_no'],
         'status' => $card['card_sta'] ? true : false,
         'title' => $card['card_name'],
         'deadLine' => $card['card_date']
       ];
-      switch ($card['card_type']) {
+      switch ($card['card_type']){
         case '0':
-          if ($card['card_no'] === $prevCardId) {
-            $lastIndex = count($step0) - 1;
-            if ($card['todo_no'] === $prevTodoId) {
-              $step0[$lastIndex]['content'][count($step0[$lastIndex]['content']) - 1]['lists'][] = $contentList;
-            } else {
-              $step0[$lastIndex]['content'][] = $content;
-            }
-            if($card['file_no'])$step0[$lastIndex]['files'][] = $file;
-          } else {
-            $step0[] = $info;
-          }
+          $step0[] = [
+            'cardInfo'=> $info,
+            'file'=>  $card['file_no'] ? $file : null,
+            'content'=> $card['todo_no'] ? $content : null,
+            'contentList'=> $card['todo_cont_no'] ? $contentList : null
+          ];
           break;
         case '1':
-          if ($card['card_no'] === $prevCardId) {
-            $lastIndex = count($step1) - 1;
-            if ($card['todo_no'] === $prevTodoId) {
-              $step1[$lastIndex]['content'][count($step1[$lastIndex]['content']) - 1]['lists'][] = $contentList;
-            } else {
-              $step1[$lastIndex]['content'][] = $content;
-            }
-            if($card['file_no'])$step0[$lastIndex]['files'][] = $file;
-          } else {
-            $step1[] = $info;
-          }
+          $step1[] = [
+            'cardInfo'=> $info,
+            'file'=>  $card['file_no'] ? $file : null,
+            'content'=> $card['todo_no'] ? $content : null,
+            'contentList'=> $card['todo_cont_no'] ? $contentList : null
+          ];
           break;
-        default;
-          if ($card['card_no'] === $prevCardId) {
-            $lastIndex = count($step2) - 1;
-            if ($card['todo_no'] === $prevTodoId) {
-              $step2[$lastIndex]['content'][count($step2[$lastIndex]['content']) - 1]['lists'][] = $contentList;
-            } else {
-              $step2[$lastIndex]['content'][] = $content;
-            }
-            if($card['file_no'])$step0[$lastIndex]['files'][] = $file;
-          } else {
-            $step2[] = $info;
-          }
+        default:
+          $step2[] = [
+            'cardInfo'=> $info,
+            'file'=>  $card['file_no'] ? $file : null,
+            'content'=> $card['todo_no'] ? $content : null,
+            'contentList'=> $card['todo_cont_no'] ? $contentList : null
+          ];
       }
-      $prevCardId = $card['card_no'];
-      $prevTodoId = $card['todo_no'];
     }
     echo json_encode(['status' => 'success', 'data' => array($step0, $step1, $step2)], JSON_NUMERIC_CHECK);
   } else {

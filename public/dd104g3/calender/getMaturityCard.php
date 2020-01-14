@@ -11,6 +11,7 @@
     $res->execute();
     if($res->rowCount()){
       $nowDate = date("d");
+      $month_days  = cal_days_in_month(CAL_GREGORIAN, date('m'), date('Y'));
       $dateList = [
         '0'=>[],
         '1'=>[],
@@ -24,10 +25,12 @@
       foreach($cards as $card){
         $datetime = new DateTime($card['card_date']);
         $cardDate = $datetime->format('d');
-        $range = $cardDate - $nowDate;
+        $range = $cardDate - $nowDate < 0 ? $cardDate - $nowDate + $month_days : $cardDate - $nowDate;
         $dateList[$range][] = $card;
       }
       echo json_encode(['status' => 'success', 'data' => $dateList]);
+    }else {
+      echo json_encode(['status' => 'error', 'content' => '沒有資料']);
     }
   }catch(PDOException $e){
     echo $e->getLine();

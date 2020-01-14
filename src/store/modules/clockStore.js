@@ -86,6 +86,7 @@ export default () => {
       DONE_CLOCK ({ commit, dispatch, rootState }, payload) {
         return new Promise(resolve => {
           if (rootState.isLogin) {
+            if (rootState.isLoading) return
             commit('changeLoadingStatue', true, { root: true })
             fetch('/phpLab/dd104g3/clock/clockStatus.php', {
               method: 'POST',
@@ -106,6 +107,7 @@ export default () => {
       DELETE_CLOCK ({ commit, dispatch, rootState }, payload) {
         return new Promise(resolve => {
           if (rootState.isLogin) {
+            if (rootState.isLoading) return
             commit('changeLoadingStatue', true, { root: true })
             fetch('/phpLab/dd104g3/clock/clockStatus.php', {
               method: 'POST',

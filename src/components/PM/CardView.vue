@@ -25,6 +25,7 @@ import Card from '@/components/PM/Card/index'
 import Tour from '@/components/Tour'
 import tourStep from '@/composition/tour'
 import { mapState, mapGetters } from 'vuex'
+import bus from '@/bus'
 export default {
   name: 'CardView',
   components: {
@@ -48,10 +49,15 @@ export default {
     project (val) {
       if (!val) this.$router.push({ name: 'ProjectManagement' })
     }
+  },
+  beforeRouteLeave  (to, from, next) {
+    if (this.isEdit) {
+      let res = null
+      let promise = new Promise(resolve => { res = resolve })
+      bus.$emit('editDone', res)
+      promise.then(() => next())
+    } else next()
   }
-  // beforeRouteLeave  (to, from, next) {
-  //   console.log('a')
-  // }
 }
 </script>
 

@@ -1,6 +1,7 @@
 <template>
   <ValidationObserver
-    v-slot="{passes}"
+    ref="form"
+    v-slot="{passes, reset}"
     tag="div"
     class="loginFrom"
     :class="{mode: mode}"
@@ -38,6 +39,7 @@
             :type="input.type"
             :field="input.field"
             :content="input.content"
+            :error-msg="errorMsg"
           >
             <template v-slot:slotButton>
               <button
@@ -73,7 +75,7 @@ import InputComponent from './module/InputComponent'
 import FileComponent from './module/FileComponent'
 import TitleComponent from './module/TitleComponent'
 import ButtonComponent from './module/ButtonComponent'
-import { computed } from '@vue/composition-api'
+import { computed, ref, watch } from '@vue/composition-api'
 import { mapActions } from 'vuex'
 import form from '@/composition/form'
 export default {
@@ -90,7 +92,8 @@ export default {
       required: true
     }
   },
-  setup (props, { emit }) {
+  setup (props, { emit, refs }) {
+    const errorMsg = ref(null)
     const { formInfo } = form()
     const changeMode = computed({
       get () {
@@ -108,12 +111,15 @@ export default {
       }, '')
     })
     const url = computed(() => props.mode ? '/phpLab/dd104g3/member/login.php' : '/phpLab/dd104g3/member/signup.php')
+    watch(() => props.mode, () => {
+      refs.form.reset()
+    }, { lazy: true })
     return {
       changeMode,
       formInfo,
       url,
-      inputFileInfo
-
+      inputFileInfo,
+      errorMsg
     }
   },
   methods: {
@@ -124,7 +130,9 @@ export default {
         if (info.name === 'headshot')info.value = `${require('@/assets/icon/user.svg')}`
         else info.value = ''
       })
+      this.$refs.form.reset()
       if (result.content === '註冊成功') this.changeMode = 1
+      if (result.status === 'error') this.errorMsg = result.content
     }
   }
 }

@@ -78,12 +78,7 @@ router.beforeEach(async (to, from, next) => {
     if (!store.getters['pmStore/project']) return next({ name: 'ProjectManagement' })
     next()
   }
-  if (store.state.pmStore.isEdit) {
-    await store.commit('pmStore/changeEditStatus', false)
-    next()
-  } else {
-    next()
-  }
+  next()
 })
 router.beforeResolve((to, from, next) => {
   if (!store.state.isLoading) next()

@@ -50,6 +50,10 @@ export default {
     field: {
       type: String,
       required: true
+    },
+    errorMsg: {
+      type: String,
+      default: null
     }
   },
   setup (props, { emit }) {

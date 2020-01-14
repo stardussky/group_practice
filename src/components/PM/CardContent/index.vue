@@ -10,7 +10,7 @@
       v-model="todoList"
       class="card_body"
       v-bind="dragOptions"
-      @dragstart.native="changeEditStatus(false)"
+      draggable=".draggable"
       @end="closeDrag"
       @change="changeHandler({step, $event})"
     >
@@ -30,6 +30,7 @@ import TodoCard from './module/TodoCard'
 import draggable from 'vuedraggable'
 import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
 import { ref } from '@vue/composition-api'
+import bus from '@/bus'
 export default {
   name: 'CardContent',
   components: {
@@ -82,13 +83,13 @@ export default {
   },
   methods: {
     ...mapActions('pmStore', ['EDIT_TODO_CARD', 'DRAG_LIST']),
-    ...mapMutations('pmStore', ['changeEditStatus', 'moveList']),
+    ...mapMutations('pmStore', ['moveList']),
     editCard (info) {
       if (this.isEdit) {
-        new Promise(resolve => {
-          this.changeEditStatus(false)
-          resolve()
-        }).then(res => this.EDIT_TODO_CARD(info))
+        let res = null
+        let promise = new Promise(resolve => { res = resolve })
+        bus.$emit('editDone', res)
+        promise.then(() => this.EDIT_TODO_CARD(info))
       } else {
         this.EDIT_TODO_CARD(info)
       }

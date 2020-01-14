@@ -62,8 +62,35 @@ export default () => {
         state.isEdit = false
         state.id = id
         if (json) {
+          let result = json.reduce((prev, step) => {
+            const cardSet = new Set()
+            const contentSet = new Set()
+            const fileSet = new Set()
+            let cards = step.reduce((prev, data) => {
+              if (!cardSet.has(data.cardInfo.id)) {
+                cardSet.add(data.cardInfo.id)
+                prev.push(data.cardInfo)
+              }
+              let cardIndex = [...cardSet].indexOf(data.cardInfo.id)
+              if (data.content && !contentSet.has(data.content.id)) {
+                contentSet.add(data.content.id)
+                prev[cardIndex].content.push(data.content)
+              }
+              if (data.file && !fileSet.has(data.file.id)) {
+                fileSet.add(data.file.id)
+                prev[cardIndex].file.push(data.file)
+              }
+              if (data.content) {
+                let contentIndex = [...contentSet].indexOf(data.content.id)
+                prev[cardIndex].content[contentIndex].lists.push(data.contentList)
+              }
+              return prev
+            }, [])
+            prev.push(cards)
+            return prev
+          }, [])
           state.projects[getters.projectIndex].list.forEach((info, index) => {
-            info.todo = json[index]
+            info.todo = result[index]
           })
         }
       },
@@ -71,14 +98,12 @@ export default () => {
         state.id = null
       },
       clearProjects (state) {
+        state.maturityCard = []
         state.projects = []
       },
       pushTodoCard (state, { getters, card, id }) {
         if (id)card.id = id
         state.projects[getters.projectIndex].list[0].todo.push(card)
-      },
-      changeEditStatus (state, status) {
-        state.isEdit = status
       },
       editTodoCard (state, payload) {
         state.isEdit = true
@@ -86,6 +111,7 @@ export default () => {
       },
       editDone (state, { getters, card }) {
         state.projects[getters.projectIndex].list[state.editInfo.step].todo.splice(state.editInfo.index, 1, card)
+        state.isEdit = false
       },
       recordClockTime (state, { info: { projectIndex, step, todoIndex, contentIndex, listIndex }, timer }) {
         state.projects[projectIndex].list[step].todo[todoIndex].content[contentIndex].lists[listIndex].timer += timer
@@ -104,6 +130,7 @@ export default () => {
       CREATE_PROJECT ({ commit, rootState }, data) {
         return new Promise(resolve => {
           if (rootState.isLogin) {
+            if (rootState.isLoading) return
             commit('changeLoadingStatue', true, { root: true })
             fetch('/phpLab/dd104g3/pm/createProject.php', {
               method: 'POST',
@@ -119,7 +146,7 @@ export default () => {
           resolve()
         })
       },
-      GET_PROJECTS_LIST ({ commit }, id) {
+      GET_PROJECTS_LIST ({ commit, rootState }, id) {
         return new Promise(resolve => {
           commit('changeLoadingStatue', true, { root: true })
           fetch('/phpLab/dd104g3/pm/getProjectList.php', {
@@ -136,7 +163,7 @@ export default () => {
           resolve()
         })
       },
-      GET_MATURITY_CARD ({ commit }, id) {
+      GET_MATURITY_CARD ({ commit, rootState }, id) {
         return new Promise(resolve => {
           commit('changeLoadingStatue', true, { root: true })
           fetch('/phpLab/dd104g3/calender/getMaturityCard.php', {
@@ -145,8 +172,10 @@ export default () => {
           })
             .then(res => res.json())
             .then(json => {
-              commit('getMaturityCard', json.data)
-              commit('changeLoadingStatue', false, { root: true })
+              if (json.status === 'success') {
+                commit('getMaturityCard', json.data)
+                commit('changeLoadingStatue', false, { root: true })
+              }
             })
             .catch(err => console.log(err))
           resolve()
@@ -155,6 +184,7 @@ export default () => {
       GET_PROJECT ({ commit, rootState, getters }, id) {
         return new Promise(resolve => {
           if (rootState.isLogin) {
+            if (rootState.isLoading) return
             commit('changeLoadingStatue', true, { root: true })
             fetch('/phpLab/dd104g3/pm/getProject.php', {
               method: 'POST',
@@ -177,6 +207,7 @@ export default () => {
       PUSH_TODO_CARD ({ commit, getters, rootState, state }, card) {
         return new Promise(resolve => {
           if (rootState.isLogin) {
+            if (rootState.isLoading) return
             commit('changeLoadingStatue', true, { root: true })
             fetch('/phpLab/dd104g3/pm/pushTodoCard.php', {
               method: 'POST',
@@ -205,6 +236,7 @@ export default () => {
       EDIT_DONE ({ commit, getters, rootState, state }, card) {
         return new Promise(resolve => {
           if (rootState.isLogin) {
+            if (rootState.isLoading) return
             commit('changeLoadingStatue', true, { root: true })
             fetch('/phpLab/dd104g3/pm/editDone.php', {
               method: 'POST',
@@ -215,11 +247,16 @@ export default () => {
               body: JSON.stringify({ projectId: state.id, step: state.editInfo.step, card })
             })
               .then(res => res.json())
-              .then(json => commit('changeLoadingStatue', false, { root: true }))
+              .then(json => {
+                commit('changeLoadingStatue', false, { root: true })
+                commit('editDone', { getters, card })
+                resolve()
+              })
               .catch(err => console.log(err))
+          } else {
+            resolve()
+            commit('editDone', { getters, card })
           }
-          commit('editDone', { getters, card })
-          resolve()
         })
       },
       RECORD_CLOCK_TIME ({ commit }, payload) {
@@ -243,6 +280,7 @@ export default () => {
       DRAG_LIST ({ rootState, state }, { step, added }) {
         return new Promise(resolve => {
           if (rootState.isLogin && added) {
+            if (rootState.isLoading) return
             fetch('/phpLab/dd104g3/pm/dragList.php', {
               method: 'POST',
               body: new URLSearchParams(`pro_no=${state.id}&step=${step}&card_no=${added.element.id}`)
