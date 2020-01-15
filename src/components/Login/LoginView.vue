@@ -6,7 +6,7 @@
     </div>
     <div class="headshot">
       <img
-        :src="userInfo.headshot"
+        :src="headShot"
         alt="user"
       >
     </div>
@@ -34,7 +34,12 @@ import { mapState, mapActions } from 'vuex'
 export default {
   name: 'LoginView',
   computed: {
-    ...mapState('memberStore', ['userInfo'])
+    ...mapState('memberStore', ['userInfo']),
+    headShot () {
+      return this.userInfo.headshot
+        ? `http://localhost/phpLab/dd104g3/img/${this.userInfo.headshot}`
+        : `${require('@/assets/icon/user.svg')}`
+    }
   },
   methods: {
     ...mapActions('memberStore', ['LOGOUT'])
@@ -72,7 +77,7 @@ export default {
       height: 10vw;
       max-height: 100px;
       min-height: 80px;
-      background-color: $dark;
+      background-color: rgba($white, .3);
       border-radius: 50%;
       display: flex;
       justify-content: center;
@@ -80,6 +85,7 @@ export default {
       margin: auto;
       >img {
         width: 90%;
+        height: 90%;
         object-fit: cover;
         border-radius: 50%;
       }

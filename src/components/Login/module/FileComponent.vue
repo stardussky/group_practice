@@ -2,7 +2,7 @@
   <div class="fileComponent">
     <div class="preview">
       <img
-        :src="shotUrl"
+        :src="shotUrl ? shotUrl : `${require('@/assets/icon/user.svg')}`"
         alt="user"
       >
       <div class="headshot">
@@ -13,6 +13,7 @@
             width="20"
           >
           <input
+            :ref="name"
             :type="type"
             :name="name"
             @change="changeFile"
@@ -34,7 +35,7 @@ export default {
       required: true
     },
     value: {
-      type: String,
+      type: Object,
       required: true
     },
     type: {
@@ -42,18 +43,28 @@ export default {
       required: true
     }
   },
-  setup (props, { emit }) {
+  setup (props, { emit, refs }) {
     const { reader, changeFile } = fileReader()
     const shotUrl = computed({
       get () {
-        return props.value
+        return props.value.src
       },
       set (val) {
         emit('input', val)
       }
     })
     const fileHandler = (e) => {
-      shotUrl.value = e.target.result
+      let target = e.target
+      let extension = target.fileName.split('.').pop()
+      refs.headshot.type = 'text'
+      refs.headshot.type = 'file'
+      if (extension !== 'jpg' && extension !== 'jpeg' && extension !== 'gif' && extension !== 'png') {
+        alert('請上傳正確檔案格式: (jpg, jpeg, gif, png)')
+        return
+      }
+      let type = target.fileType
+      let src = target.result
+      shotUrl.value = { extension, type, src }
     }
     onMounted(() => {
       reader.addEventListener('load', fileHandler)
@@ -88,7 +99,8 @@ export default {
     position: relative;
     margin-bottom: 10px;
     >img {
-      width: 90%;
+      width: 100%;
+      height: 100%;
       object-fit: cover;
       border-radius: 50%;
     }

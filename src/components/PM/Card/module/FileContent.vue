@@ -59,12 +59,15 @@ export default {
     }
   },
   setup (props, { refs, emit }) {
-    const { file, reader, changeFile } = fileReader()
+    const { reader, changeFile } = fileReader()
     const fileHandler = (e) => {
+      let target = e.target
       emit('pushFile', {
         id: Date.now() + '',
-        name: file.value.name,
-        src: e.target.result
+        name: target.fileName.split('.').shift(),
+        src: target.result,
+        type: target.fileType,
+        extension: target.fileName.split('.').pop()
       })
       refs.fileInput.type = 'text'
       refs.fileInput.type = 'file'

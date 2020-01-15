@@ -62,35 +62,8 @@ export default () => {
         state.isEdit = false
         state.id = id
         if (json) {
-          let result = json.reduce((prev, step) => {
-            const cardSet = new Set()
-            const contentSet = new Set()
-            const fileSet = new Set()
-            let cards = step.reduce((prev, data) => {
-              if (!cardSet.has(data.cardInfo.id)) {
-                cardSet.add(data.cardInfo.id)
-                prev.push(data.cardInfo)
-              }
-              let cardIndex = [...cardSet].indexOf(data.cardInfo.id)
-              if (data.content && !contentSet.has(data.content.id)) {
-                contentSet.add(data.content.id)
-                prev[cardIndex].content.push(data.content)
-              }
-              if (data.file && !fileSet.has(data.file.id)) {
-                fileSet.add(data.file.id)
-                prev[cardIndex].file.push(data.file)
-              }
-              if (data.content) {
-                let contentIndex = [...contentSet].indexOf(data.content.id)
-                prev[cardIndex].content[contentIndex].lists.push(data.contentList)
-              }
-              return prev
-            }, [])
-            prev.push(cards)
-            return prev
-          }, [])
           state.projects[getters.projectIndex].list.forEach((info, index) => {
-            info.todo = result[index]
+            info.todo = json[index]
           })
         }
       },
@@ -192,12 +165,15 @@ export default () => {
             })
               .then(res => res.json())
               .then(json => {
+                console.log(json)
                 if (json.status === 'success') commit('getProject', { getters, id, json: json.data })
                 else commit('getProject', { id })
                 commit('changeLoadingStatue', false, { root: true })
                 resolve()
               })
-              .catch(err => console.log(err))
+              .catch(err => {
+                console.log(err)
+              })
           } else {
             commit('getProject', { id })
             resolve()
@@ -248,6 +224,7 @@ export default () => {
             })
               .then(res => res.json())
               .then(json => {
+                console.log(json)
                 commit('changeLoadingStatue', false, { root: true })
                 commit('editDone', { getters, card })
                 resolve()

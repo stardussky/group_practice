@@ -5,6 +5,8 @@ try {
   $pro_no = $jsonData['projectId'];
   $card_type = $jsonData['step'];
   $data = $jsonData['card'];
+  echo json_encode($data);
+  exit();
   $sql = "delete FROM `card` WHERE card_no = :card_no";
   $res = $pdo->prepare($sql);
   $res->bindParam('card_no', $data['id']);
@@ -52,6 +54,30 @@ try {
           $res->execute();
         }
       }
+    }
+  }
+  if ($data['files']){
+    $upload_dir = '../pmFiles//';
+    if(!file_exists($upload_dir)) mkdir($upload_dir);
+    foreach ($data['files'] as $file){
+      $fileData = $file['src'];
+      $fileData = str_replace("data:{$file['type']};base64,", '', $fileData);
+      $base64 = base64_decode($fileData);
+      $nowDate = date('Ymd_Gis');
+      $fileName = "$nowDate{$file['name']}" . ".{$file['extension']}";
+      $uploadFile = $upload_dir . $fileName;
+      
+      file_put_contents($uploadFile, $base64);
+
+      $sql = 'insert into `card_file` 
+        (card_no, pro_no, file_name, file_src) values
+        (:card_no, :pro_no, :file_name, :file_src)';
+      $res = $pdo->prepare($sql);
+      $res->bindParam(':card_no', $data['id']);
+      $res->bindParam(':pro_no', $pro_no);
+      $res->bindParam(':file_name', $file['name']);
+      $res->bindParam(':file_src', $fileName);
+      $res->execute();
     }
   }
   echo json_encode(['status' => 'success', 'content' => '編輯完成']);

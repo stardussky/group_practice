@@ -39,7 +39,6 @@
             :type="input.type"
             :field="input.field"
             :content="input.content"
-            :error-msg="errorMsg"
           >
             <template v-slot:slotButton>
               <button
@@ -75,7 +74,7 @@ import InputComponent from './module/InputComponent'
 import FileComponent from './module/FileComponent'
 import TitleComponent from './module/TitleComponent'
 import ButtonComponent from './module/ButtonComponent'
-import { computed, ref, watch } from '@vue/composition-api'
+import { computed, watch } from '@vue/composition-api'
 import { mapActions } from 'vuex'
 import form from '@/composition/form'
 export default {
@@ -93,7 +92,6 @@ export default {
     }
   },
   setup (props, { emit, refs }) {
-    const errorMsg = ref(null)
     const { formInfo } = form()
     const changeMode = computed({
       get () {
@@ -105,21 +103,29 @@ export default {
     })
     const inputFileInfo = computed(() => {
       return formInfo.value[props.mode].fields.reduce((prev, info, index, arr) => {
-        prev += `${info.name}=${info.value}`
-        if (index !== arr.length - 1) prev += '&'
+        if (info.value) {
+          if (info.type === 'file') {
+            prev[info.name] = info.value.src
+            prev.file_ext = info.value.extension
+            prev.file_type = info.value.type
+          } else {
+            prev[info.name] = info.value
+          }
+        }
         return prev
-      }, '')
+      }, {})
     })
     const url = computed(() => props.mode ? '/phpLab/dd104g3/member/login.php' : '/phpLab/dd104g3/member/signup.php')
     watch(() => props.mode, () => {
-      refs.form.reset()
+      requestAnimationFrame(() => {
+        refs.form.reset()
+      })
     }, { lazy: true })
     return {
       changeMode,
       formInfo,
       url,
-      inputFileInfo,
-      errorMsg
+      inputFileInfo
     }
   },
   methods: {
@@ -127,12 +133,27 @@ export default {
     async submit () {
       this.$refs.form.reset()
       let result = await this.SUBMIT({ url: this.url, data: this.inputFileInfo })
-      this.formInfo[this.mode].fields.forEach(info => {
-        if (info.name === 'headshot')info.value = `${require('@/assets/icon/user.svg')}`
-        else info.value = ''
-      })
       if (result.content === '註冊成功') this.changeMode = 1
-      if (result.status === 'error') this.errorMsg = result.content
+      if (result.status === 'success') {
+        this.formInfo[this.mode].fields.forEach(info => {
+          if (info.type === 'file') info.value = {}
+          else if (info.value) info.value = ''
+        })
+      }
+      if (result.status === 'error') {
+        this.$refs.form.refs.Account.applyResult({
+          errors: [`${result.content}`],
+          valid: false,
+          failedRules: {}
+        })
+      }
+      if (result.content === '帳號或密碼錯誤') {
+        this.$refs.form.refs.Password.applyResult({
+          errors: [`${result.content}`],
+          valid: false,
+          failedRules: {}
+        })
+      }
     }
   }
 }

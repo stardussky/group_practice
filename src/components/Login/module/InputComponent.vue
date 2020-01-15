@@ -1,6 +1,7 @@
 <template>
   <ValidationProvider
     v-slot="{errors, failed}"
+    :vid="field"
     class="inputComponent"
     tag="div"
     :rules="rules"
@@ -50,10 +51,6 @@ export default {
     field: {
       type: String,
       required: true
-    },
-    errorMsg: {
-      type: String,
-      default: null
     }
   },
   setup (props, { emit }) {

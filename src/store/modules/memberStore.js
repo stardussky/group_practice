@@ -16,7 +16,11 @@ export default () => {
           commit('changeLoadingStatue', true, { root: true })
           let result = fetch(url, {
             method: 'POST',
-            body: new URLSearchParams(data)
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
           }).then(res => res.json()).then(json => {
             if (json.content === '登入成功') {
               commit('changeLoginStatus', true, { root: true })

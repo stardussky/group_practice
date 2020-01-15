@@ -5,14 +5,15 @@ export default () => {
       fields: [
         {
           component: 'TitleComponent',
-          name: 'title',
+          type: 'title',
+          name: 'mode0Title',
           content: 'Sign Up'
         },
         {
           component: 'FileComponent',
           type: 'file',
           name: 'headshot',
-          value: `${require('@/assets/icon/user.svg')}`
+          value: {}
         },
         {
           component: 'InputComponent',
@@ -53,7 +54,8 @@ export default () => {
       fields: [
         {
           component: 'TitleComponent',
-          name: 'title',
+          type: 'title',
+          name: 'mode1Title',
           content: 'Sign In'
         },
         {
@@ -92,7 +94,8 @@ export default () => {
       fields: [
         {
           component: 'TitleComponent',
-          name: 'title',
+          type: 'title',
+          name: 'mode2Title',
           content: 'Reset Password'
         },
         {
