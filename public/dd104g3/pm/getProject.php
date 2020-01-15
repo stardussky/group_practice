@@ -58,7 +58,7 @@ try {
       $todoContents = $todoContentRes->fetchAll(PDO::FETCH_ASSOC);
       foreach($todoContents as $todoContent){
         $cardIndex = array_search($todoContent['card_no'], array_column($cardInfo, 'id'));
-        $contentIndex = array_search($todoContent['card_no'], array_column($cardInfo[$cardIndex]['content'], 'id'));
+        $contentIndex = array_search($todoContent['todo_no'], array_column($cardInfo[$cardIndex]['content'], 'id'));
         $cardInfo[$cardIndex]['content'][$contentIndex]['lists'][] = [
           'id'=>$todoContent['todo_cont_no'],
           'content'=>$todoContent['todo_cont'],

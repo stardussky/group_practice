@@ -54,7 +54,7 @@ try {
       $fileData = str_replace("data:{$file['type']};base64,", '', $fileData);
       $base64 = base64_decode($fileData);
       $nowDate = date('Ymd_Gis');
-      $fileName = "$nowDate{$file['name']}" . ".{$file['extension']}";
+      $fileName = "$nowDate{$file['name']}";
       $uploadFile = $upload_dir . $fileName;
       
       file_put_contents($uploadFile, $base64);
