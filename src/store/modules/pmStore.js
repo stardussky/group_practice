@@ -165,7 +165,6 @@ export default () => {
             })
               .then(res => res.json())
               .then(json => {
-                console.log(json)
                 if (json.status === 'success') commit('getProject', { getters, id, json: json.data })
                 else commit('getProject', { id })
                 commit('changeLoadingStatue', false, { root: true })

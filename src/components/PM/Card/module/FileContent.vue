@@ -64,7 +64,7 @@ export default {
       let target = e.target
       emit('pushFile', {
         id: Date.now() + '',
-        name: target.fileName.split('.').shift(),
+        name: target.fileName,
         src: target.result,
         type: target.fileType,
         extension: target.fileName.split('.').pop()
