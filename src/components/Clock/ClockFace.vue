@@ -7,7 +7,7 @@
       viewPort="0 0 155 155"
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
-      class="active"
+      :class="{active: isPlay}"
     >
       <defs>
         <linearGradient
@@ -68,6 +68,10 @@ export default {
     mode: {
       type: Number,
       required: true
+    },
+    isPlay: {
+      type: Boolean,
+      required: true
     }
   },
   setup (props, { refs, emit }) {
@@ -81,7 +85,9 @@ export default {
     }
 
     onMounted(() => {
-      setDasharray()
+      setTimeout(() => {
+        setDasharray()
+      }, 1)
       window.addEventListener('resize', setDasharray)
     })
     onBeforeUnmount(() => {

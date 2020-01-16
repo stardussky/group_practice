@@ -1,5 +1,5 @@
 import { ref } from '@vue/composition-api'
-export default (root) => {
+export default (root, bus) => {
   const PMViewSteps = ref([
     {
       attachTo: { element: '.createProject', on: 'right' },
@@ -84,6 +84,7 @@ export default (root) => {
         },
         {
           action () {
+            bus.$emit('tourMode', true)
             return this.next()
           },
           text: '教學'
@@ -139,8 +140,20 @@ export default (root) => {
       ]
     },
     {
+      attachTo: { element: '.contentList ', on: 'bottom' },
+      text: '建立事項後可以將這件事情加入番茄鐘',
+      buttons: [
+        {
+          action () {
+            return this.next()
+          },
+          text: '下一步'
+        }
+      ]
+    },
+    {
       attachTo: { element: '.fileContent label', on: 'bottom' },
-      text: '你也可以上傳一些檔案',
+      text: '這裡可以上傳檔案',
       buttons: [
         {
           action () {
@@ -156,6 +169,7 @@ export default (root) => {
       buttons: [
         {
           action () {
+            bus.$emit('tourMode', false)
             root.$route.meta.tour = false
             return this.complete()
           },

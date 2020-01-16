@@ -104,7 +104,7 @@ export default () => {
         return new Promise(resolve => {
           if (rootState.isLogin) {
             if (rootState.isLoading) return
-            commit('changeLoadingStatue', true, { root: true })
+            commit('changeLoadingStatue', 'start', { root: true })
             fetch('/phpLab/dd104g3/pm/createProject.php', {
               method: 'POST',
               body: new URLSearchParams(`mem_no=${rootState['memberStore'].userInfo.mem_no}&pro_col=${data.info.color}&pro_title=${data.info.title}`)
@@ -112,16 +112,16 @@ export default () => {
               .then(res => res.json())
               .then(json => {
                 commit('createProject', { data, id: json.data })
-                commit('changeLoadingStatue', false, { root: true })
+                commit('changeLoadingStatue', 'success', { root: true })
               })
-              .catch(err => console.log(err))
+              .catch(err => commit('changeLoadingStatue', err, { root: true }))
           } else commit('createProject', { data })
           resolve()
         })
       },
       GET_PROJECTS_LIST ({ commit, rootState }, id) {
         return new Promise(resolve => {
-          commit('changeLoadingStatue', true, { root: true })
+          commit('changeLoadingStatue', 'start', { root: true })
           fetch('/phpLab/dd104g3/pm/getProjectList.php', {
             method: 'POST',
             body: new URLSearchParams(`mem_no=${id}`)
@@ -130,15 +130,15 @@ export default () => {
             .then(json => {
               if (json.status === 'success') commit('getProjectsList', json.data)
               else commit('getProjectsList', [])
-              commit('changeLoadingStatue', false, { root: true })
+              commit('changeLoadingStatue', 'success', { root: true })
             })
-            .catch(err => console.log(err))
+            .catch(err => commit('changeLoadingStatue', err, { root: true }))
           resolve()
         })
       },
       GET_MATURITY_CARD ({ commit, rootState }, id) {
         return new Promise(resolve => {
-          commit('changeLoadingStatue', true, { root: true })
+          commit('changeLoadingStatue', 'start', { root: true })
           fetch('/phpLab/dd104g3/calender/getMaturityCard.php', {
             method: 'POST',
             body: new URLSearchParams(`mem_no=${id}`)
@@ -147,10 +147,10 @@ export default () => {
             .then(json => {
               if (json.status === 'success') {
                 commit('getMaturityCard', json.data)
-                commit('changeLoadingStatue', false, { root: true })
+                commit('changeLoadingStatue', 'success', { root: true })
               }
             })
-            .catch(err => console.log(err))
+            .catch(err => commit('changeLoadingStatue', err, { root: true }))
           resolve()
         })
       },
@@ -158,7 +158,7 @@ export default () => {
         return new Promise(resolve => {
           if (rootState.isLogin) {
             if (rootState.isLoading) return
-            commit('changeLoadingStatue', true, { root: true })
+            commit('changeLoadingStatue', 'start', { root: true })
             fetch('/phpLab/dd104g3/pm/getProject.php', {
               method: 'POST',
               body: new URLSearchParams(`pro_no=${id}`)
@@ -167,12 +167,10 @@ export default () => {
               .then(json => {
                 if (json.status === 'success') commit('getProject', { getters, id, json: json.data })
                 else commit('getProject', { id })
-                commit('changeLoadingStatue', false, { root: true })
+                commit('changeLoadingStatue', 'success', { root: true })
                 resolve()
               })
-              .catch(err => {
-                console.log(err)
-              })
+              .catch(err => commit('changeLoadingStatue', err, { root: true }))
           } else {
             commit('getProject', { id })
             resolve()
@@ -183,7 +181,7 @@ export default () => {
         return new Promise(resolve => {
           if (rootState.isLogin) {
             if (rootState.isLoading) return
-            commit('changeLoadingStatue', true, { root: true })
+            commit('changeLoadingStatue', 'start', { root: true })
             fetch('/phpLab/dd104g3/pm/pushTodoCard.php', {
               method: 'POST',
               headers: {
@@ -194,10 +192,10 @@ export default () => {
             })
               .then(res => res.json())
               .then(json => {
-                commit('changeLoadingStatue', false, { root: true })
+                commit('changeLoadingStatue', 'success', { root: true })
                 commit('pushTodoCard', { getters, card, id: json.data })
               })
-              .catch(err => err)
+              .catch(err => commit('changeLoadingStatue', err, { root: true }))
           } else commit('pushTodoCard', { getters, card })
           resolve()
         })
@@ -212,7 +210,7 @@ export default () => {
         return new Promise(resolve => {
           if (rootState.isLogin) {
             if (rootState.isLoading) return
-            commit('changeLoadingStatue', true, { root: true })
+            commit('changeLoadingStatue', 'start', { root: true })
             fetch('/phpLab/dd104g3/pm/editDone.php', {
               method: 'POST',
               headers: {
@@ -223,12 +221,11 @@ export default () => {
             })
               .then(res => res.json())
               .then(json => {
-                console.log(json)
-                commit('changeLoadingStatue', false, { root: true })
+                commit('changeLoadingStatue', 'success', { root: true })
                 commit('editDone', { getters, card })
                 resolve()
               })
-              .catch(err => console.log(err))
+              .catch(err => commit('changeLoadingStatue', err, { root: true }))
           } else {
             resolve()
             commit('editDone', { getters, card })

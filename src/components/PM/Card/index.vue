@@ -142,9 +142,29 @@ export default {
       await this.EDIT_DONE(this.cardContent)
       res()
     })
+    bus.$on('tourMode', (status) => {
+      if (status) {
+        this.todoContentList.push({
+          id: Date.now() + '',
+          title: '範例',
+          lists: [
+            {
+              id: Date.now() + '',
+              status: false,
+              isClock: false,
+              content: '範例',
+              timer: 0
+            }
+          ]
+        })
+      } else {
+        this.todoContentList = []
+      }
+    })
   },
   beforeDestroy () {
     bus.$off('editDone')
+    bus.$off('tourMode')
   },
   methods: {
     ...mapActions('pmStore', ['PUSH_TODO_CARD', 'EDIT_DONE']),

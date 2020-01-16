@@ -5,6 +5,7 @@
         :mode="mode"
         :clock-time="passedTimer"
         :timer="timer"
+        :is-play="isPlay"
       />
       <ClockControl
         :mode.sync="mode"
@@ -31,7 +32,7 @@ export default {
     ClockControl,
     ClockContent
   },
-  setup () {
+  setup (props, { root }) {
     const mode = ref(0)
     const workTimer = ref(10)
     const breakTimer = ref(5)
@@ -53,9 +54,13 @@ export default {
     const startTime = () => {
       setTime.value = setTimeout(() => {
         clearTime()
-        elapsedtimer.value++
-        if (passedTimer.value === 0 && !mode.value) mode.value = 1
-        if (passedTimer.value > 0) startTime()
+        if (passedTimer.value === 0) {
+          if (!mode.value)mode.value = 1
+          else root.$store.commit('clockStore/toggleStatus', false)
+        } else {
+          elapsedtimer.value++
+          startTime()
+        }
       }, 1000)
     }
     const clearTime = () => clearTimeout(setTime.value)

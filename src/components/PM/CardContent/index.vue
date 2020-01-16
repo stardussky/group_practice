@@ -20,6 +20,7 @@
         :color="color"
         :todo="todo"
         @click.native="editCard({step, index})"
+        @touchstart.native="editCard({step, index})"
       />
     </draggable>
   </div>

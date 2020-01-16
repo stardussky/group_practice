@@ -34,22 +34,44 @@ export default () => {
         state.targetInfo = payload
       },
       addTimer (state, { info, timer }) {
-        let target = state.pmList.find(list => list.todoContentId === info.todoContentId)
+        let target
+        if (info.type) {
+          target = state.selfList.find(list => list.info.id === info.info.id)
+        } else {
+          target = state.pmList.find(list => list.todoContentId === info.todoContentId)
+        }
         if (target)target.info.timer += timer
       },
       doneClock (state, payload) {
-        let target = state.pmList.find(list => list.todoContentId === payload.todoContentId)
+        let target
+        if (payload.type) {
+          target = state.selfList.find(list => list.info.id === payload.info.id)
+        } else {
+          target = state.pmList.find(list => list.todoContentId === payload.todoContentId)
+        }
         if (target)target.info.status = true
       },
       deleteClock (state, payload) {
-        let index = state.pmList.findIndex(list => list.todoContentId === payload.todoContentId)
-        state.pmList.splice(index, 1)
+        let target
+        if (payload.type) {
+          target = state.selfList.findIndex(list => list.info.id === payload.info.id)
+          state.selfList.splice(target, 1)
+        } else {
+          target = state.pmList.findIndex(list => list.todoContentId === payload.todoContentId)
+          state.pmList.splice(target, 1)
+        }
+      },
+      addSelfList (state, payload) {
+        state.selfList.push(payload)
+      },
+      clearSelfList (state) {
+        state.selfList = []
       }
     },
     actions: {
       GET_CLOCK_LIST ({ commit, rootState }) {
         return new Promise(resolve => {
-          commit('changeLoadingStatue', true, { root: true })
+          commit('changeLoadingStatue', 'start', { root: true })
           fetch('/phpLab/dd104g3/clock/getClockList.php', {
             method: 'POST',
             body: new URLSearchParams(`mem_no=${rootState.memberStore.userInfo.mem_no}`)
@@ -57,9 +79,9 @@ export default () => {
             .then(res => res.json())
             .then(json => {
               commit('getClockList', json.data)
-              commit('changeLoadingStatue', false, { root: true })
+              commit('changeLoadingStatue', 'success', { root: true })
             })
-            .catch(err => console.log(err))
+            .catch(err => commit('changeLoadingStatue', err, { root: true }))
           resolve()
         })
       },
@@ -77,7 +99,11 @@ export default () => {
                 })
                 .catch(err => console.log(err))
             } else {
-              dispatch('pmStore/RECORD_CLOCK_TIME', { info, timer }, { root: true })
+              if (info.type) {
+                commit('addTimer', { info, timer })
+              } else {
+                dispatch('pmStore/RECORD_CLOCK_TIME', { info, timer }, { root: true })
+              }
             }
           }
           resolve()
@@ -87,7 +113,7 @@ export default () => {
         return new Promise(resolve => {
           if (rootState.isLogin) {
             if (rootState.isLoading) return
-            commit('changeLoadingStatue', true, { root: true })
+            commit('changeLoadingStatue', 'start', { root: true })
             fetch('/phpLab/dd104g3/clock/clockStatus.php', {
               method: 'POST',
               body: new URLSearchParams(`todo_cont_no=${payload.todoContentId}&todo_cont_sta=1&todo_cont_clock=1`)
@@ -95,11 +121,15 @@ export default () => {
               .then(res => res.json())
               .then(json => {
                 if (json.status === 'success')commit('doneClock', payload)
-                commit('changeLoadingStatue', false, { root: true })
+                commit('changeLoadingStatue', 'success', { root: true })
               })
-              .catch(err => console.log(err))
+              .catch(err => commit('changeLoadingStatue', err, { root: true }))
           } else {
-            dispatch('pmStore/DONE_PM_CLOCK', payload, { root: true })
+            if (payload.type) {
+              commit('doneClock', payload)
+            } else {
+              dispatch('pmStore/DONE_PM_CLOCK', payload, { root: true })
+            }
           }
           resolve()
         })
@@ -108,7 +138,7 @@ export default () => {
         return new Promise(resolve => {
           if (rootState.isLogin) {
             if (rootState.isLoading) return
-            commit('changeLoadingStatue', true, { root: true })
+            commit('changeLoadingStatue', 'start', { root: true })
             fetch('/phpLab/dd104g3/clock/clockStatus.php', {
               method: 'POST',
               body: new URLSearchParams(`todo_cont_no=${payload.todoContentId}&todo_cont_sta=0&todo_cont_clock=0`)
@@ -116,11 +146,15 @@ export default () => {
               .then(res => res.json())
               .then(json => {
                 if (json.status === 'success')commit('deleteClock', payload)
-                commit('changeLoadingStatue', false, { root: true })
+                commit('changeLoadingStatue', 'success', { root: true })
               })
-              .catch(err => console.log(err))
+              .catch(err => commit('changeLoadingStatue', err, { root: true }))
           } else {
-            dispatch('pmStore/DELETE_PM_CLOCK', payload, { root: true })
+            if (payload.type) {
+              commit('deleteClock', payload)
+            } else {
+              dispatch('pmStore/DELETE_PM_CLOCK', payload, { root: true })
+            }
           }
           resolve()
         })

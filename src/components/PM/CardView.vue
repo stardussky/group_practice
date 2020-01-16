@@ -34,7 +34,7 @@ export default {
     Tour
   },
   setup (props, { root, emit }) {
-    const { CardViewSteps } = tourStep(root)
+    const { CardViewSteps } = tourStep(root, bus)
     const closeDrag = () => emit('closeDrag')
     return {
       CardViewSteps,

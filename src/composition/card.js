@@ -27,6 +27,8 @@ export default (props) => {
   const deleteFile = (index) => fileContent.value.splice(index, 1)
   const resetCard = () => {
     editCardId.value = null
+    dateStatus.value = false
+    deadLine.value = '未設定'
     cardTitle.value = '待辦項目'
     todoContentList.value = []
     fileContent.value = []

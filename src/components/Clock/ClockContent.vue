@@ -1,13 +1,21 @@
 <template>
-  <div class="clockContent">
+  <div
+    class="clockContent"
+    :class="{listType: listType}"
+  >
     <div class="select_list">
       <button
         type="button"
-        class="active"
+        :class="{active: !listType}"
+        @click="listType = 0"
       >
         專案項目
       </button>
-      <button type="button">
+      <button
+        type="button"
+        :class="{active: listType}"
+        @click="listType = 1"
+      >
         個人項目
       </button>
     </div>
@@ -25,6 +33,7 @@
 <script>
 import ClockContentList from './ClockContentList'
 import { mapGetters } from 'vuex'
+import { ref } from '@vue/composition-api'
 export default {
   name: 'ClockContent',
   components: {
@@ -40,6 +49,12 @@ export default {
       required: true
     }
   },
+  setup () {
+    const listType = ref(0)
+    return {
+      listType
+    }
+  },
   computed: {
     ...mapGetters('clockStore', ['clockList'])
   }
@@ -50,9 +65,8 @@ export default {
   .clockContent {
     width: 60%;
     height: 100%;
-    padding-top: 10px;
+    padding: 10px 0;
     display: flex;
-    padding-bottom: 10px;
     .select_list {
       display: none;
     }
@@ -74,9 +88,18 @@ export default {
         right: 5%;
         z-index: 1;
         @include switchBtn;
+
       }
       >.self {
         display: none;
+      }
+      &.listType {
+        >.self {
+          display: block;
+        }
+        >.pm {
+          display: none;
+        }
       }
     }
     @include media(479px){

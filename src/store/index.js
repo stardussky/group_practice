@@ -16,9 +16,17 @@ export default new Vuex.Store({
       state.isLogin = status
     },
     changeLoadingStatue (state, status) {
-      if (status) this._vm.$Progress.start()
-      else this._vm.$Progress.finish()
-      state.isLoading = status
+      if (status === 'start') {
+        this._vm.$Progress.start()
+        state.isLoading = true
+      } else if (status === 'success') {
+        this._vm.$Progress.finish()
+        state.isLoading = false
+      } else {
+        this._vm.$Progress.fail()
+        state.isLoading = false
+        console.log(state)
+      }
     }
   },
   actions: {

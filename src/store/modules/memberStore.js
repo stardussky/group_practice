@@ -13,7 +13,7 @@ export default () => {
       SUBMIT ({ commit, rootState }, { url, data }) {
         return new Promise(resolve => {
           if (rootState.isLoading) return
-          commit('changeLoadingStatue', true, { root: true })
+          commit('changeLoadingStatue', 'start', { root: true })
           let result = fetch(url, {
             method: 'POST',
             headers: {
@@ -26,10 +26,11 @@ export default () => {
               commit('changeLoginStatus', true, { root: true })
               commit('setUserInfo', json.data)
               commit('pmStore/clearProjects', null, { root: true })
+              commit('clockStore/clearSelfList', null, { root: true })
             }
-            commit('changeLoadingStatue', false, { root: true })
+            commit('changeLoadingStatue', 'success', { root: true })
             return json
-          }).catch(err => err)
+          }).catch(err => commit('changeLoadingStatue', err, { root: true }))
           resolve(result)
         })
       },
@@ -53,6 +54,7 @@ export default () => {
             .then(json => {
               commit('changeLoginStatus', false, { root: true })
               commit('pmStore/clearProjects', null, { root: true })
+              commit('clockStore/clearSelfList', null, { root: true })
             }).catch(err => err)
           resolve()
         })

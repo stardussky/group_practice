@@ -46,7 +46,7 @@ const routes = [
         path: 'clock',
         name: 'Clock',
         component: () => import(/* webpackChunkName: "Clock" */ '../views/Clock.vue'),
-        meta: { name: 'Clock', title: '番茄鐘' }
+        meta: { name: 'Clock', title: '番茄鐘', tour: true }
       },
       {
         path: 'shop',

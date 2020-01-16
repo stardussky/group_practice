@@ -21,8 +21,15 @@
       </div>
       <div class="todo_done">
         <img
+          v-if="!todo.status"
           src="@/assets/icon/checked_d.svg"
-          alt="checked"
+          alt="undone"
+          width="20"
+        >
+        <img
+          v-else
+          src="@/assets/icon/checked_s.svg"
+          alt="done"
           width="20"
         >
         <p>{{ schedule }}</p>

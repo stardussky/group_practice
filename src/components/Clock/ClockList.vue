@@ -5,7 +5,7 @@
   >
     <div
       class="card_color"
-      :style="{backgroundColor: list.color}"
+      :style="cardColor"
     />
     <div class="title">
       <p>{{ list.info.content }}</p>
@@ -106,12 +106,22 @@ export default {
     elapsedtimer: {
       type: Number,
       required: true
+    },
+    type: {
+      type: String,
+      required: true
     }
   },
   setup (props) {
     const clockStyle = computed(() => !props.mode ? 'work' : 'break')
+    const cardColor = computed(() => {
+      return props.type === 'pm'
+        ? { backgroundColor: props.list.color }
+        : { backgroundImage: 'linear-gradient(to right, #81c7d4, #f8c3cd)' }
+    })
     return {
-      clockStyle
+      clockStyle,
+      cardColor
     }
   },
   computed: {

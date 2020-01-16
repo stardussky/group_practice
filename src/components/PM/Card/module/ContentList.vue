@@ -109,8 +109,9 @@ export default {
   .control {
     display: flex;
     position: absolute;
-    right: -30px;
+    right: 0;
     opacity: 0;
+    visibility: hidden;
     transition: all .3s;
     .clock {
       width: 30px;
@@ -130,8 +131,8 @@ export default {
   }
   &:hover {
     .control {
-      right: 0;
       opacity: 1;
+      visibility: visible;
     }
   }
 }
