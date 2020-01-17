@@ -105,7 +105,7 @@ export default () => {
           if (rootState.isLogin) {
             if (rootState.isLoading) return
             commit('changeLoadingStatue', 'start', { root: true })
-            fetch('/phpLab/dd104g3/pm/createProject.php', {
+            fetch('./php/pm/createProject.php', {
               method: 'POST',
               body: new URLSearchParams(`mem_no=${rootState['memberStore'].userInfo.mem_no}&pro_col=${data.info.color}&pro_title=${data.info.title}`)
             })
@@ -122,7 +122,7 @@ export default () => {
       GET_PROJECTS_LIST ({ commit, rootState }, id) {
         return new Promise(resolve => {
           commit('changeLoadingStatue', 'start', { root: true })
-          fetch('/phpLab/dd104g3/pm/getProjectList.php', {
+          fetch('./php/pm/getProjectList.php', {
             method: 'POST',
             body: new URLSearchParams(`mem_no=${id}`)
           })
@@ -139,7 +139,7 @@ export default () => {
       GET_MATURITY_CARD ({ commit, rootState }, id) {
         return new Promise(resolve => {
           commit('changeLoadingStatue', 'start', { root: true })
-          fetch('/phpLab/dd104g3/calender/getMaturityCard.php', {
+          fetch('./php/calender/getMaturityCard.php', {
             method: 'POST',
             body: new URLSearchParams(`mem_no=${id}`)
           })
@@ -159,7 +159,7 @@ export default () => {
           if (rootState.isLogin) {
             if (rootState.isLoading) return
             commit('changeLoadingStatue', 'start', { root: true })
-            fetch('/phpLab/dd104g3/pm/getProject.php', {
+            fetch('./php/pm/getProject.php', {
               method: 'POST',
               body: new URLSearchParams(`pro_no=${id}`)
             })
@@ -182,7 +182,7 @@ export default () => {
           if (rootState.isLogin) {
             if (rootState.isLoading) return
             commit('changeLoadingStatue', 'start', { root: true })
-            fetch('/phpLab/dd104g3/pm/pushTodoCard.php', {
+            fetch('./php/pm/pushTodoCard.php', {
               method: 'POST',
               headers: {
                 'Accept': 'application/json',
@@ -211,7 +211,7 @@ export default () => {
           if (rootState.isLogin) {
             if (rootState.isLoading) return
             commit('changeLoadingStatue', 'start', { root: true })
-            fetch('/phpLab/dd104g3/pm/editDone.php', {
+            fetch('./php/pm/editDone.php', {
               method: 'POST',
               headers: {
                 'Accept': 'application/json',
@@ -254,7 +254,7 @@ export default () => {
         return new Promise(resolve => {
           if (rootState.isLogin && added) {
             if (rootState.isLoading) return
-            fetch('/phpLab/dd104g3/pm/dragList.php', {
+            fetch('./php/pm/dragList.php', {
               method: 'POST',
               body: new URLSearchParams(`pro_no=${state.id}&step=${step}&card_no=${added.element.id}`)
             })

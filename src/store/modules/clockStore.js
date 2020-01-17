@@ -72,7 +72,7 @@ export default () => {
       GET_CLOCK_LIST ({ commit, rootState }) {
         return new Promise(resolve => {
           commit('changeLoadingStatue', 'start', { root: true })
-          fetch('/phpLab/dd104g3/clock/getClockList.php', {
+          fetch('./php/clock/getClockList.php', {
             method: 'POST',
             body: new URLSearchParams(`mem_no=${rootState.memberStore.userInfo.mem_no}`)
           })
@@ -89,7 +89,7 @@ export default () => {
         return new Promise(resolve => {
           if (info) {
             if (rootState.isLogin) {
-              fetch('/phpLab/dd104g3/clock/recordClockTime.php', {
+              fetch('./php/clock/recordClockTime.php', {
                 method: 'POST',
                 body: new URLSearchParams(`todo_cont_no=${info.todoContentId}&timer=${timer}`)
               })
@@ -114,7 +114,7 @@ export default () => {
           if (rootState.isLogin) {
             if (rootState.isLoading) return
             commit('changeLoadingStatue', 'start', { root: true })
-            fetch('/phpLab/dd104g3/clock/clockStatus.php', {
+            fetch('./php/clock/clockStatus.php', {
               method: 'POST',
               body: new URLSearchParams(`todo_cont_no=${payload.todoContentId}&todo_cont_sta=1&todo_cont_clock=1`)
             })
@@ -139,7 +139,7 @@ export default () => {
           if (rootState.isLogin) {
             if (rootState.isLoading) return
             commit('changeLoadingStatue', 'start', { root: true })
-            fetch('/phpLab/dd104g3/clock/clockStatus.php', {
+            fetch('./php/clock/clockStatus.php', {
               method: 'POST',
               body: new URLSearchParams(`todo_cont_no=${payload.todoContentId}&todo_cont_sta=0&todo_cont_clock=0`)
             })

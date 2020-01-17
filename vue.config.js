@@ -24,12 +24,12 @@ module.exports = {
   // eslint-disable-next-line no-dupe-keys
   devServer: {
     proxy: {
-      '/phpLab': {
-        target: 'http://localhost/phpLab',
+      '/php': {
+        target: 'http://localhost/php',
         // ws : true,
         changeOrigin: true,
         pathRewrite: {
-          '^/phpLab': ''
+          '^/php': ''
         }
       }
     }

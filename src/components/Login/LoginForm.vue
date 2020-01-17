@@ -115,7 +115,7 @@ export default {
         return prev
       }, {})
     })
-    const url = computed(() => props.mode ? '/phpLab/dd104g3/member/login.php' : '/phpLab/dd104g3/member/signup.php')
+    const url = computed(() => props.mode ? './php/member/login.php' : './php/member/signup.php')
     watch(() => props.mode, () => {
       requestAnimationFrame(() => {
         refs.form.reset()

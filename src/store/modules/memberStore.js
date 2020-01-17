@@ -36,7 +36,7 @@ export default () => {
       },
       CHECK_LOGIN ({ commit }) {
         return new Promise(resolve => {
-          fetch('/phpLab/dd104g3/member/isLogin.php')
+          fetch('./php/member/isLogin.php')
             .then(res => res.json())
             .then(json => {
               if (json.status === 'success') {
@@ -49,7 +49,7 @@ export default () => {
       },
       LOGOUT ({ commit }) {
         return new Promise(resolve => {
-          fetch('/phpLab/dd104g3/member/logout.php')
+          fetch('./php/member/logout.php')
             .then(res => res.json())
             .then(json => {
               commit('changeLoginStatus', false, { root: true })
