@@ -37,7 +37,7 @@ export default {
     ...mapState('memberStore', ['userInfo']),
     headShot () {
       return this.userInfo.headshot
-        ? `./img/${this.userInfo.headshot}`
+        ? `./userImg/${this.userInfo.headshot}`
         : `${require('@/assets/icon/user.svg')}`
     }
   },
