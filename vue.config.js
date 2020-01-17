@@ -25,7 +25,7 @@ module.exports = {
   devServer: {
     proxy: {
       '/php': {
-        target: 'http://localhost/php',
+        target: 'http://localhost/dd104g3_php',
         // ws : true,
         changeOrigin: true,
         pathRewrite: {
