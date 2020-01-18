@@ -116,7 +116,7 @@ export default () => {
             commit('changeLoadingStatue', 'start', { root: true })
             fetch('./php/clock/clockStatus.php', {
               method: 'POST',
-              body: new URLSearchParams(`todo_cont_no=${payload.todoContentId}&todo_cont_sta=1&todo_cont_clock=1`)
+              body: new URLSearchParams(`todo_cont_no=${payload.todoContentId}&todo_cont_sta=true&todo_cont_clock=1`)
             })
               .then(res => res.json())
               .then(json => {
@@ -141,7 +141,7 @@ export default () => {
             commit('changeLoadingStatue', 'start', { root: true })
             fetch('./php/clock/clockStatus.php', {
               method: 'POST',
-              body: new URLSearchParams(`todo_cont_no=${payload.todoContentId}&todo_cont_sta=0&todo_cont_clock=0`)
+              body: new URLSearchParams(`todo_cont_no=${payload.todoContentId}&todo_cont_sta=${payload.info.status}&todo_cont_clock=0`)
             })
               .then(res => res.json())
               .then(json => {

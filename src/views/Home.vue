@@ -27,14 +27,14 @@
             name="fade"
             mode="out-in"
           >
-            <keep-alive include="Clock">
+            <keep-alive :include="['Clock', 'Shop']">
               <router-view />
             </keep-alive>
           </transition>
         </div>
       </div>
     </transition>
-    <NavbarComponent />
+    <NavbarComponent :is-login="isLogin" />
     <router-link
       class="logo"
       to="/"
@@ -97,20 +97,23 @@ export default {
     }
   },
   computed: {
-    ...mapState('pmStore', ['id']),
+    ...mapState('pmStore', ['id', 'projects']),
     ...mapState(['isLogin'])
   },
   watch: {
     isLogin (val) {
-      if (val) {
-        window.removeEventListener('beforeunload', this.beforeunloadLeave)
-      } else {
+      if (val)window.removeEventListener('beforeunload', this.beforeunloadLeave)
+    },
+    projects (val) {
+      if (this.isLogin) return
+      if (val.length) {
         window.addEventListener('beforeunload', this.beforeunloadLeave)
+      } else {
+        window.removeEventListener('beforeunload', this.beforeunloadLeave)
       }
     }
   },
   created () {
-    window.addEventListener('beforeunload', this.beforeunloadLeave)
     window.addEventListener('beforeunload', this.beforeunloadRecord)
     this.CHECK_LOGIN()
   },

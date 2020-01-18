@@ -2,7 +2,7 @@
   <div class="login_view">
     <div class="title">
       <h2>Welcome back !</h2>
-      <p>{{ userInfo.mem_id }}</p>
+      <p>{{ userInfo.mem_name || userInfo.mem_id }}</p>
     </div>
     <div class="headshot">
       <img
@@ -12,7 +12,7 @@
     </div>
     <div class="control">
       <a
-        href="#"
+        href="./member.html"
         class="control_member"
       >
         <button>

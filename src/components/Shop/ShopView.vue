@@ -5,8 +5,10 @@
   >
     <div class="item_introduction">
       <h2>New Collection</h2>
-      <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
-      <button>Shop</button>
+      <p>{{ productContent }}</p>
+      <a href="./mall.html">
+        <button>Shop</button>
+      </a>
     </div>
   </div>
 </template>
@@ -23,12 +25,18 @@ export default {
   },
   setup (props) {
     const backgroundSrc = computed(() => {
+      let src = props.currentlist.src[1].replace('img', '')
       return {
-        backgroundImage: `url('${props.currentlist.src}')`
+        backgroundImage: `url(${require('@/assets' + src)})`
       }
     })
+    const productContent = computed(() => {
+      let content = props.currentlist.content.replace(/<li>/g, '').replace(/<\/li>/g, '\n')
+      return content
+    })
     return {
-      backgroundSrc
+      backgroundSrc,
+      productContent
     }
   }
 }
@@ -56,10 +64,19 @@ export default {
     }
     p {
       @include font;
+      white-space: pre-line;
       margin-bottom: 20px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 4;
     }
-    button {
-      @include baseBtn;
+    a{
+      display: inline-block;
+      button {
+        @include baseBtn;
+      }
     }
   }
   @include media(1023px){
@@ -70,6 +87,16 @@ export default {
       box-shadow: none;
       h2 {
         @include font(5);
+      }
+      p {
+        -webkit-line-clamp: 3;
+      }
+    }
+  }
+  @include media(479px){
+    .item_introduction {
+      p {
+        -webkit-line-clamp: 7;
       }
     }
   }

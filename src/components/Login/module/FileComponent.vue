@@ -58,13 +58,13 @@ export default {
       let extension = target.fileName.split('.').pop()
       refs.headshot.type = 'text'
       refs.headshot.type = 'file'
-      if (extension !== 'jpg' && extension !== 'jpeg' && extension !== 'gif' && extension !== 'png') {
-        alert('請上傳正確檔案格式: (jpg, jpeg, gif, png)')
-        return
+      if (extension !== 'jpg' && extension !== 'jpeg' && extension !== 'gif' && extension !== 'png' && extension !== 'svg') {
+        alert('請上傳正確檔案格式: (jpg, jpeg, gif, png, svg)')
+      } else {
+        let type = target.fileType
+        let src = target.result
+        shotUrl.value = { extension, type, src }
       }
-      let type = target.fileType
-      let src = target.result
-      shotUrl.value = { extension, type, src }
     }
     onMounted(() => {
       reader.addEventListener('load', fileHandler)

@@ -62,7 +62,7 @@
       <li>
         <div class="navBtn">
           <a
-            href="./member.html"
+            :href="isLogin ? './member.html' : './member_login.html'"
             class="navBtn_btn"
           >
             <p>會員中心</p>
@@ -82,7 +82,13 @@
 
 <script>
 export default {
-  name: 'NavbarComponent'
+  name: 'NavbarComponent',
+  props: {
+    isLogin: {
+      type: Boolean,
+      required: true
+    }
+  }
 }
 </script>
 

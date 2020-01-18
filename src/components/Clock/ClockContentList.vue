@@ -5,7 +5,7 @@
     </div>
     <transition-group
       tag="ul"
-      name="slider"
+      :name="content.type === 'self' ? 'slider' : null"
       class="list"
     >
       <ClockList

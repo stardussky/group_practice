@@ -4,7 +4,7 @@
       <transition :name="direction > 0 ? 'slider_banner' : 'slider_banner_reverse'">
         <img
           :key="currentlist.name"
-          :src="currentlist.src"
+          :src="`${require('@/assets' + backgroundSrc)}`"
           alt="item"
         >
       </transition>
@@ -21,7 +21,7 @@
               y="50%"
             >{{ currentIndex &lt; 10 ? '0' + (currentIndex + 1) : currentIndex }}</text>
           </svg>
-          <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ratione nihil tempore libero excepturi expedita in doloribus dolores odio veritatis sit perferendis ipsum</p>
+          <p>{{ currentlist.name }}</p>
         </div>
         <div class="dots">
           <span
@@ -102,6 +102,7 @@ export default {
         disbaled.value = true
       }
     })
+    const backgroundSrc = computed(() => props.currentlist.src[2].replace('img', ''))
     const disableHandler = () => {
       clearTime(disableSetTime.value)
       disableSetTime.value = setTimeout(() => { disbaled.value = false }, 1200)
@@ -118,7 +119,8 @@ export default {
     onActivated(() => setTimeHandler())
     onBeforeUnmount(() => clearTime(setTime.value))
     return {
-      index
+      index,
+      backgroundSrc
     }
   }
 }
@@ -174,7 +176,7 @@ export default {
         display: -webkit-box;
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 2;
-        @include font(-.875);
+        @include font;
         margin-left: 20px;
       }
     }

@@ -52,7 +52,7 @@ export default {
 .projectManagement {
   height: calc(100% - 10px);
   overflow-x: auto;
-  padding: 0 10px;
+  padding: 0 10px 10px 10px;
   @include media(479px){
     height: 100%;
     padding: 10px;

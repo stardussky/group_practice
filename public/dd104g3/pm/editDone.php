@@ -23,7 +23,7 @@ try {
   $res->bindParam(':card_date', $cardDate);
   $res->bindParam(':card_sta', $cardStatus);
   $res->execute();
-  if ($data['content']) {
+  if (isset($data['content'])) {
     foreach ($data['content'] as $info) {
       $sql = 'insert into `todo` 
         (card_no, pro_no, todo_title) values
@@ -33,7 +33,7 @@ try {
       $res->bindParam(':pro_no', $pro_no);
       $res->bindParam(':todo_title', $info['title']);
       $res->execute();
-      if ($info['lists']) {
+      if (isset($info['lists'])) {
         $lastId = $pdo->lastInsertId();
         foreach ($info['lists'] as $list) {
           $listStatus = $list['status'] ? '1' : '0';
@@ -54,10 +54,10 @@ try {
       }
     }
   }
-  if ($data['files']){
+  if (isset($data['files'])){
     foreach ($data['files'] as $file){
       if(isset($file['type'])){
-        $upload_dir = '../pmFiles//';
+        $upload_dir = '../../pmFiles//';
         if(!file_exists($upload_dir)) mkdir($upload_dir);
   
         $fileData = $file['src'];
@@ -69,7 +69,7 @@ try {
         
         file_put_contents($uploadFile, $base64);
       }
-      $fileSrc = isset($fileName) ? $fileName : $file['src'];
+      $fileSrc = isset($fileName) ? "./pmFiles/".$fileName : $file['src'];
       $sql = 'insert into `card_file` 
         (card_no, pro_no, file_name, file_src) values
         (:card_no, :pro_no, :file_name, :file_src)';

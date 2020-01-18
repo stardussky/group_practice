@@ -2,11 +2,13 @@
   <div class="shop">
     <transition :name="direction > 0 ? 'banner' : 'banner_reverse'">
       <ShopView
+        v-if="currentlist"
         :key="currentlist.name"
         :currentlist="currentlist"
       />
     </transition>
     <ShopControl
+      v-if="currentlist"
       :banner-list="bannerList"
       :currentlist="currentlist"
       :current-index="currentIndex"
@@ -19,7 +21,7 @@
 <script>
 import ShopView from '@/components/Shop/ShopView'
 import ShopControl from '@/components/Shop/ShopControl'
-import { ref, computed } from '@vue/composition-api'
+import { ref, computed, onMounted } from '@vue/composition-api'
 export default {
   name: 'Shop',
   components: {
@@ -27,27 +29,19 @@ export default {
     ShopControl
   },
   setup () {
-    const bannerList = ref([
-      {
-        name: '公事包',
-        src: 'https://images.unsplash.com/photo-1531938716357-224c16b5ace3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2134&q=80',
-        content: ''
-      },
-      {
-        name: '色鉛筆',
-        src: 'https://images.unsplash.com/photo-1522111608460-19e7331e00fb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80',
-        content: ''
-      },
-      {
-        name: '紓壓小物',
-        src: 'https://images.unsplash.com/photo-1560743787-f7cd7bb9c5f4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80',
-        content: ''
-      }
-    ])
+    const bannerList = ref([])
     const listIndex = ref(0)
     const direction = ref(0)
     const currentIndex = computed(() => listIndex.value % bannerList.value.length)
     const currentlist = computed(() => bannerList.value[currentIndex.value])
+    onMounted(async () => {
+      bannerList.value = await fetch('./php/mall/getMallAd.php')
+        .then(res => res.json())
+        .then(json => {
+          if (json.status === 'success') return json.data
+        })
+        .catch(err => console.log(err))
+    })
     return {
       bannerList,
       listIndex,
