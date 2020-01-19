@@ -71,6 +71,7 @@ export default () => {
         state.id = null
       },
       clearProjects (state) {
+        state.id = null
         state.maturityCard = []
         state.projects = []
       },

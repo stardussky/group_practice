@@ -4,7 +4,7 @@
       <transition :name="direction > 0 ? 'slider_banner' : 'slider_banner_reverse'">
         <img
           :key="currentlist.name"
-          :src="`${require('@/assets' + backgroundSrc)}`"
+          :src="backgroundSrc"
           alt="item"
         >
       </transition>
@@ -102,7 +102,11 @@ export default {
         disbaled.value = true
       }
     })
-    const backgroundSrc = computed(() => props.currentlist.src[2].replace('img', ''))
+    const backgroundSrc = computed(() => {
+      // let src = props.currentlist.src[2].replace('img', '')
+      // return require('@/assets' + src)
+      return props.currentlist.src[2]
+    })
     const disableHandler = () => {
       clearTime(disableSetTime.value)
       disableSetTime.value = setTimeout(() => { disbaled.value = false }, 1200)

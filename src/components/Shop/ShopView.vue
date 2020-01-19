@@ -25,9 +25,13 @@ export default {
   },
   setup (props) {
     const backgroundSrc = computed(() => {
-      let src = props.currentlist.src[1].replace('img', '')
+      // let src = props.currentlist.src[1].replace('img', '')
+      // return {
+      //   backgroundImage: `url(${require('@/assets' + src)})`
+      // }
+      let src = props.currentlist.src[1]
       return {
-        backgroundImage: `url(${require('@/assets' + src)})`
+        backgroundImage: `url(${src})`
       }
     })
     const productContent = computed(() => {

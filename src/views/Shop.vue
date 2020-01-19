@@ -29,11 +29,11 @@ export default {
     ShopControl
   },
   setup () {
-    const bannerList = ref([])
+    const bannerList = ref(null)
     const listIndex = ref(0)
     const direction = ref(0)
-    const currentIndex = computed(() => listIndex.value % bannerList.value.length)
-    const currentlist = computed(() => bannerList.value[currentIndex.value])
+    const currentIndex = computed(() => bannerList.value ? listIndex.value % bannerList.value.length : 0)
+    const currentlist = computed(() => bannerList.value ? bannerList.value[currentIndex.value] : null)
     onMounted(async () => {
       bannerList.value = await fetch('./php/mall/getMallAd.php')
         .then(res => res.json())

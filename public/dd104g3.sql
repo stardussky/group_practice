@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機: 127.0.0.1:3306
--- 產生時間： 2020-01-17 14:27:24
+-- 產生時間： 2020-01-19 00:29:57
 -- 伺服器版本: 5.7.23
 -- PHP 版本： 7.2.10
 
@@ -62,7 +62,6 @@ CREATE TABLE IF NOT EXISTS `card_file` (
   `file_name` varchar(50) NOT NULL,
   `file_src` text NOT NULL,
   PRIMARY KEY (`file_no`),
-  KEY `todo_no` (`todo_no`),
   KEY `pro_no` (`pro_no`),
   KEY `card_no` (`card_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -96,6 +95,7 @@ DROP TABLE IF EXISTS `join_program`;
 CREATE TABLE IF NOT EXISTS `join_program` (
   `mem_no` int(11) NOT NULL,
   `pro_no` int(11) NOT NULL,
+  `pro_mem_inv` int(11) NOT NULL DEFAULT '0' COMMENT '0:邀請中 1:已加入',
   PRIMARY KEY (`mem_no`,`pro_no`),
   KEY `mem_no` (`mem_no`),
   KEY `pro_no` (`pro_no`)
@@ -369,7 +369,6 @@ ALTER TABLE `card`
 -- 資料表的 Constraints `card_file`
 --
 ALTER TABLE `card_file`
-  ADD CONSTRAINT `card_file_ibfk_1` FOREIGN KEY (`todo_no`) REFERENCES `todo` (`todo_no`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `card_file_ibfk_2` FOREIGN KEY (`pro_no`) REFERENCES `program` (`pro_no`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `card_file_ibfk_3` FOREIGN KEY (`card_no`) REFERENCES `card` (`card_no`) ON DELETE CASCADE ON UPDATE CASCADE;
 
