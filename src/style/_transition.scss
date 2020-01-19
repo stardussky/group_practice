@@ -2,6 +2,10 @@
   opacity: 0;
   transform: translateX(-10%);
 }
+.slider_reverse-enter, .slider_reverse-leave-to{
+  opacity: 0;
+  transform: translateX(10%);
+}
 .slider_xl-enter, .slider_xl-leave-to {
   opacity: 0;
   transform: translateX(100%);
@@ -14,6 +18,7 @@
   position: absolute;
 }
 .slider-enter-active, .slider-leave-active,
+.slider_reverse-enter, .slider_reverse-leave-to,
 .slider_xl-enter-active, .slider_xl-leave-active,
 .fade-enter-active, .fade-leave-active,
 .flip-move{

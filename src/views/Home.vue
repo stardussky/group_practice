@@ -102,7 +102,10 @@ export default {
   },
   watch: {
     isLogin (val) {
-      if (val)window.removeEventListener('beforeunload', this.beforeunloadLeave)
+      if (val) {
+        this.GET_MESSAGE()
+        window.removeEventListener('beforeunload', this.beforeunloadLeave)
+      }
     },
     projects (val) {
       if (this.isLogin) return
@@ -122,7 +125,7 @@ export default {
     window.removeEventListener('beforeunload', this.beforeunloadRecord)
   },
   methods: {
-    ...mapActions('memberStore', ['CHECK_LOGIN']),
+    ...mapActions('memberStore', ['CHECK_LOGIN', 'GET_MESSAGE']),
     ...mapMutations('clockStore', ['selectTarget']),
     beforeunloadLeave (e) {
       (e || window.event).returnValue = ''

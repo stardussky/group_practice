@@ -2,11 +2,18 @@ export default () => {
   return {
     namespaced: true,
     state: {
-      userInfo: null
+      userInfo: null,
+      userMessage: []
     },
     mutations: {
       setUserInfo (state, json) {
         state.userInfo = json
+      },
+      setMessage (state, json) {
+        state.userMessage = json
+      },
+      replyMessage (state, index) {
+        state.userMessage.splice(index, 1)
       }
     },
     actions: {
@@ -44,6 +51,36 @@ export default () => {
                 commit('setUserInfo', json.data)
               }
             }).catch(err => err)
+          resolve()
+        })
+      },
+      GET_MESSAGE ({ commit, state }) {
+        return new Promise(resolve => {
+          fetch('./php/member/getMessage.php', {
+            method: 'POST',
+            body: new URLSearchParams(`mem_no=${state.userInfo.mem_no}`)
+          })
+            .then(res => res.json())
+            .then(json => commit('setMessage', json.data))
+            .catch(err => console.log(err))
+          resolve()
+        })
+      },
+      REPLY_MESSAGE ({ commit, state }, { index, projectId, status }) {
+        return new Promise(resolve => {
+          commit('changeLoadingStatue', 'start', { root: true })
+          fetch('./php/member/replyMessage.php', {
+            method: 'POST',
+            body: new URLSearchParams(`mem_no=${state.userInfo.mem_no}&pro_no=${projectId}&reply=${status}`)
+          })
+            .then(res => res.json())
+            .then(json => {
+              if (json.status === 'success') {
+                commit('replyMessage', index)
+                commit('changeLoadingStatue', 'success', { root: true })
+              }
+            })
+            .catch(err => commit('changeLoadingStatue', err, { root: true }))
           resolve()
         })
       },
