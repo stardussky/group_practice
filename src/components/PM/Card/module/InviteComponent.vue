@@ -45,7 +45,7 @@
           placeholder="邀請帳號"
           @keydown.enter="inviteMember"
         >
-        <div>
+        <div @click="inviteMember">
           <img
             src="@/assets/icon/search.svg"
             alt="search"
