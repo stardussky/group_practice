@@ -22,13 +22,13 @@
     &::before,
     &::after {
       @if($radius == 50%){
-        animation: animate_c 2s infinite;
+        animation: animate_c 1s linear infinite;
       }@else {
-        animation: animate 2s infinite;
+        animation: animate 1s linear infinite;
       }
     }
     &::after {
-      animation-delay: 1s;
+      animation-delay: .5s;
     }
   }
   @keyframes animate {
