@@ -104,7 +104,7 @@ export default (root, bus) => {
       ]
     },
     {
-      attachTo: { element: '.invite', on: 'bottom' },
+      attachTo: { element: '.inviteComponent', on: 'bottom' },
       text: '登入後即可為這個待辦事項指定人員',
       buttons: [
         {

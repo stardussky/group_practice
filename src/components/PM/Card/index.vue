@@ -15,7 +15,7 @@
       >
     </div>
     <div class="card_body">
-      <InviteComponent />
+      <InviteComponent :project-member="projectMember" />
       <DateComponent
         v-model="deadLine"
         :dead-line="deadLine"
@@ -76,7 +76,7 @@ import DateComponent from './module/DateComponent'
 import FileContent from './module/FileContent'
 import TodoContent from './module/TodoContent'
 import card from '@/composition/card'
-import { mapGetters, mapActions } from 'vuex'
+import { mapState, mapGetters, mapActions } from 'vuex'
 import bus from '@/bus'
 export default {
   name: 'Card',
@@ -125,6 +125,7 @@ export default {
     }
   },
   computed: {
+    ...mapState('pmStore', ['projectMember']),
     ...mapGetters('pmStore', ['project']),
     cardContent () {
       return {

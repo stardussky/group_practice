@@ -31,7 +31,8 @@ import { ref, computed } from '@vue/composition-api'
 export default {
   name: 'CreateProject',
   setup (props, { emit }) {
-    const colors = ref(['#81c7d4', '#a6c1ee', '#f8c3cd', '#F9BF45', '#EB7A77', '#86C166', '#777777'])
+    const colors = ref(['#81c7d4', '#a6c1ee', '#3581B8', '#f8c3cd', '#EB7A77',
+      '#F9BF45', '#86C166', '#B6BE9C', '#9E768F', '#B2967D', '#7C6C77', '#777777'])
     const name = ref(null)
     const selectColor = ref(null)
     const project = computed(() => {
@@ -77,7 +78,7 @@ export default {
 <style lang='scss'>
 .createProject {
   @include clearfix;
-  min-width: 300px;
+  width: 300px;
   background-color: rgba($white, .8);
   border-radius: 20px;
   padding: 15px;

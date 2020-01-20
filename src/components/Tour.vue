@@ -22,7 +22,8 @@ export default {
         const tour = this.$shepherd({
           useModalOverlay: true,
           defaultStepOptions: {
-            classes: 'tour'
+            classes: 'tour',
+            scrollTo: true
           },
           cancelIcon: {
             enabled: true

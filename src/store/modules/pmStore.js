@@ -3,6 +3,7 @@ export default () => {
     namespaced: true,
     state: {
       projects: [],
+      projectMember: [],
       maturityCard: [],
       id: null,
       isEdit: false,
@@ -58,14 +59,18 @@ export default () => {
       getMaturityCard (state, data) {
         state.maturityCard = data
       },
-      getProject (state, { getters, id, json }) {
+      getProject (state, { getters, id, cards }) {
         state.isEdit = false
         state.id = id
-        if (json) {
+        if (cards) {
           state.projects[getters.projectIndex].list.forEach((info, index) => {
-            info.todo = json[index]
+            if (cards.length) info.todo = cards[index]
+            else info.todo = cards
           })
         }
+      },
+      getMember (state, member) {
+        state.projectMember = member
       },
       clearProjectId (state) {
         state.id = null
@@ -74,6 +79,7 @@ export default () => {
         state.id = null
         state.maturityCard = []
         state.projects = []
+        state.projectMember = []
       },
       pushTodoCard (state, { getters, card, id }) {
         if (id)card.id = id
@@ -165,9 +171,11 @@ export default () => {
               body: new URLSearchParams(`pro_no=${id}`)
             })
               .then(res => res.json())
-              .then(json => {
-                if (json.status === 'success') commit('getProject', { getters, id, json: json.data })
-                else commit('getProject', { id })
+              .then(({ status, cards, member }) => {
+                if (status === 'success') {
+                  commit('getProject', { getters, id, cards })
+                  commit('getMember', member)
+                }
                 commit('changeLoadingStatue', 'success', { root: true })
                 resolve()
               })

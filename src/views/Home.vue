@@ -144,7 +144,7 @@ export default {
       height: 5px;
     }
     ::-webkit-scrollbar-thumb {
-      border-radius: 5px;
+      border-radius: 10px;
       background-color: $white;
     }
     ::-webkit-scrollbar-track {
