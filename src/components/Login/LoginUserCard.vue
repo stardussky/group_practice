@@ -58,7 +58,8 @@ export default {
 
 <style lang='scss'>
 .loginUserCard {
-  width: 400px;
+  width: 40%;
+  min-width: 400px;
   height: 100%;
   background-color: rgba($white, .1);
   padding: 20px;
@@ -156,6 +157,7 @@ export default {
   }
   @include media(767px){
     width: 100%;
+    min-width: auto;
   }
 }
 </style>

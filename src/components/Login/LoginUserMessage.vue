@@ -11,7 +11,7 @@
       <div class="message">
         <div class="invite_head">
           <img
-            :src="headShot"
+            :src="msg.inviteHeadShot ? `./userImg/${msg.inviteHeadShot}` : require('@/assets/icon/user.svg')"
             alt="headShot"
           >
         </div>
@@ -30,7 +30,6 @@
 </template>
 
 <script>
-import { computed } from '@vue/composition-api'
 import { mapActions } from 'vuex'
 export default {
   name: 'LoginUserMessage',
@@ -38,16 +37,6 @@ export default {
     userMessage: {
       type: Array,
       required: true
-    }
-  },
-  setup (props) {
-    const headShot = computed(() => {
-      return props.userMessage.inviteHeadShot
-        ? `./userImg/${props.userMessage.inviteHeadShot}`
-        : `${require('@/assets/icon/user.svg')}`
-    })
-    return {
-      headShot
     }
   },
   methods: {
@@ -58,7 +47,7 @@ export default {
 
 <style lang='scss'>
 .loginUserMessage {
-  width: calc(100% - 400px);
+  width: 60%;
   height: 100%;
   list-style: none;
   overflow-y: auto;
