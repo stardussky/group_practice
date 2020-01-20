@@ -65,7 +65,6 @@ export default () => {
         if (cards) {
           state.projects[getters.projectIndex].list.forEach((info, index) => {
             if (cards.length) info.todo = cards[index]
-            else info.todo = cards
           })
         }
       },
