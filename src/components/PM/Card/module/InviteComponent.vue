@@ -15,7 +15,7 @@
         class="member"
       >
         <img
-          :src="memberHeadShot"
+          :src="member.headshot ? `./userImg/${member.headshot}` : require('@/assets/icon/user.svg')"
           :title="member.mem_name || member.mem_id"
           alt="member"
         >
@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import { ref, computed } from '@vue/composition-api'
+import { ref } from '@vue/composition-api'
 import { mapActions } from 'vuex'
 export default {
   name: 'InviteComponent',
@@ -82,14 +82,8 @@ export default {
     const open = ref(false)
     const inviteAccount = ref(null)
     const result = ref(null)
-    const memberHeadShot = computed(() => {
-      return props.projectMember.headshot
-        ? `./userImg/${props.userInfo.headshot}`
-        : `${require('@/assets/icon/user.svg')}`
-    })
     return {
       open,
-      memberHeadShot,
       inviteAccount,
       result
     }
