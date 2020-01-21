@@ -3,7 +3,6 @@ export default () => {
     namespaced: true,
     state: {
       projects: [],
-      projectMember: [],
       maturityCard: [],
       id: null,
       isEdit: false,
@@ -49,8 +48,9 @@ export default () => {
       }
     },
     mutations: {
-      createProject (state, { data, id }) {
-        if (id)data.id = id
+      createProject (state, { data, id, userInfo }) {
+        if (id) data.id = id
+        if (userInfo) data.memberList = [userInfo]
         state.projects.push(data)
       },
       getProjectsList (state, data) {
@@ -68,9 +68,6 @@ export default () => {
           })
         }
       },
-      getMember (state, member) {
-        state.projectMember = member
-      },
       clearProjectId (state) {
         state.id = null
       },
@@ -78,7 +75,6 @@ export default () => {
         state.id = null
         state.maturityCard = []
         state.projects = []
-        state.projectMember = []
       },
       pushTodoCard (state, { getters, card, id }) {
         if (id)card.id = id
@@ -117,7 +113,7 @@ export default () => {
             })
               .then(res => res.json())
               .then(json => {
-                commit('createProject', { data, id: json.data })
+                commit('createProject', { data, id: json.data, userInfo: rootState.memberStore.userInfo })
                 commit('changeLoadingStatue', 'success', { root: true })
               })
               .catch(err => commit('changeLoadingStatue', err, { root: true }))
@@ -170,11 +166,8 @@ export default () => {
               body: new URLSearchParams(`pro_no=${id}`)
             })
               .then(res => res.json())
-              .then(({ status, cards, member }) => {
-                if (status === 'success') {
-                  commit('getProject', { getters, id, cards })
-                  commit('getMember', member)
-                }
+              .then(({ status, cards }) => {
+                if (status === 'success') commit('getProject', { getters, id, cards })
                 commit('changeLoadingStatue', 'success', { root: true })
                 resolve()
               })

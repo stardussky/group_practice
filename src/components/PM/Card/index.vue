@@ -15,7 +15,10 @@
       >
     </div>
     <div class="card_body">
-      <InviteComponent :project-member="projectMember" />
+      <InviteComponent
+        :member-list="project.memberList"
+        @addCardMember="addCardMember"
+      />
       <DateComponent
         v-model="deadLine"
         :dead-line="deadLine"
@@ -76,7 +79,7 @@ import DateComponent from './module/DateComponent'
 import FileContent from './module/FileContent'
 import TodoContent from './module/TodoContent'
 import card from '@/composition/card'
-import { mapState, mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import bus from '@/bus'
 export default {
   name: 'Card',
@@ -105,7 +108,7 @@ export default {
     }
   },
   setup (props) {
-    const { cardTitle, editCardId, setTodoClock, resetCard, dateStatus, deadLine, todoTitle, todoContentList, fileContent, pushContentList, pushFile, changeStatus, deleteTodoContent, deleteTodoList, deleteFile } = card(props)
+    const { addCardMember, cardMember, cardTitle, editCardId, setTodoClock, resetCard, dateStatus, deadLine, todoTitle, todoContentList, fileContent, pushContentList, pushFile, changeStatus, deleteTodoContent, deleteTodoList, deleteFile } = card(props)
     return {
       cardTitle,
       deadLine,
@@ -121,12 +124,13 @@ export default {
       deleteFile,
       changeStatus,
       setTodoClock,
-      resetCard
+      resetCard,
+      cardMember,
+      addCardMember
     }
   },
   computed: {
-    ...mapState('pmStore', ['projectMember']),
-    ...mapGetters('pmStore', ['project']),
+    ...mapGetters('pmStore', ['project', 'projectIndex']),
     cardContent () {
       return {
         id: this.editCardId || Date.now() + '',

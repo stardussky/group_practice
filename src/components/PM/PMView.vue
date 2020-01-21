@@ -12,8 +12,8 @@
       <Project
         v-for="project in projects"
         :key="project.id"
-        :project="project.info"
-        @click.native="enterProject(project.id)"
+        :project="project"
+        @enterProject="enterProject"
       />
     </transition-group>
     <Calendar />

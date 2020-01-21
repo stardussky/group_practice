@@ -6,17 +6,16 @@
         alt="member"
         width="20"
       >
-      <p>專案成員</p>
+      <p>卡片成員</p>
     </div>
     <div class="members">
       <div
-        v-for="member in projectMember"
-        :key="member.mem_no"
+        v-for="num in 2"
+        :key="num"
         class="member"
       >
         <img
-          :src="member.headshot ? `./userImg/${member.headshot}` : require('@/assets/icon/user.svg')"
-          :title="member.mem_name || member.mem_id"
+          :src="require('@/assets/icon/user.svg')"
           alt="member"
         >
       </div>
@@ -35,67 +34,66 @@
       </button>
     </div>
     <div
-      class="invite"
-      :class="{active: open}"
+      class="member_list"
+      :class="{open: open}"
     >
-      <div class="invite_input">
-        <input
-          v-model.trim="inviteAccount"
-          type="text"
-          placeholder="邀請帳號"
-          @keydown.enter="inviteMember"
+      <p>專案成員</p>
+      <ul>
+        <li
+          v-for="member in memberList"
+          :key="member.mem_no"
         >
-        <div @click="inviteMember">
-          <img
-            src="@/assets/icon/search.svg"
-            alt="search"
+          <div
+            class="checked"
+            @click="addCardMember(member)"
           >
-          <img
-            src="@/assets/icon/search.svg"
-            alt="search"
-          >
-        </div>
-      </div>
-      <p
-        v-if="result"
-        class="invite_status"
-        :class="result.status"
-      >
-        {{ result.content }}
-      </p>
+            <img
+              v-if="!member.status"
+              src="@/assets/icon/unchecked_d.svg"
+              alt="unchecked"
+              width="20"
+            >
+            <img
+              v-else
+              src="@/assets/icon/checked_d.svg"
+              alt="checked"
+              width="20"
+            >
+          </div>
+          <div class="member">
+            <img
+              :src="member.headshot ? `./userImg/${member.headshot}` : require('@/assets/icon/user.svg')"
+              alt="member"
+            >
+          </div>
+          <p>{{ member.mem_name || member.mem_id }}</p>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
 
 <script>
 import { ref } from '@vue/composition-api'
-import { mapActions } from 'vuex'
+import { } from 'vuex'
 export default {
   name: 'InviteComponent',
   props: {
-    projectMember: {
+    memberList: {
       type: Array,
       required: true
     }
   },
-  setup (props) {
+  setup (props, { emit }) {
     const open = ref(false)
-    const inviteAccount = ref(null)
-    const result = ref(null)
+    const addCardMember = (member) => emit('addCardMember', member)
     return {
       open,
-      inviteAccount,
-      result
+      addCardMember
     }
   },
   methods: {
-    ...mapActions('memberStore', ['INVITE_MEMBER']),
-    async inviteMember () {
-      if (this.inviteAccount) {
-        this.result = await this.INVITE_MEMBER(this.inviteAccount)
-        this.inviteAccount = null
-      }
-    }
+
   }
 }
 </script>
@@ -117,6 +115,7 @@ export default {
     align-items: center;
     padding-left: 30px;
     overflow-x: auto;
+    padding-bottom: 5px;
     &::-webkit-scrollbar {
       height: 3px;
     }
@@ -141,53 +140,39 @@ export default {
       border-radius: 50%;
     }
   }
-  .invite {
+  .member_list {
     max-height: 0;
-    opacity: 0;
     visibility: hidden;
+    opacity: 0;
+    border-top: 1px solid rgba($dark, .3);
+    padding-left: 30px;
     transition: max-height .3s;
-    &_input {
-      @include font;
-      position: relative;
-      input {
-        width: 100%;
-        height: 0;
-        @include inputReset;
-        border: none;
-        border-bottom: 1px solid $dark;
-        padding: 0 30px 0 5px;
-        margin: 5px 0;
-        transition: height .3s;
-        &::-webkit-input-placeholder{
-          @include font;
-          color: $dark;
-          text-align: center;
-        }
-      }
-      div {
-        @include positionCenter(y);
-        right: 0;
-        @include hoverImg(30px);
-      }
-    }
-    .invite_status {
-      text-align: center;
-      padding: 0 30px 0 5px;
-      &.error {
-        color: $danger;
-      }
-      &.success{
-        color: $success;
-      }
-    }
-    &.active {
-      max-height: 60px;
-      opacity: 1;
+    &.open {
+      max-height: 131px;
       visibility: visible;
-      .invite_input {
-        input {
-          height: 30px;
-        }
+      opacity: 1;
+    }
+    >p {
+      margin: 5px 0;
+    }
+    .member {
+      width: 25px;
+      height: 25px;
+      margin-right: 10px;
+    }
+    .checked {
+      display: flex;
+      align-items: center;
+      margin-right: 10px;
+      cursor: pointer;
+    }
+    ul {
+      max-height: 100px;
+      overflow-y: auto;
+      li {
+        display: flex;
+        align-items: center;
+        margin-bottom: 5px;
       }
     }
   }

@@ -88,14 +88,14 @@ export default () => {
           resolve()
         })
       },
-      INVITE_MEMBER ({ commit, state, rootState }, payload) {
+      INVITE_MEMBER ({ commit, state, rootState }, { account, projectId }) {
         return new Promise(resolve => {
           if (rootState.isLogin) {
             if (rootState.isLoading) return
             commit('changeLoadingStatue', 'start', { root: true })
             fetch('./php/member/invite_member.php', {
               method: 'POST',
-              body: new URLSearchParams(`invite_id=${payload}&mem_no=${state.userInfo.mem_no}&pro_no=${rootState.pmStore.id}`)
+              body: new URLSearchParams(`invite_id=${account}&mem_no=${state.userInfo.mem_no}&pro_no=${projectId}`)
             })
               .then(res => res.json())
               .then(json => {

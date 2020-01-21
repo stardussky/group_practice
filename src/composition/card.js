@@ -7,6 +7,7 @@ export default (props) => {
   const todoContentList = ref([])
   const fileContent = ref([])
   const editCardId = ref(null)
+  const cardMember = ref([])
 
   const pushContentList = ({ id, list }) => {
     todoContentList.value.find(list => {
@@ -25,6 +26,7 @@ export default (props) => {
     todoContentList.value[index].lists.splice(listIndex, 1)
   }
   const deleteFile = (index) => fileContent.value.splice(index, 1)
+  const addCardMember = (obj) => cardMember.value.push(obj)
   const resetCard = () => {
     editCardId.value = null
     dateStatus.value = false
@@ -61,6 +63,8 @@ export default (props) => {
     deleteTodoList,
     deleteFile,
     setTodoClock,
-    resetCard
+    resetCard,
+    cardMember,
+    addCardMember
   }
 }

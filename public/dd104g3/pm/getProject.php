@@ -7,7 +7,6 @@ try {
   $cardRes->bindParam('pro_no', $pro_no);
   $cardRes->execute();
   $data = [];
-  $members = [];
   if($cardRes->rowCount()){
     $cards = $cardRes->fetchAll(PDO::FETCH_ASSOC);
     $cardInfo = [];
@@ -87,17 +86,7 @@ try {
     }
     $data = [$step0, $step1, $step2];
   }
-  $sql = 'select j.mem_no, m.mem_name, m.mem_id, headshot
-  from `join_program` j
-  JOIN `member` m on m.mem_no = j.mem_no AND pro_mem_inv = 1
-  where pro_no = :pro_no';
-  $memberRes = $pdo->prepare($sql);
-  $memberRes->bindParam('pro_no', $pro_no);
-  $memberRes->execute();
-  if($memberRes->rowCount()){
-    $members = $memberRes->fetchAll(PDO::FETCH_ASSOC);
-  }
-  echo json_encode(['status' => 'success', 'cards' => $data, 'member' => $members]);
+  echo json_encode(['status' => 'success', 'cards' => $data]);
 } catch (PDOException $e) {
   echo $e->getLine();
   echo $e->getMessage();

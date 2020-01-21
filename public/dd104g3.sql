@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機: 127.0.0.1:3306
--- 產生時間： 2020-01-19 00:29:57
+-- 產生時間： 2020-01-21 07:22:51
 -- 伺服器版本: 5.7.23
 -- PHP 版本： 7.2.10
 
@@ -38,14 +38,7 @@ CREATE TABLE IF NOT EXISTS `card` (
   `card_sta` int(11) NOT NULL DEFAULT '0' COMMENT '0:未完成 1:完成',
   PRIMARY KEY (`card_no`),
   KEY `pro_no` (`pro_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-
---
--- 資料表的匯出資料 `card`
---
-
-INSERT INTO `card` (`card_no`, `pro_no`, `card_name`, `card_date`, `card_type`, `card_sta`) VALUES
-(1, 1, 'dd104g3', '2020-01-18 12:00:00', '0', 0);
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -94,11 +87,14 @@ CREATE TABLE IF NOT EXISTS `chat_record` (
 DROP TABLE IF EXISTS `join_program`;
 CREATE TABLE IF NOT EXISTS `join_program` (
   `mem_no` int(11) NOT NULL,
+  `inv_by_mem` int(11) NOT NULL,
   `pro_no` int(11) NOT NULL,
-  `pro_mem_inv` int(11) NOT NULL DEFAULT '0' COMMENT '0:邀請中 1:已加入',
+  `pro_mem_inv` int(11) NOT NULL DEFAULT '0' COMMENT '0:邀請中 1:已加入 2:已拒絕',
+  `inv_sta` int(11) NOT NULL DEFAULT '1' COMMENT '0:未讀 1:已讀',
   PRIMARY KEY (`mem_no`,`pro_no`),
   KEY `mem_no` (`mem_no`),
-  KEY `pro_no` (`pro_no`)
+  KEY `pro_no` (`pro_no`),
+  KEY `join_program_ibfk_3` (`inv_by_mem`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -113,42 +109,45 @@ CREATE TABLE IF NOT EXISTS `mall_product` (
   `product_num` int(11) NOT NULL,
   `product_name` varchar(20) NOT NULL,
   `product_price` int(11) NOT NULL,
-  `product_src` varchar(50) NOT NULL,
-  `product_color` varchar(50) NOT NULL,
-  `product_desc` varchar(100) NOT NULL,
+  `product_src` varchar(50) DEFAULT NULL,
+  `product_color` varchar(50) DEFAULT NULL,
+  `product_desc` varchar(100) DEFAULT NULL,
   `product_type` int(11) NOT NULL,
-  `product_bg_src` varchar(50) NOT NULL,
-  `product_slide_img` varchar(50) NOT NULL,
-  `index_true` int(2) NOT NULL,
-  `product_on` int(2) NOT NULL,
+  `product_bg_src` varchar(50) DEFAULT NULL,
+  `product_slide_img` varchar(50) DEFAULT NULL,
+  `index_on` int(1) NOT NULL DEFAULT '0' COMMENT '0: 下架 1:上架',
+  `product_on` int(1) NOT NULL DEFAULT '1' COMMENT '0: 下架 1:上架',
   PRIMARY KEY (`product_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=20205 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15151652 DEFAULT CHARSET=utf8;
 
 --
 -- 資料表的匯出資料 `mall_product`
 --
 
-INSERT INTO `mall_product` (`product_no`, `product_num`, `product_name`, `product_price`, `product_src`, `product_color`, `product_desc`, `product_type`, `product_bg_src`, `product_slide_img`, `index_true`, `product_on`) VALUES
-(10101, 101, '纖巧商務包', 1600, 'img/mall_img/101_black.png', '典雅黑', '<li>絨毛內裡 保護電腦不刮傷</li><li>凹形邊緣護墊 有效吸收抵禦衝擊</li>', 1, 'img/mall_img/101_bg.jpg', 'img/mall_img/101_sbg.jpg', 0, 0),
-(10102, 101, '纖巧商務包', 1600, 'img/mall_img/101_brown.png', '駝棕色', '<li>絨毛內裡 保護電腦不刮傷</li><li>凹形邊緣護墊 有效吸收抵禦衝擊</li>', 1, 'img/mall_img/101_bg.jpg', 'img/mall_img/101_sbg.jpg', 0, 0),
-(10103, 101, '纖巧商務包', 1600, 'img/mall_img/101_blue.png', '孔雀藍', '<li>絨毛內裡 保護電腦不刮傷</li><li>凹形邊緣護墊 有效吸收抵禦衝擊</li>', 1, 'img/mall_img/101_bg.jpg', 'img/mall_img/101_sbg.jpg', 0, 0),
-(10104, 101, '纖巧商務包', 1600, 'img/mall_img/101_white.png', '白米色', '<li>絨毛內裡 保護電腦不刮傷</li><li>凹形邊緣護墊 有效吸收抵禦衝擊</li>', 1, 'img/mall_img/101_bg.jpg', 'img/mall_img/101_sbg.jpg', 0, 0),
-(10201, 102, '迷你單肩包', 1200, 'img/mall_img/102_black.png', '典雅黑', '<li>精緻的設計為休閒裝增添優雅氣息。</li><li>最上等的牛真皮具有獨特的柔軟性，穿著舒適。</li>', 1, 'img/mall_img/102_bg.jpg', 'img/mall_img/102_sbg.jpg', 0, 0),
-(10202, 102, '迷你單肩包', 1200, 'img/mall_img/102_blue.png', '孔雀藍', '<li>精緻的設計為休閒裝增添優雅氣息。</li><li>最上等的牛真皮具有獨特的柔軟性，穿著舒適。</li>', 1, 'img/mall_img/102_bg.jpg', 'img/mall_img/102_sbg.jpg', 0, 0),
-(10203, 102, '迷你單肩包', 1200, 'img/mall_img/102_brown.png', '駝棕色', '<li>精緻的設計為休閒裝增添優雅氣息。</li><li>最上等的牛真皮具有獨特的柔軟性，穿著舒適。</li>', 1, 'img/mall_img/102_bg.jpg', 'img/mall_img/102_sbg.jpg', 0, 0),
-(10204, 102, '迷你單肩包', 1200, 'img/mall_img/102_red.png', '皇家紅', '<li>精緻的設計為休閒裝增添優雅氣息。</li><li>最上等的牛真皮具有獨特的柔軟性，穿著舒適。</li>', 1, 'img/mall_img/102_bg.jpg', 'img/mall_img/102_sbg.jpg', 0, 0),
-(10301, 103, '手拿包', 900, 'img/mall_img/103_black.png', '典雅黑', '<li>3個口袋</li><li>外面有拉鍊</li>', 1, 'img/mall_img/103_bg.jpg', 'img/mall_img/103_sbg.jpg', 0, 0),
-(10302, 103, '手拿包', 900, 'img/mall_img/103_blue.png', '孔雀藍', '<li>3個口袋</li><li>外面有拉鍊</li>', 1, 'img/mall_img/103_bg.jpg', 'img/mall_img/103_sbg.jpg', 0, 0),
-(10303, 103, '手拿包', 900, 'img/mall_img/103_brown.png', '駝棕色', '<li>3個口袋</li><li>外面有拉鍊</li>', 1, 'img/mall_img/103_bg.jpg', 'img/mall_img/103_sbg.jpg', 0, 0),
-(10304, 103, '手拿包', 900, 'img/mall_img/103_pink.png', '櫻花粉', '<li>3個口袋</li><li>外面有拉鍊</li>', 1, 'img/mall_img/103_bg.jpg', 'img/mall_img/103_sbg.jpg', 0, 0),
-(20101, 201, '牛皮真皮身份證夾', 790, 'img/mall_img/201_black.png', '神秘黑', '<li>最優質的牛皮製成</li><li>可取下膠片</li>', 2, 'img/mall_img/201_bg.jpg', 'img/mall_img/201_sbg.jpg', 0, 0),
-(20102, 201, '牛皮真皮身份證夾', 790, 'img/mall_img/201_brown.png', '神秘黑', '<li>最優質的牛皮製成</li><li>可取下膠片</li>', 2, 'img/mall_img/201_bg.jpg', 'img/mall_img/201_sbg.jpg', 0, 0),
-(20103, 201, '牛皮真皮身份證夾', 790, 'img/mall_img/201_green.png', '孔雀藍', '<li>最優質的牛皮製成</li><li>可取下膠片</li>', 2, 'img/mall_img/201_bg.jpg', 'img/mall_img/201_sbg.jpg', 0, 0),
-(20104, 201, '牛皮真皮身份證夾', 790, 'img/mall_img/201_white.png', '白米色', '<li>最優質的牛皮製成</li><li>可取下膠片</li>', 2, 'img/mall_img/201_bg.jpg', 'img/mall_img/201_sbg.jpg', 0, 0),
-(20201, 202, '真皮卡套', 880, 'img/mall_img/202_black.png', '神秘黑', '<li>可放大約20張名片厚度</li><li>不易打滑、享受質感</li>', 2, 'img/mall_img/202_bg.jpg', 'img/mall_img/202_sbg.jpg', 0, 0),
-(20202, 202, '真皮卡套', 880, 'img/mall_img/202_brown.png', '駝棕色', '<li>可放大約20張名片厚度</li><li>不易打滑、享受質感</li>', 2, 'img/mall_img/202_bg.jpg', 'img/mall_img/202_sbg.jpg', 0, 0),
-(20203, 202, '真皮卡套', 880, 'img/mall_img/202_pink.png', '櫻花粉', '<li>可放大約20張名片厚度</li><li>不易打滑、享受質感</li>', 2, 'img/mall_img/202_bg.jpg', 'img/mall_img/202_sbg.jpg', 0, 0),
-(20204, 202, '真皮卡套', 880, 'img/mall_img/202_red.png', '皇家紅', '<li>可放大約20張名片厚度</li><li>不易打滑、享受質感</li>', 2, 'img/mall_img/202_bg.jpg', 'img/mall_img/202_sbg.jpg', 0, 0);
+INSERT INTO `mall_product` (`product_no`, `product_num`, `product_name`, `product_price`, `product_src`, `product_color`, `product_desc`, `product_type`, `product_bg_src`, `product_slide_img`, `index_on`, `product_on`) VALUES
+(10101, 101, '纖巧商務包', 1600, 'img/mall_img/101_black.png', '典雅黑', '絨毛內裡 保護電腦不刮傷凹形邊緣護墊 有效吸收抵禦衝擊', 1, 'img/mall_img/101_bg.jpg', 'img/mall_img/101_sbg.jpg', 0, 1),
+(10102, 101, '纖巧商務包', 1600, 'img/mall_img/101_brown.png', '駝棕色', '絨毛內裡 保護電腦不刮傷凹形邊緣護墊 有效吸收抵禦衝擊', 1, 'img/mall_img/101_bg.jpg', 'img/mall_img/101_sbg.jpg', 1, 1),
+(10103, 101, '纖巧商務包', 1600, 'img/mall_img/101_blue.png', '孔雀藍', '絨毛內裡 保護電腦不刮傷凹形邊緣護墊 有效吸收抵禦衝擊', 1, 'img/mall_img/101_bg.jpg', 'img/mall_img/101_sbg.jpg', 0, 1),
+(10104, 101, '纖巧商務包', 1600, 'img/mall_img/101_white.png', '白米色', '絨毛內裡 保護電腦不刮傷凹形邊緣護墊 有效吸收抵禦衝擊', 1, 'img/mall_img/101_bg.jpg', 'img/mall_img/101_sbg.jpg', 0, 1),
+(10201, 102, '迷你單肩包', 1200, 'img/mall_img/102_black.png', '典雅黑', '精緻的設計為休閒裝增添優雅氣息。 最上等的牛真皮具有獨特的柔軟性，穿著舒適。', 1, 'img/mall_img/102_bg.jpg', 'img/mall_img/102_sbg.jpg', 0, 1),
+(10202, 102, '迷你單肩包', 1200, 'img/mall_img/102_blue.png', '孔雀藍', '精緻的設計為休閒裝增添優雅氣息。 最上等的牛真皮具有獨特的柔軟性，穿著舒適。', 1, 'img/mall_img/102_bg.jpg', 'img/mall_img/102_sbg.jpg', 1, 1),
+(10203, 102, '迷你單肩包', 1200, 'img/mall_img/102_brown.png', '駝棕色', '精緻的設計為休閒裝增添優雅氣息。 最上等的牛真皮具有獨特的柔軟性，穿著舒適。', 1, 'img/mall_img/102_bg.jpg', 'img/mall_img/102_sbg.jpg', 0, 1),
+(10204, 102, '迷你單肩包', 1200, 'img/mall_img/102_red.png', '皇家紅', '精緻的設計為休閒裝增添優雅氣息。 最上等的牛真皮具有獨特的柔軟性，穿著舒適。', 1, 'img/mall_img/102_bg.jpg', 'img/mall_img/102_sbg.jpg', 0, 1),
+(10301, 103, '手拿包', 900, 'img/mall_img/103_black.png', '典雅黑', '3個口袋 外面有拉鍊', 1, 'img/mall_img/103_bg.jpg', 'img/mall_img/103_sbg.jpg', 0, 1),
+(10302, 103, '手拿包', 900, 'img/mall_img/103_blue.png', '孔雀藍', '3個口袋 外面有拉鍊', 1, 'img/mall_img/103_bg.jpg', 'img/mall_img/103_sbg.jpg', 1, 1),
+(10303, 103, '手拿包', 900, 'img/mall_img/103_brown.png', '駝棕色', '3個口袋 外面有拉鍊', 1, 'img/mall_img/103_bg.jpg', 'img/mall_img/103_sbg.jpg', 0, 1),
+(10304, 103, '手拿包', 900, 'img/mall_img/103_pink.png', '櫻花粉', '3個口袋 外面有拉鍊', 1, 'img/mall_img/103_bg.jpg', 'img/mall_img/103_sbg.jpg', 0, 1),
+(20101, 201, '牛皮真皮身份證夾', 790, 'img/mall_img/201_black.png', '神秘黑', '最優質的牛皮製成 可取下膠片', 2, 'img/mall_img/201_bg.jpg', 'img/mall_img/201_sbg.jpg', 1, 1),
+(20102, 201, '牛皮真皮身份證夾', 790, 'img/mall_img/201_brown.png', '神秘黑', '最優質的牛皮製成 可取下膠片', 2, 'img/mall_img/201_bg.jpg', 'img/mall_img/201_sbg.jpg', 0, 1),
+(20103, 201, '牛皮真皮身份證夾', 790, 'img/mall_img/201_green.png', '孔雀藍', '最優質的牛皮製成 可取下膠片', 2, 'img/mall_img/201_bg.jpg', 'img/mall_img/201_sbg.jpg', 0, 1),
+(20104, 201, '牛皮真皮身份證夾', 790, 'img/mall_img/201_white.png', '白米色', '最優質的牛皮製成 可取下膠片', 2, 'img/mall_img/201_bg.jpg', 'img/mall_img/201_sbg.jpg', 0, 1),
+(20201, 202, '真皮卡套', 880, 'img/mall_img/202_black.png', '神秘黑', '可放大約20張名片厚度 不易打滑、享受質感', 2, 'img/mall_img/202_bg.jpg', 'img/mall_img/202_sbg.jpg', 1, 1),
+(20202, 202, '真皮卡套', 880, 'img/mall_img/202_brown.png', '駝棕色', '可放大約20張名片厚度 不易打滑、享受質感', 2, 'img/mall_img/202_bg.jpg', 'img/mall_img/202_sbg.jpg', 0, 1),
+(20203, 202, '真皮卡套', 880, 'img/mall_img/202_pink.png', '櫻花粉', '可放大約20張名片厚度 不易打滑、享受質感', 2, 'img/mall_img/202_bg.jpg', 'img/mall_img/202_sbg.jpg', 0, 1),
+(20204, 202, '真皮卡套', 880, 'img/mall_img/202_red.png', '皇家紅', '可放大約20張名片厚度 不易打滑、享受質感', 2, 'img/mall_img/202_bg.jpg', 'img/mall_img/202_sbg.jpg', 0, 1),
+(20301, 203, '超薄名片夾', 500, 'img/mall_img/203_black.png', '神秘黑', '一個簡單而纖薄的名片夾，可用於辦公室工作人員。', 2, 'img/mall_img/203_bg.jpg', 'img/mall_img/203_sbg.jpg', 1, 1),
+(20302, 203, '超薄名片夾', 500, 'img/mall_img/203_brown.png', '駝棕色', '一個簡單而纖薄的名片夾，可用於辦公室工作人員。', 2, 'img/mall_img/203_bg.jpg', 'img/mall_img/203_sbg.jpg', 0, 1),
+(15151651, 151, '48484', 48488, 'img/mall_img/mat_ft.4f7a9f32.jpg', '哈囉黃', '111111111', 1, 'img/mall_img/mat_ft_r.3d1720db.jpg', 'img/mall_img/2.png', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -158,14 +157,21 @@ INSERT INTO `mall_product` (`product_no`, `product_num`, `product_name`, `produc
 
 DROP TABLE IF EXISTS `manager`;
 CREATE TABLE IF NOT EXISTS `manager` (
-  `mgr_no` int(11) NOT NULL,
-  `mgr_name` varchar(10) NOT NULL,
+  `mgr_no` int(11) NOT NULL AUTO_INCREMENT,
+  `mgr_name` varchar(10) DEFAULT NULL,
   `mgr_id` varchar(20) NOT NULL,
   `mgr_psw` varchar(20) NOT NULL,
-  `mgr_email` varchar(50) NOT NULL,
-  `mgr_sta` tinyint(1) NOT NULL COMMENT '0:停權;1:正常',
+  `mgr_email` varchar(50) DEFAULT NULL,
+  `mgr_sta` tinyint(1) NOT NULL DEFAULT '1' COMMENT '0:停權;1:正常',
   PRIMARY KEY (`mgr_no`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- 資料表的匯出資料 `manager`
+--
+
+INSERT INTO `manager` (`mgr_no`, `mgr_name`, `mgr_id`, `mgr_psw`, `mgr_email`, `mgr_sta`) VALUES
+(1, NULL, 'admin', 'admin', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -176,7 +182,7 @@ CREATE TABLE IF NOT EXISTS `manager` (
 DROP TABLE IF EXISTS `member`;
 CREATE TABLE IF NOT EXISTS `member` (
   `mem_no` int(11) NOT NULL AUTO_INCREMENT,
-  `ring_no` int(11) DEFAULT NULL,
+  `ring_no` varchar(256) DEFAULT './audio/ring1.mp3',
   `mem_name` varchar(10) DEFAULT NULL,
   `mem_id` varchar(20) NOT NULL,
   `mem_psw` varchar(20) NOT NULL,
@@ -187,14 +193,7 @@ CREATE TABLE IF NOT EXISTS `member` (
   `headshot` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`mem_no`),
   UNIQUE KEY `mem_id` (`mem_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-
---
--- 資料表的匯出資料 `member`
---
-
-INSERT INTO `member` (`mem_no`, `ring_no`, `mem_name`, `mem_id`, `mem_psw`, `mem_tel`, `mem_email`, `mem_status`, `mem_addr`, `headshot`) VALUES
-(1, NULL, NULL, 'dd104g3', 'dd104g3', NULL, 'dd104g3@com.tw', 1, NULL, '20200117_73047dd104g3.png');
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -218,17 +217,30 @@ CREATE TABLE IF NOT EXISTS `member_contact` (
 DROP TABLE IF EXISTS `orders`;
 CREATE TABLE IF NOT EXISTS `orders` (
   `order_no` int(11) NOT NULL AUTO_INCREMENT,
-  `mem_no` int(11) NOT NULL,
+  `mem_no` int(11) DEFAULT NULL,
   `product_price` int(11) NOT NULL,
-  `cret_date` date NOT NULL,
-  `atr_date` date NOT NULL,
-  `cel_date` date NOT NULL,
+  `cret_date` datetime NOT NULL,
+  `atr_date` datetime DEFAULT NULL,
+  `cel_date` datetime DEFAULT NULL,
   `ship_addr` varchar(50) NOT NULL,
   `receiver_name` varchar(10) NOT NULL,
   `receiver_tel` varchar(10) NOT NULL,
   `order_sta` char(1) NOT NULL COMMENT '1:訂單處理中  2:檢貨中 3:已出貨',
   PRIMARY KEY (`order_no`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+
+--
+-- 資料表的匯出資料 `orders`
+--
+
+INSERT INTO `orders` (`order_no`, `mem_no`, `product_price`, `cret_date`, `atr_date`, `cel_date`, `ship_addr`, `receiver_name`, `receiver_tel`, `order_sta`) VALUES
+(1, NULL, 1600, '2020-01-21 09:32:48', NULL, NULL, '', '', '', '2'),
+(2, NULL, 4800, '2020-01-21 09:33:51', NULL, NULL, '', 'dfdfdf', 'fffffff', '2'),
+(3, NULL, 14400, '2020-01-21 09:35:15', NULL, NULL, 'testtest', 'test', 'test', '2'),
+(4, NULL, 4800, '2020-01-21 10:14:43', NULL, NULL, '', 'zzzz', '', '2'),
+(5, NULL, 24000, '2020-01-21 10:28:54', NULL, NULL, '5165166323123', '123132321', '165132132', '2'),
+(6, NULL, 6320, '2020-01-21 10:39:46', NULL, NULL, '111', '', '', '2'),
+(7, 1, 4800, '2020-01-21 11:14:06', NULL, NULL, 'eeeeeeeee', 'dddd', 'dddd', '2');
 
 -- --------------------------------------------------------
 
@@ -277,14 +289,7 @@ CREATE TABLE IF NOT EXISTS `program` (
   `pro_sta` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0:未完成 1:完成',
   PRIMARY KEY (`pro_no`),
   KEY `mem_no` (`mem_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-
---
--- 資料表的匯出資料 `program`
---
-
-INSERT INTO `program` (`pro_no`, `pro_title`, `mem_no`, `pro_col`, `pro_sta`) VALUES
-(1, 'dd104g3', 1, '#81c7d4', 0);
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -315,14 +320,7 @@ CREATE TABLE IF NOT EXISTS `todo` (
   PRIMARY KEY (`todo_no`),
   KEY `card_no` (`card_no`),
   KEY `pro_no` (`pro_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-
---
--- 資料表的匯出資料 `todo`
---
-
-INSERT INTO `todo` (`todo_no`, `pro_no`, `card_no`, `todo_title`) VALUES
-(1, 1, 1, 'dd104g3');
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -344,16 +342,7 @@ CREATE TABLE IF NOT EXISTS `todo_content` (
   KEY `todo_no` (`todo_no`),
   KEY `pro_no` (`pro_no`),
   KEY `card_no` (`card_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-
---
--- 資料表的匯出資料 `todo_content`
---
-
-INSERT INTO `todo_content` (`todo_cont_no`, `pro_no`, `card_no`, `todo_no`, `todo_cont`, `todo_cont_sta`, `todo_timer`, `todo_cont_clock`) VALUES
-(1, 1, 1, 1, 'dd104g3-1', 0, 4, 1),
-(2, 1, 1, 1, 'dd104g3-2', 0, 0, 0),
-(3, 1, 1, 1, 'dd104g3-3', 0, 0, 0);
+) ENGINE=InnoDB AUTO_INCREMENT=116 DEFAULT CHARSET=utf8;
 
 --
 -- 已匯出資料表的限制(Constraint)
@@ -383,8 +372,9 @@ ALTER TABLE `chat_record`
 -- 資料表的 Constraints `join_program`
 --
 ALTER TABLE `join_program`
-  ADD CONSTRAINT `join_program_ibfk_3` FOREIGN KEY (`pro_no`) REFERENCES `program` (`pro_no`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `join_program_ibfk_4` FOREIGN KEY (`mem_no`) REFERENCES `member` (`mem_no`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `join_program_ibfk_1` FOREIGN KEY (`pro_no`) REFERENCES `program` (`pro_no`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `join_program_ibfk_2` FOREIGN KEY (`mem_no`) REFERENCES `member` (`mem_no`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `join_program_ibfk_3` FOREIGN KEY (`inv_by_mem`) REFERENCES `member` (`mem_no`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- 資料表的 Constraints `order_item`
