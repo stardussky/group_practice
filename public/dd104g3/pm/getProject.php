@@ -11,6 +11,17 @@ try {
     $cards = $cardRes->fetchAll(PDO::FETCH_ASSOC);
     $cardInfo = [];
     foreach($cards as $card){
+      $sql = "select p.mem_no, m.mem_name, m.mem_id, headshot 
+      from `person_in_charge` p
+      JOIN `member` m on m.mem_no = p.mem_no
+      WHERE card_no = {$card['card_no']}";
+      $cardMemberRes = $pdo->prepare($sql);
+      $cardMemberRes->execute();
+      $cardMember = [];
+      if($cardMemberRes->rowCount()){
+        $cardMember = $cardMemberRes->fetchAll(PDO::FETCH_ASSOC);
+      }
+
       $cardInfo[] = [
         'id'=>$card['card_no'],
         'status'=>$card['card_sta'] ? true : false,
@@ -18,7 +29,8 @@ try {
         'deadLine'=>$card['card_date'],
         'type'=>$card['card_type'],
         'files'=>[],
-        'content'=>[]
+        'content'=>[],
+        'cardMember'=>$cardMember
       ];
     }
     $sql = 'select * from `card_file` where pro_no = :pro_no';
@@ -69,6 +81,7 @@ try {
         ];
       }
     }
+
     $step0 = [];
     $step1 = [];
     $step2 = [];

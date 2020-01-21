@@ -8,6 +8,7 @@ export default (props) => {
   const fileContent = ref([])
   const editCardId = ref(null)
   const cardMember = ref([])
+  const memberSet = ref(new Set())
 
   const pushContentList = ({ id, list }) => {
     todoContentList.value.find(list => {
@@ -26,7 +27,16 @@ export default (props) => {
     todoContentList.value[index].lists.splice(listIndex, 1)
   }
   const deleteFile = (index) => fileContent.value.splice(index, 1)
-  const addCardMember = (obj) => cardMember.value.push(obj)
+  const toggleCardMember = (obj) => {
+    if (!memberSet.value.has(obj.mem_no)) {
+      memberSet.value.add(obj.mem_no)
+      cardMember.value.push(obj)
+    } else {
+      let index = [...memberSet.value].indexOf(obj.mem_no)
+      memberSet.value.delete(obj.mem_no)
+      cardMember.value.splice(index, 1)
+    }
+  }
   const resetCard = () => {
     editCardId.value = null
     dateStatus.value = false
@@ -34,6 +44,8 @@ export default (props) => {
     cardTitle.value = '待辦項目'
     todoContentList.value = []
     fileContent.value = []
+    cardMember.value = []
+    memberSet.value.clear()
   }
   watch(() => props.editCard, val => {
     if (props.isEdit) {
@@ -44,6 +56,8 @@ export default (props) => {
       fileContent.value = edit.files
       dateStatus.value = edit.status
       deadLine.value = edit.deadLine
+      cardMember.value = edit.cardMember
+      edit.cardMember.forEach(info => memberSet.value.add(info.mem_no))
     } else {
       resetCard()
     }
@@ -65,6 +79,7 @@ export default (props) => {
     setTodoClock,
     resetCard,
     cardMember,
-    addCardMember
+    toggleCardMember,
+    memberSet
   }
 }

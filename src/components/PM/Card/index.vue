@@ -17,7 +17,9 @@
     <div class="card_body">
       <InviteComponent
         :member-list="project.memberList"
-        @addCardMember="addCardMember"
+        :card-member="cardMember"
+        :member-set="memberSet"
+        @toggleCardMember="toggleCardMember"
       />
       <DateComponent
         v-model="deadLine"
@@ -108,7 +110,7 @@ export default {
     }
   },
   setup (props) {
-    const { addCardMember, cardMember, cardTitle, editCardId, setTodoClock, resetCard, dateStatus, deadLine, todoTitle, todoContentList, fileContent, pushContentList, pushFile, changeStatus, deleteTodoContent, deleteTodoList, deleteFile } = card(props)
+    const { memberSet, toggleCardMember, cardMember, cardTitle, editCardId, setTodoClock, resetCard, dateStatus, deadLine, todoTitle, todoContentList, fileContent, pushContentList, pushFile, changeStatus, deleteTodoContent, deleteTodoList, deleteFile } = card(props)
     return {
       cardTitle,
       deadLine,
@@ -126,7 +128,8 @@ export default {
       setTodoClock,
       resetCard,
       cardMember,
-      addCardMember
+      toggleCardMember,
+      memberSet
     }
   },
   computed: {
@@ -138,7 +141,8 @@ export default {
         status: this.dateStatus,
         deadLine: this.deadLine,
         content: this.todoContentList,
-        files: this.fileContent
+        files: this.fileContent,
+        cardMember: this.cardMember
       }
     }
   },

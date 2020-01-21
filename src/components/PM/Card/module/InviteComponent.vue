@@ -10,12 +10,13 @@
     </div>
     <div class="members">
       <div
-        v-for="num in 2"
-        :key="num"
+        v-for="member in cardMember"
+        :key="member.mem_no"
         class="member"
       >
         <img
-          :src="require('@/assets/icon/user.svg')"
+          :src="member.headshot ? `./userImg/${member.headshot}` : require('@/assets/icon/user.svg')"
+          :title="member.mem_name || member.mem_id"
           alt="member"
         >
       </div>
@@ -45,10 +46,10 @@
         >
           <div
             class="checked"
-            @click="addCardMember(member)"
+            @click="toggleCardMember(member)"
           >
             <img
-              v-if="!member.status"
+              v-if="!memberSet.has(member.mem_no)"
               src="@/assets/icon/unchecked_d.svg"
               alt="unchecked"
               width="20"
@@ -82,14 +83,22 @@ export default {
     memberList: {
       type: Array,
       required: true
+    },
+    cardMember: {
+      type: Array,
+      required: true
+    },
+    memberSet: {
+      type: Set,
+      required: true
     }
   },
   setup (props, { emit }) {
     const open = ref(false)
-    const addCardMember = (member) => emit('addCardMember', member)
+    const toggleCardMember = (member) => emit('toggleCardMember', member)
     return {
       open,
-      addCardMember
+      toggleCardMember
     }
   },
   methods: {

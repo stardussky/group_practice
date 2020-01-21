@@ -38,11 +38,7 @@
         >
         <div @click="inviteMember">
           <img
-            src="@/assets/icon/search.svg"
-            alt="search"
-          >
-          <img
-            src="@/assets/icon/search.svg"
+            src="@/assets/icon/search_w.svg"
             alt="search"
           >
         </div>
@@ -136,7 +132,16 @@ export default {
       div {
         @include positionCenter(y);
         right: 0;
-        @include hoverImg(30px);
+        width: 30px;
+        height: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        >img {
+          width: 70%;
+          height: 70%;
+        }
       }
     }
     .invite_status {
