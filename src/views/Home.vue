@@ -10,7 +10,10 @@
         class="container"
       >
         <div class="header">
-          <div @click="previous">
+          <div
+            @click="previous"
+            @touchstart="previous"
+          >
             <img
               src="@/assets/icon/left-curve-arrow.svg"
               alt="back"

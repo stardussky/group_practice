@@ -226,6 +226,7 @@ export default {
     flex-wrap: wrap;
   }
   @include media(479px){
+    width: 100%;
     flex-wrap: wrap;
     .item_img {
       width: 80%;

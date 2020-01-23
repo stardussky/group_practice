@@ -103,6 +103,7 @@
     align-items: center;
     p {
       @include font;
+      letter-spacing: 1.7px;
       margin-left: 5px;
     }
   }

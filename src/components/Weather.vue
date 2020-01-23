@@ -6,7 +6,7 @@
     >
     <div>
       <p>{{ temperature }}°</p>
-      <p>桃園市</p>
+      <p>{{ city }}</p>
     </div>
   </div>
 </template>
@@ -24,6 +24,7 @@ export default {
   setup (props, { emit }) {
     const latitude = ref(null)
     const longitude = ref(null)
+    const city = ref(null)
     const temperature = ref(null)
     const weatherIcon = ref(null)
     const weatherStatus = computed({
@@ -50,32 +51,34 @@ export default {
         }
       }
     })
-    onMounted(async () => {
+    onMounted(() => {
       let date = new Date()
       let year = date.getFullYear()
       let month = (date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1)
       let day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate()
       let hours = date.getHours() < 10 ? '0' + date.getHours() : date.getHours()
-      // let startHours = hours >= 21 ? 21 : hours
-      // let endHours = startHours + 3
-      navigator.geolocation.getCurrentPosition(position => {
+      navigator.geolocation.getCurrentPosition(async position => {
         latitude.value = position.coords.latitude
         longitude.value = position.coords.longitude
+        city.value = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyA2SdyR68TRwlCpjP92jyOhsSoFYFpKFCU&latlng=${latitude.value},${longitude.value}`)
+          .then(res => res.json())
+          .then(json => json.results[7].address_components[0].long_name)
+          .catch(err => console.log(err))
+        fetch(`https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-D0047-089?Authorization=CWB-B129D5C9-1F5D-482E-988B-20A0637F769C&format=JSON&elementName=Wx,T&locationName=${encodeURI(city.value)}&timeFrom=${year}-${month}-${day}T${hours}%3A00%3A00`)
+          .then(res => res.json())
+          .then(json => {
+            weatherStatus.value = json.records.locations[0].location[0].weatherElement[0].time[0].elementValue[0].value
+            temperature.value = json.records.locations[0].location[0].weatherElement[1].time[0].elementValue[0].value
+          })
+          .catch(err => console.log(err))
       }, err => {
         console.log(err)
       })
-      // let url = `https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-D0047-089?Authorization=CWB-B129D5C9-1F5D-482E-988B-20A0637F769C&format=JSON&elementName=Wx,T&timeFrom=${year}-${month}-${day}T${startHours}%3A00%3A00&timeTo=${year}-${month}-${day}T${endHours}%3A00%3A00`
-      let url = `https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-D0047-089?Authorization=CWB-B129D5C9-1F5D-482E-988B-20A0637F769C&format=JSON&elementName=Wx,T&timeFrom=${year}-${month}-${day}T${hours}%3A00%3A00`
-      await fetch(url)
-        .then(res => res.json())
-        .then(json => {
-          weatherStatus.value = json.records.locations[0].location[19].weatherElement[0].time[0].elementValue[0].value
-          temperature.value = json.records.locations[0].location[19].weatherElement[1].time[0].elementValue[0].value
-        }).catch(err => console.log(err))
     })
     return {
       latitude,
       longitude,
+      city,
       weatherIcon,
       temperature
     }

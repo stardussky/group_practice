@@ -13,6 +13,7 @@
       draggable=".draggable"
       @end="closeDrag"
       @change="changeHandler({step, $event})"
+      @drag.native="dragHandler"
     >
       <TodoCard
         v-for="(todo, index) in list.todo"
@@ -21,6 +22,7 @@
         :todo="todo"
         @click.native="editCard({step, index})"
         @touchstart.native="editCard({step, index})"
+        @touchmove.native="dragHandler"
       />
     </draggable>
   </div>
@@ -93,6 +95,14 @@ export default {
         promise.then(() => this.EDIT_TODO_CARD(info))
       } else {
         this.EDIT_TODO_CARD(info)
+      }
+    },
+    dragHandler () {
+      if (this.isEdit) {
+        let res = null
+        let promise = new Promise(resolve => { res = resolve })
+        bus.$emit('editDone', res)
+        promise.then()
       }
     },
     changeHandler ({ step, $event: { added, removed } }) {

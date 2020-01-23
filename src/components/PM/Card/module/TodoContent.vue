@@ -7,7 +7,10 @@
         width="20"
       >
       <p>{{ content.title }}</p>
-      <div @click="deleteTodoContent">
+      <div
+        @click="deleteTodoContent"
+        @touchstart="deleteTodoContent"
+      >
         <img
           src="@/assets/icon/delete.svg"
           alt="delete"
@@ -52,6 +55,7 @@
           alt="plus"
           width="15"
           @mousedown="enterContentList"
+          @touchstart="enterContentList"
         >
       </label>
     </div>

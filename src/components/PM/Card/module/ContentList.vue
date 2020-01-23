@@ -40,6 +40,7 @@
         <div
           class="delete"
           @click="deleteTodoList"
+          @touchstart="deleteTodoList"
         >
           <img
             src="@/assets/icon/delete.svg"

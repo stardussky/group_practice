@@ -1,7 +1,10 @@
 <template>
   <div class="calendarReminder">
     <div class="reminder_header">
-      <button @click="back">
+      <button
+        @click="back"
+        @touchstart="back"
+      >
         <img
           src="@/assets/icon/back.svg"
           alt="back"

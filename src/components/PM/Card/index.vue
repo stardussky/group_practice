@@ -16,7 +16,7 @@
     </div>
     <div class="card_body">
       <InviteComponent
-        :member-list="project.memberList"
+        :member-list="project.memberList ? project.memberList : []"
         :card-member="cardMember"
         :member-set="memberSet"
         @toggleCardMember="toggleCardMember"
@@ -46,7 +46,10 @@
             placeholder="加點內容吧~"
             @keydown.enter="pushTodoContent"
           >
-          <div @click="pushTodoContent">
+          <div
+            @click="pushTodoContent"
+            @touchstart="pushTodoContent"
+          >
             <img
               src="@/assets/icon/edit.svg"
               alt="add"

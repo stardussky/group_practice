@@ -38,7 +38,7 @@
       class="member_list"
       :class="{open: open}"
     >
-      <p>專案成員</p>
+      <p>{{ isLogin ? '專案成員' : '尚未登入' }}</p>
       <ul>
         <li
           v-for="member in memberList"
@@ -76,7 +76,7 @@
 
 <script>
 import { ref } from '@vue/composition-api'
-import { } from 'vuex'
+import { mapState } from 'vuex'
 export default {
   name: 'InviteComponent',
   props: {
@@ -101,8 +101,8 @@ export default {
       toggleCardMember
     }
   },
-  methods: {
-
+  computed: {
+    ...mapState(['isLogin'])
   }
 }
 </script>

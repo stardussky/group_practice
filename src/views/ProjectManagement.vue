@@ -6,6 +6,7 @@
     @mousemove="dragHandler"
     @mouseup="stopDrag"
     @mouseleave="stopDrag"
+    @mousewheel="mousewheelHandler"
   >
     <transition
       name="fade"
@@ -24,6 +25,10 @@ export default {
     const isDrag = ref(false)
     const startX = ref(0)
     const startScroll = ref(0)
+    const mousewheelHandler = (e) => {
+      let delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)))
+      refs.projectManagement.scrollLeft -= (delta * 60)
+    }
     const startDrag = (e) => {
       isDrag.value = true
       startX.value = e.pageX
@@ -39,6 +44,7 @@ export default {
       isDrag.value = false
     }
     return {
+      mousewheelHandler,
       startDrag,
       dragHandler,
       stopDrag,
