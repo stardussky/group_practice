@@ -21,7 +21,7 @@
     </div>
     <ul class="reminder_list">
       <CalendarReminderItem
-        v-for="cards in maturityCard[viewDate.index]"
+        v-for="cards in getMaturityCards"
         :key="cards.card_no"
         :cards="cards"
       />
@@ -43,7 +43,7 @@ export default {
       required: true
     },
     maturityCard: {
-      type: Array,
+      type: Object,
       required: true
     }
   },
@@ -55,9 +55,15 @@ export default {
       let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
       return months[props.viewDate.month - 1]
     })
+    const getMaturityCards = computed(() => {
+      return props.maturityCard[props.viewDate.month] && props.maturityCard[props.viewDate.month][props.viewDate.date]
+        ? props.maturityCard[props.viewDate.month][props.viewDate.date]
+        : []
+    })
     return {
       back,
-      getFullMonth
+      getFullMonth,
+      getMaturityCards
     }
   }
 }

@@ -6,14 +6,13 @@
     >
       <component
         :is="view"
-        v-for="info in calendar"
-        :key="info.nowMonth"
-        :month="info.nowMonth"
-        :days="info.days"
+        :calendar="calendar"
         :view-date="viewDate"
-        :maturity-card="maturityCard"
+        :maturity-card="maturityCard ? maturityCard : {}"
+        :now-date="nowDate ? nowDate : NaN"
         @viewRemainder="viewRemainder"
         @back="view = 'CalendarView'"
+        @mousewheel.native.stop
       />
     </transition>
   </div>
@@ -34,11 +33,12 @@ export default {
     const view = ref('CalendarView')
     const calendar = ref([])
     const viewDate = ref({})
+    const nowDate = ref(null)
     const getCalendar = () => {
       let date = new Date()
       let week = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
       let nowMonth = date.getMonth() + 1
-      let nowDate = date.getDate()
+      nowDate.value = date.getDate()
       let newDay = date.getDay()
       let nowMonthDays = new Date(date.getFullYear(), nowMonth, 0).getDate()
       calendar.value.push({
@@ -47,10 +47,10 @@ export default {
       })
       for (let i = 0; i < 7; i++) {
         calendar.value[calendar.value.length - 1].days.push({
-          date: (nowDate + i) % nowMonthDays || nowMonthDays,
+          date: (nowDate.value + i) % nowMonthDays || nowMonthDays,
           day: week[(newDay + i) % 7]
         })
-        if ((nowDate + i) % nowMonthDays === 0) {
+        if ((nowDate.value + i) % nowMonthDays === 0) {
           nowMonth = (nowMonth + 1) % 12 || 12
           calendar.value.push({
             nowMonth,
@@ -70,7 +70,8 @@ export default {
       view,
       calendar,
       viewDate,
-      viewRemainder
+      viewRemainder,
+      nowDate
     }
   },
   computed: {

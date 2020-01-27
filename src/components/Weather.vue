@@ -51,29 +51,36 @@ export default {
         }
       }
     })
-    onMounted(() => {
+    onMounted(async () => {
       let date = new Date()
       let year = date.getFullYear()
       let month = (date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1)
       let day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate()
       let hours = date.getHours() < 10 ? '0' + date.getHours() : date.getHours()
-      navigator.geolocation.getCurrentPosition(async position => {
-        latitude.value = position.coords.latitude
-        longitude.value = position.coords.longitude
-        city.value = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyA2SdyR68TRwlCpjP92jyOhsSoFYFpKFCU&latlng=${latitude.value},${longitude.value}`)
-          .then(res => res.json())
-          .then(json => json.results[7].address_components[0].long_name)
-          .catch(err => console.log(err))
-        fetch(`https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-D0047-089?Authorization=CWB-B129D5C9-1F5D-482E-988B-20A0637F769C&format=JSON&elementName=Wx,T&locationName=${encodeURI(city.value)}&timeFrom=${year}-${month}-${day}T${hours}%3A00%3A00`)
-          .then(res => res.json())
-          .then(json => {
-            weatherStatus.value = json.records.locations[0].location[0].weatherElement[0].time[0].elementValue[0].value
-            temperature.value = json.records.locations[0].location[0].weatherElement[1].time[0].elementValue[0].value
-          })
-          .catch(err => console.log(err))
-      }, err => {
-        console.log(err)
+      await fetch('https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyA2SdyR68TRwlCpjP92jyOhsSoFYFpKFCU', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
       })
+        .then(res => res.json())
+        .then(json => {
+          latitude.value = json.location.lat
+          longitude.value = json.location.lng
+        })
+        .catch(err => console.log(err))
+      city.value = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyA2SdyR68TRwlCpjP92jyOhsSoFYFpKFCU&latlng=${latitude.value},${longitude.value}&result_type=administrative_area_level_2`)
+        .then(res => res.json())
+        .then(json => json.results[0].address_components[0].long_name)
+        .catch(err => console.log(err))
+      fetch(`https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-D0047-089?Authorization=CWB-B129D5C9-1F5D-482E-988B-20A0637F769C&format=JSON&elementName=Wx,T&locationName=${encodeURI(city.value)}&timeFrom=${year}-${month}-${day}T${hours}%3A00%3A00`)
+        .then(res => res.json())
+        .then(json => {
+          weatherStatus.value = json.records.locations[0].location[0].weatherElement[0].time[0].elementValue[0].value
+          temperature.value = json.records.locations[0].location[0].weatherElement[1].time[0].elementValue[0].value
+        })
+        .catch(err => console.log(err))
     })
     return {
       latitude,

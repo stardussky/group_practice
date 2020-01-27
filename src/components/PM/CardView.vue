@@ -14,6 +14,7 @@
       :color="project.info.color"
       :step="index"
       @closeDrag="closeDrag"
+      @mousewheel.native.stop
     />
     <Tour :steps="CardViewSteps" />
   </div>

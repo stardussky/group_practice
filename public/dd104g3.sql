@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機: 127.0.0.1:3306
--- 產生時間： 2020-01-21 07:22:51
+-- 產生時間： 2020-01-22 07:38:50
 -- 伺服器版本: 5.7.23
 -- PHP 版本： 7.2.10
 
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `card` (
   `card_sta` int(11) NOT NULL DEFAULT '0' COMMENT '0:未完成 1:完成',
   PRIMARY KEY (`card_no`),
   KEY `pro_no` (`pro_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -193,7 +193,14 @@ CREATE TABLE IF NOT EXISTS `member` (
   `headshot` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`mem_no`),
   UNIQUE KEY `mem_id` (`mem_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- 資料表的匯出資料 `member`
+--
+
+INSERT INTO `member` (`mem_no`, `ring_no`, `mem_name`, `mem_id`, `mem_psw`, `mem_tel`, `mem_email`, `mem_status`, `mem_addr`, `headshot`) VALUES
+(1, './audio/ring1.mp3', NULL, 'dd104g3', 'dd104g3', NULL, 'dd104g3@dd.DD', 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -227,7 +234,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `receiver_tel` varchar(10) NOT NULL,
   `order_sta` char(1) NOT NULL COMMENT '1:訂單處理中  2:檢貨中 3:已出貨',
   PRIMARY KEY (`order_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 --
 -- 資料表的匯出資料 `orders`
@@ -251,12 +258,12 @@ INSERT INTO `orders` (`order_no`, `mem_no`, `product_price`, `cret_date`, `atr_d
 DROP TABLE IF EXISTS `order_item`;
 CREATE TABLE IF NOT EXISTS `order_item` (
   `order_no` int(11) NOT NULL,
-  `product_no` int(11) NOT NULL,
-  `product_amout` int(11) NOT NULL,
-  `product_price` int(11) NOT NULL,
-  PRIMARY KEY (`order_no`,`product_no`),
-  KEY `order_no` (`order_no`),
-  KEY `product_no` (`product_no`)
+  `mem_no` int(11) NOT NULL,
+  `product_name_color` varchar(20) NOT NULL,
+  `order_product_price` int(11) NOT NULL,
+  `order_product_num` int(11) NOT NULL,
+  `cret_time` datetime NOT NULL,
+  KEY `order_no` (`order_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -289,7 +296,7 @@ CREATE TABLE IF NOT EXISTS `program` (
   `pro_sta` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0:未完成 1:完成',
   PRIMARY KEY (`pro_no`),
   KEY `mem_no` (`mem_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -320,7 +327,7 @@ CREATE TABLE IF NOT EXISTS `todo` (
   PRIMARY KEY (`todo_no`),
   KEY `card_no` (`card_no`),
   KEY `pro_no` (`pro_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -342,7 +349,7 @@ CREATE TABLE IF NOT EXISTS `todo_content` (
   KEY `todo_no` (`todo_no`),
   KEY `pro_no` (`pro_no`),
   KEY `card_no` (`card_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=116 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- 已匯出資料表的限制(Constraint)
@@ -380,8 +387,7 @@ ALTER TABLE `join_program`
 -- 資料表的 Constraints `order_item`
 --
 ALTER TABLE `order_item`
-  ADD CONSTRAINT `order_item_ibfk_2` FOREIGN KEY (`order_no`) REFERENCES `orders` (`order_no`),
-  ADD CONSTRAINT `order_item_ibfk_3` FOREIGN KEY (`product_no`) REFERENCES `mall_product` (`product_no`);
+  ADD CONSTRAINT `order_item_ibfk_1` FOREIGN KEY (`order_no`) REFERENCES `orders` (`order_no`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- 資料表的 Constraints `person_in_charge`

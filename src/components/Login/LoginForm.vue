@@ -115,7 +115,15 @@ export default {
         return prev
       }, {})
     })
-    const url = computed(() => props.mode ? './php/member/login.php' : './php/member/signup.php')
+    const url = computed(() => {
+      if (props.mode === 0) {
+        return './php/member/signup.php'
+      } else if (props.mode === 1) {
+        return './php/member/login.php'
+      } else {
+        return './php/member/findPassword.php'
+      }
+    })
     watch(() => props.mode, () => {
       requestAnimationFrame(() => {
         refs.form.reset()
@@ -139,6 +147,7 @@ export default {
           if (info.type === 'file') info.value = {}
           else if (info.value) info.value = ''
         })
+        if (result.content === '寄信成功! 請至信箱查收')alert(result.content)
       }
       if (result.status === 'error') {
         this.$refs.form.refs.Account.applyResult({

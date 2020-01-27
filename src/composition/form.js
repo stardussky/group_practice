@@ -65,7 +65,7 @@ export default () => {
           name: 'mem_id',
           placeholder: '請輸入帳號',
           require: 'required',
-          value: ''
+          value: 'dd104g3'
         },
         {
           component: 'InputComponent',
@@ -74,7 +74,7 @@ export default () => {
           name: 'mem_psw',
           placeholder: '請輸入密碼',
           require: 'required',
-          value: ''
+          value: 'dd104g3'
         },
         {
           component: 'ButtonComponent',
@@ -96,7 +96,16 @@ export default () => {
           component: 'TitleComponent',
           type: 'title',
           name: 'mode2Title',
-          content: 'Reset Password'
+          content: 'Forget Password'
+        },
+        {
+          component: 'InputComponent',
+          field: 'Account',
+          type: 'text',
+          name: 'mem_id',
+          placeholder: '請輸入帳號',
+          require: 'required',
+          value: ''
         },
         {
           component: 'InputComponent',

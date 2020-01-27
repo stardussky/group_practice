@@ -14,8 +14,9 @@
 .flip-enter, .flip-leave-to{
   opacity: 0;
 }
-.flip-leave-active{
+.flip-enter-active{
   position: absolute;
+  transition: all .3s;
 }
 .slider-enter-active, .slider-leave-active,
 .slider_reverse-enter, .slider_reverse-leave-to,

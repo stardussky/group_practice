@@ -1,19 +1,25 @@
 <template>
   <div class="calendar_view">
-    <div class="calendar_month">
-      {{ month }}
+    <div
+      v-for="info in calendar"
+      :key="info.nowMonth"
+    >
+      <div class="calendar_month">
+        {{ info.nowMonth }}
+      </div>
+      <ul class="calendar_days">
+        <li
+          v-for="day in info.days"
+          :key="day.date"
+          :class="{now_date: nowDate === day.date}"
+          @click="selectDate = {month: info.nowMonth, date: day.date, day: day.day}"
+        >
+          <p>{{ day.day }}</p>
+          <p>{{ day.date }}</p>
+          <span v-if="maturityCard[info.nowMonth] && maturityCard[info.nowMonth][day.date]">{{ maturityCard[info.nowMonth][day.date].length }}</span>
+        </li>
+      </ul>
     </div>
-    <ul class="calendar_days">
-      <li
-        v-for="(day, index) in days"
-        :key="day.date"
-        @click="selectDate = {date: day.date, day: day.day, index}"
-      >
-        <p>{{ day.day }}</p>
-        <p>{{ day.date }}</p>
-        <span v-if="maturityCard.length && maturityCard[index].length">{{ maturityCard[index].length }}</span>
-      </li>
-    </ul>
   </div>
 </template>
 
@@ -22,11 +28,11 @@ import { computed } from '@vue/composition-api'
 export default {
   name: 'CalendarView',
   props: {
-    days: {
+    calendar: {
       type: Array,
       required: true
     },
-    month: {
+    nowDate: {
       type: Number,
       required: true
     },
@@ -35,7 +41,7 @@ export default {
       required: true
     },
     maturityCard: {
-      type: Array,
+      type: Object,
       required: true
     }
   },
@@ -44,12 +50,11 @@ export default {
       get () {
         return props.viewDate
       },
-      set ({ date, day, index }) {
+      set ({ month, date, day }) {
         emit('viewRemainder', {
-          month: props.month,
+          month,
           date,
-          day,
-          index
+          day
         })
       }
     })
@@ -68,6 +73,10 @@ export default {
   border-radius: 0;
   overflow-y: auto;
   box-shadow: -1px 0 3px $shadow;
+  &::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
   .calendar_month {
     width: 100%;
     @include font(10);
@@ -94,7 +103,7 @@ export default {
       padding: 7.5px 0;
       position: relative;
       z-index: 1;
-      &:nth-of-type(1){
+      &.now_date{
         color: $primary;
       }
       p{

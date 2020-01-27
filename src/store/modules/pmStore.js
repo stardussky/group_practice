@@ -3,7 +3,7 @@ export default () => {
     namespaced: true,
     state: {
       projects: [],
-      maturityCard: [],
+      maturityCard: null,
       id: null,
       isEdit: false,
       editInfo: null
@@ -73,7 +73,7 @@ export default () => {
       },
       clearProjects (state) {
         state.id = null
-        state.maturityCard = []
+        state.maturityCard = null
         state.projects = []
       },
       pushTodoCard (state, { getters, card, id }) {
