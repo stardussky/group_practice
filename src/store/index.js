@@ -6,7 +6,6 @@ import clockStore from './modules/clockStore'
 import memberStore from './modules/memberStore'
 Vue.use(Vuex)
 export default new Vuex.Store({
-  strict: true,
   state: {
     isLogin: false,
     isLoading: false
