@@ -5,7 +5,9 @@
       :src="`${require('@/assets/icon/' + weatherIcon + '.svg')}`"
     >
     <div>
-      <p>{{ temperature }}°</p>
+      <p v-show="temperature">
+        {{ temperature }}°
+      </p>
       <p>{{ city }}</p>
     </div>
   </div>
@@ -70,9 +72,9 @@ export default {
           longitude.value = json.location.lng
         })
         .catch(err => console.log(err))
-      city.value = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyA2SdyR68TRwlCpjP92jyOhsSoFYFpKFCU&latlng=${latitude.value},${longitude.value}&result_type=administrative_area_level_2`)
+      city.value = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyA2SdyR68TRwlCpjP92jyOhsSoFYFpKFCU&latlng=${latitude.value},${longitude.value}`)
         .then(res => res.json())
-        .then(json => json.results[0].address_components[0].long_name)
+        .then(json => json.results.map(res => res.address_components.find(info => info.types.includes('administrative_area_level_1') || info.types.includes('administrative_area_level_2')))[0].long_name)
         .catch(err => console.log(err))
       fetch(`https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-D0047-089?Authorization=CWB-B129D5C9-1F5D-482E-988B-20A0637F769C&format=JSON&elementName=Wx,T&locationName=${encodeURI(city.value)}&timeFrom=${year}-${month}-${day}T${hours}%3A00%3A00`)
         .then(res => res.json())
@@ -80,7 +82,10 @@ export default {
           weatherStatus.value = json.records.locations[0].location[0].weatherElement[0].time[0].elementValue[0].value
           temperature.value = json.records.locations[0].location[0].weatherElement[1].time[0].elementValue[0].value
         })
-        .catch(err => console.log(err))
+        .catch(err => {
+          console.log(err)
+          city.value = '無法取得目前天氣'
+        })
     })
     return {
       latitude,
