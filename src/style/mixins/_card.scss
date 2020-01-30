@@ -102,8 +102,9 @@
     display: flex;
     align-items: center;
     p {
+      white-space: nowrap;
       @include font;
-      letter-spacing: 1.7px;
+      letter-spacing: 1.4px;
       margin-left: 5px;
     }
   }

@@ -138,7 +138,7 @@ export default () => {
           resolve()
         })
       },
-      GET_MATURITY_CARD ({ commit, rootState }, id) {
+      GET_MATURITY_CARD ({ commit }, id) {
         return new Promise(resolve => {
           commit('changeLoadingStatue', 'start', { root: true })
           fetch('./php/calender/getMaturityCard.php', {
@@ -147,10 +147,9 @@ export default () => {
           })
             .then(res => res.json())
             .then(json => {
-              if (json.status === 'success') {
-                commit('getMaturityCard', json.data)
-                commit('changeLoadingStatue', 'success', { root: true })
-              }
+              if (json.status === 'success') commit('getMaturityCard', json.data)
+              else commit('getMaturityCard', null)
+              commit('changeLoadingStatue', 'success', { root: true })
             })
             .catch(err => commit('changeLoadingStatue', err, { root: true }))
           resolve()
