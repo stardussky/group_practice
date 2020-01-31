@@ -28,7 +28,7 @@
         :class="{active: switchMode}"
         @click="switchMode = 1"
       >
-        BREAK
+        REST
       </div>
     </div>
     <div />
@@ -124,6 +124,9 @@ export default {
     position: absolute;
     top: 40px;
     right: 6px;
+    .work, .break{
+      text-shadow: 1px 1px 3px $shadow;
+    }
     .control {
       .reset{
         margin: 0 5px;

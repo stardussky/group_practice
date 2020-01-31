@@ -95,7 +95,7 @@ export default {
       right: 0;
       width: 3px;
       height: 100%;
-      background-image: linear-gradient(to bottom,rgba($primary, 1),rgba($third, 1));
+      background-image: linear-gradient(-30deg, rgba($primary, 1), rgba($secondary, .7), rgba($third, 1));
     }
     li {
       text-align: center;

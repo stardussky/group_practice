@@ -117,7 +117,7 @@ export default {
     const cardColor = computed(() => {
       return props.type === 'pm'
         ? { backgroundColor: props.list.color }
-        : { backgroundImage: 'linear-gradient(to right, #81c7d4, #f8c3cd)' }
+        : { backgroundImage: 'linear-gradient(to right, #81c7d4, #98b5ee, #f8c3cd)' }
     })
     return {
       clockStyle,

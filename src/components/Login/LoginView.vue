@@ -29,7 +29,7 @@ export default {
     @include positionCenter(y);
     width: 100%;
     height: 300px;
-    background-image: linear-gradient(-30deg,rgba($primary, 1),rgba($third, 1));
+    background-image: linear-gradient(-30deg, rgba($primary, 1), rgba($secondary, .7), rgba($third, 1));
     outline: 1px solid $white;
     outline-offset: 10px;
     display: flex;
