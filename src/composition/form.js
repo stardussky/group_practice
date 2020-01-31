@@ -65,7 +65,7 @@ export default () => {
           name: 'mem_id',
           placeholder: '請輸入帳號',
           require: 'required',
-          value: 'dd104g3'
+          value: ''
         },
         {
           component: 'InputComponent',
@@ -74,7 +74,7 @@ export default () => {
           name: 'mem_psw',
           placeholder: '請輸入密碼',
           require: 'required',
-          value: 'dd104g3'
+          value: ''
         },
         {
           component: 'ButtonComponent',
