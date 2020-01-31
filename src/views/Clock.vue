@@ -41,6 +41,7 @@ export default {
     const tempTimer = ref(0)
     const setTime = ref(null)
     const ring = ref(new Audio('./audio/ring1.mp3'))
+    const isMute = ref(false)
 
     const timer = computed(() => !mode.value ? workTimer.value : breakTimer.value)
     const elapsedtimer = computed({
@@ -58,7 +59,7 @@ export default {
         if (passedTimer.value === 0) {
           if (!mode.value)mode.value = 1
           else root.$store.commit('clockStore/toggleStatus', false)
-          ring.value.play()
+          if (!isMute.value)ring.value.play()
         } else {
           elapsedtimer.value++
           startTime()
@@ -77,6 +78,7 @@ export default {
     return {
       mode,
       ring,
+      isMute,
       workElapsedtimer,
       resetClock,
       startTime,
@@ -115,7 +117,8 @@ export default {
     isLogin (val) {
       if (val) {
         this.GET_CLOCK_LIST()
-        if (this.userInfo.ring_no) this.ring.src = this.userInfo.ring_no
+        if (!this.userInfo.ring_no) this.isMute = true
+        this.ring.src = this.userInfo.ring_no
       }
     }
   },
