@@ -115,7 +115,7 @@ export default {
     isLogin (val) {
       if (val) {
         this.GET_CLOCK_LIST()
-        this.ring.src = this.userInfo.ring_no
+        if (this.userInfo.ring_no) this.ring.src = this.userInfo.ring_no
       }
     }
   },
