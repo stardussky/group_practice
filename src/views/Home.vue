@@ -159,6 +159,9 @@ export default {
       top: 35px;
       left: 40px;
       width: 150px;
+      img {
+        filter: drop-shadow(1px 1px 3px $shadow);
+      }
     }
     @include media(1023px){
       .logo {

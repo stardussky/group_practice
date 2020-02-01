@@ -40,6 +40,7 @@ export default {
     TodoCard,
     draggable
   },
+  inject: ['pmRefs'],
   props: {
     projectId: {
       type: String,
@@ -96,6 +97,7 @@ export default {
       } else {
         this.EDIT_TODO_CARD(info)
       }
+      this.pmRefs.projectManagement.scrollLeft = 0
     },
     dragHandler () {
       if (this.isEdit) {

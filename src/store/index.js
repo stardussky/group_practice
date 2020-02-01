@@ -7,10 +7,14 @@ import memberStore from './modules/memberStore'
 Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
+    threeLoading: true,
     isLogin: false,
     isLoading: false
   },
   mutations: {
+    threeLoadingDone (state) {
+      state.threeLoading = false
+    },
     changeLoginStatus (state, status) {
       state.isLogin = status
     },

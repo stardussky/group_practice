@@ -138,8 +138,5 @@ export default {
     font-weight: 700;
     @include font;
   }
-  @include media(479px){
-    height: 60px;
-  }
 }
 </style>

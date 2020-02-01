@@ -84,6 +84,7 @@ export default {
         })
         .catch(err => {
           console.log(err)
+          weatherStatus.value = 'error'
           city.value = '無法取得目前天氣'
         })
     })
@@ -103,21 +104,28 @@ export default {
   position: fixed;
   bottom: 30px;
   left: 40px;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
   > img {
     width: 60px;
     vertical-align: middle;
+    filter: drop-shadow(1px 1px 3px $shadow);
   }
   > div {
     display: inline-block;
     color: $white;
     margin-left: 10px;
     vertical-align: middle;
-    > p:nth-of-type(1) {
-      font-weight: 400;
-      @include font(5);
-    }
-    > p:nth-of-type(2) {
-      @include font(2);
+    >p {
+      text-shadow: 1px 1px 3px $shadow;
+      &:nth-of-type(1) {
+        font-weight: 400;
+        @include font(5);
+      }
+      &:nth-of-type(2) {
+        @include font(2);
+      }
     }
   }
   @include media(1023px){

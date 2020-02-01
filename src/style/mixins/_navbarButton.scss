@@ -64,6 +64,7 @@
       top: 50%;
       transform: translateY(-50%);
       color: $white;
+      text-shadow: 1px 1px 3px $shadow;
       @include font(1);
       transition: color 0.3s;
       @if ($isHamburger==false) {

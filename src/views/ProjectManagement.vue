@@ -21,13 +21,18 @@
 import { ref } from '@vue/composition-api'
 export default {
   name: 'ProjectManagement',
+  provide () {
+    return {
+      pmRefs: this.$refs
+    }
+  },
   setup (props, { refs }) {
     const isDrag = ref(false)
     const startX = ref(0)
     const startScroll = ref(0)
     const mousewheelHandler = (e) => {
       let delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)))
-      refs.projectManagement.scrollLeft -= (delta * 60)
+      refs.projectManagement.scrollLeft -= (delta * 200)
     }
     const startDrag = (e) => {
       isDrag.value = true
@@ -50,6 +55,10 @@ export default {
       stopDrag,
       isDrag
     }
+  },
+  beforeRouteUpdate (to, from, next) {
+    this.$refs.projectManagement.scrollLeft = 0
+    next()
   }
 }
 </script>
@@ -59,6 +68,7 @@ export default {
   height: calc(100% - 10px);
   overflow-x: auto;
   padding: 0 10px 10px 10px;
+  scroll-behavior: smooth;
   @include media(479px){
     height: 100%;
     padding: 10px;

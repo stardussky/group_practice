@@ -109,7 +109,7 @@ export default {
   @include media(767px){
     position: absolute;
     top: 60px;
-    right: 7%;
+    right: 10%;
     background-color: transparent;
     .switch {
       @include font(-.875);
@@ -123,7 +123,7 @@ export default {
   @include media(479px){
     position: absolute;
     top: 40px;
-    right: 6px;
+    right: 15px;
     .work, .break{
       text-shadow: 1px 1px 3px $shadow;
     }

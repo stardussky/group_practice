@@ -7,8 +7,14 @@ import transformModel from './transformModel'
 import { Particle, RainDrop } from './particleSystem'
 import { CircleButton } from './button'
 import { TimelineMax } from 'gsap'
+import store from '@/store'
+//loading
+const manager = new THREE.LoadingManager();
+manager.onLoad = () => {
+  store.commit('threeLoadingDone')
+};
 const OrbitControls = require('three-orbitcontrols')
-const textureLoader = new THREE.TextureLoader()
+const textureLoader = new THREE.TextureLoader(manager)
 let scene, renderer, labelRenderer, camera, cameraControl, width, height, aspect, animation
 let rendererStatus, skyBox, particle
 // let statsUI
@@ -43,11 +49,11 @@ export function init (refs, vm) {
   cameraControl.maxDistance = 650
 
   const globalLight = new THREE.AmbientLight(0xffffff, 0.85)
-  const directionalLight = new THREE.DirectionalLight(0xffffff, 0.2)
+  const directionalLight = new THREE.DirectionalLight(0xffffff, 0.3)
   directionalLight.position.set(500, 400, 0)
   scene.add(globalLight, directionalLight)
 
-  const loader = new GLTFLoader()
+  const loader = new GLTFLoader(manager)
   loader.load(
     './model/model.glb',
     (gltf) => {
