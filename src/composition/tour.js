@@ -93,7 +93,7 @@ export default (root, bus) => {
     },
     {
       attachTo: { element: '.card_head', on: 'bottom' },
-      text: '幫你的待辦事項取名子',
+      text: '幫你的待辦事項取名字',
       buttons: [
         {
           action () {
