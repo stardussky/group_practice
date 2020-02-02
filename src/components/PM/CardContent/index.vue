@@ -40,7 +40,7 @@ export default {
     TodoCard,
     draggable
   },
-  inject: ['pmRefs'],
+  // inject: ['pmRefs'],
   props: {
     projectId: {
       type: String,
@@ -94,10 +94,10 @@ export default {
         let promise = new Promise(resolve => { res = resolve })
         bus.$emit('editDone', res)
         promise.then(() => this.EDIT_TODO_CARD(info))
+        // this.pmRefs.projectManagement.scrollLeft = 0
       } else {
         this.EDIT_TODO_CARD(info)
       }
-      this.pmRefs.projectManagement.scrollLeft = 0
     },
     dragHandler () {
       if (this.isEdit) {

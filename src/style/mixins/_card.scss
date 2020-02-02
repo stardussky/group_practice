@@ -108,11 +108,13 @@
       margin-left: 5px;
     }
   }
-  &:hover {
-    .card_color {
-      height: 100%;
-      border-radius: 0 0 10px 10px;
-      opacity: .5;
+  @media screen and (min-width: 480px){
+    &:hover {
+      .card_color {
+        height: 100%;
+        border-radius: 0 0 10px 10px;
+        opacity: .5;
+      }
     }
   }
 }

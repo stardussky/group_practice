@@ -23,7 +23,7 @@ export default {
   name: 'ProjectManagement',
   provide () {
     return {
-      pmRefs: this.$refs
+      // pmRefs: this.$refs
     }
   },
   setup (props, { refs }) {
