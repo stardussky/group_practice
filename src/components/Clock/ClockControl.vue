@@ -31,7 +31,6 @@
         REST
       </div>
     </div>
-    <div />
   </div>
 </template>
 
