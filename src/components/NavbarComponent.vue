@@ -121,7 +121,7 @@ export default {
     right: 0;
     width: 0;
     height: 100%;
-    background-color: transparent;
+    background-color: rgba(255, 255, 255, 0);
     z-index: -1;
     &::before {
       content: '';

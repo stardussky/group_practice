@@ -128,7 +128,7 @@ export default {
       left: 0;
       bottom: 0;
       height: 1px;
-      background-image: linear-gradient(to right, $primary, transparent);
+      background-image: linear-gradient(to right, $primary, rgba(255, 255, 255, 0));
       transition: width .3s;
     }
   }
@@ -137,7 +137,7 @@ export default {
     .liner {
       top: 0;
       left: 0;
-      background-image: linear-gradient(to bottom, $primary, transparent);
+      background-image: linear-gradient(to bottom, $primary, rgba(255, 255, 255, 0));
       width: 1px;
       transition: height .3s;
     }

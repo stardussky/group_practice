@@ -169,7 +169,7 @@ export default {
           text-anchor:middle;
           @include font(12);
           stroke: $textDark;
-          fill: transparent;
+          fill: rgba(255, 255, 255, 0);
           transition: all 1s;
         }
       }

@@ -30,7 +30,7 @@ export default {
         height: 20px;
         border-radius: 50%;
         border: 3px solid $primary;
-        border-top-color: transparent;
+        border-top-color: rgba(255, 255, 255, 0);
         animation: loadingDot 1s cubic-bezier(.7, 0, 0, .7) infinite;
         margin: auto;
         margin-top: 5px;
@@ -42,7 +42,7 @@ export default {
       background-image: linear-gradient(-30deg, rgba($primary, 1), rgba($secondary, 1), rgba($third, 1));
       background-size: 300%;
       -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      -webkit-text-fill-color: rgba(255, 255, 255, 0);
       animation: gradientAnimate 3s infinite;
       margin-right: 5px;
     }

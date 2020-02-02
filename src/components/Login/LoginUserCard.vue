@@ -127,7 +127,7 @@ export default {
         left: 0;
         width: 100%;
         height: 100%;
-        background-image: linear-gradient(to right, rgba($white, .5), transparent);
+        background-image: linear-gradient(to right, rgba($white, .5), rgba(255, 255, 255, 0));
         transform: scaleX(0);
         transform-origin: right;
         transition: transform .3s;

@@ -117,7 +117,7 @@ export default {
       }
       circle {
         stroke-linecap: round;
-        fill: transparent;
+        fill: rgba(255, 255, 255, 0);
         stroke: $white;
         stroke-width: 4px;
         transition: stroke-dashoffset .3s linear;

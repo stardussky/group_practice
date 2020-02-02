@@ -2,7 +2,7 @@
   font-family: 'Montserrat', 'Noto Sans TC', sans-serif;
   @include font(1);
   outline: none;
-  background-color: transparent;
+  background-color: rgba(255, 255, 255, 0);
   color: $dark;
   padding: 5px;
   border-radius: 0;

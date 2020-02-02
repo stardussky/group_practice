@@ -110,7 +110,7 @@ export default {
     position: absolute;
     top: 60px;
     right: 10%;
-    background-color: transparent;
+    background-color: rgba(255, 255, 255, 0);
     .switch {
       @include font(-.875);
     }
