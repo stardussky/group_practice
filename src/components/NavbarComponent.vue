@@ -1,5 +1,9 @@
 <template>
-  <nav class="navbarComponent">
+  <nav
+    class="navbarComponent"
+    :class="{buttonActive: isOpen}"
+    @click="isOpen = !isOpen"
+  >
     <div class="hamburger">
       <div class="navBtn">
         <div class="navBtn_btn">
@@ -81,12 +85,19 @@
 </template>
 
 <script>
+import { ref } from '@vue/composition-api'
 export default {
   name: 'NavbarComponent',
   props: {
     isLogin: {
       type: Boolean,
       required: true
+    }
+  },
+  setup () {
+    const isOpen = ref(false)
+    return {
+      isOpen
     }
   }
 }
@@ -109,10 +120,19 @@ export default {
     top: 0;
     right: 0;
     width: 0;
-    height: 100vh;
-    background-color: rgba($dark, .9);
+    height: 100%;
+    background-color: transparent;
     z-index: -1;
-    transition: width .3s;
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 0;
+      height: 100%;
+      background-color: rgba($dark, .9);
+      transition: width .3s;
+    }
   }
   .list {
     list-style: none;
@@ -128,9 +148,12 @@ export default {
       }
     }
   }
-  &:hover {
+  &.buttonActive {
     >.mask {
-      width: 250px;
+      width: 100%;
+      &::before {
+        width: 250px;
+      }
     }
     > .hamburger {
       > .navBtn {
@@ -154,16 +177,20 @@ export default {
   @include media(1023px){
     top: 10px;
     right: 10px;
-    &:hover {
+    &.buttonActive {
       >.mask {
-        width: 220px;
+        &::before {
+          width: 220px;
+        }
       }
     }
   }
   @include media(479px){
-    &:hover{
+    &.buttonActive {
       >.mask {
-        width: 60px;
+        &::before {
+          width: 60px;
+        }
       }
     }
   }
